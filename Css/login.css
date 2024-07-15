@@ -1,0 +1,46 @@
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    margin: 10px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    height: 40px;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 10px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+
+.form-group label {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 1rem;
+    color: #6c757d;
+    transition: all 0.2s ease-in-out;
+    pointer-events: none;
+    background: #fff;
+    padding: 0 5px;
+}
+
+.form-control:focus + label,
+.form-control:not(:placeholder-shown) + label {
+    top: -12px;
+    left: 10px;
+    font-size: 0.75rem;
+    color: #007bff;
+}
