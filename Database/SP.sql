@@ -1,6 +1,16 @@
 -- ************* --
 --  SP USUARIOS  --
 -- ************* --
+DELIMITER $$
+CREATE PROCEDURE spu_usuario_login( 
+IN _usuario VARCHAR(60)
+)
+BEGIN
+	SELECT * from usuarios where usuario = _usuario and fechaFin IS NULL;
+END $$
+
+call spu_usuario_login('admin')
+
 DELIMITER //
 CREATE PROCEDURE listarUsuarios()
 BEGIN
