@@ -116,7 +116,7 @@ item 					CHAR(5) 		NOT NULL,
 centro 					INT 			NULL,
 descripcion 			VARCHAR(60) 	NOT NULL,
 cantidad 				INT 			NOT NULL,
-unidad 					CHAR(10) 		NOT NULL,
+utm 					CHAR(10) 		NOT NULL,
 precioUnitario 			DECIMAL(10,2) 	NOT NULL
 )ENGINE = INNODB;
 
