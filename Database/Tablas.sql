@@ -1,4 +1,4 @@
-CREATE DATABASE proyecto_falcot;
+CREATE DATABASE proyecto_falcotempresas_cliente;
 USE proyecto_falcot;
 
 CREATE TABLE departamentos(
@@ -78,6 +78,7 @@ idempresacliente 	INT 			PRIMARY KEY 	AUTO_INCREMENT,
 razonSocial 		VARCHAR(70) 	NOT NULL,
 nroDocumento 		VARCHAR(12) 	NOT NULL,
 direccion 			VARCHAR(60) 	NOT NULL,
+correo             VARCHAR(60)		NULL,
 iddistrito 			INT 			NOT NULL,
 ubigeo 				CHAR(12) 		NULL,
 actividadEconomica 	VARCHAR(70) 	NULL,

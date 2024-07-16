@@ -1,4 +1,36 @@
 -- ************* --
+--   SP UBIGEO   --
+-- ************* --
+DELIMITER //
+CREATE PROCEDURE spListarDepartamentos()
+BEGIN
+    SELECT iddepartamento, departamento
+		FROM departamentos;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spListarProvincias(IN _iddepartamento INT)
+BEGIN
+    SELECT idprovincia, provincia
+		FROM provincias WHERE iddepartamento = _iddepartamento  ;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spListarDistritos( IN _idprovincia INT)
+BEGIN
+    SELECT iddistrito, distrito
+		FROM distritos WHERE idprovincia = _idprovincia ;
+END //
+DELIMITER ;
+
+
+
+
+
+
+-- ************* --
 --  SP USUARIOS  --
 -- ************* --
 DELIMITER //
@@ -63,11 +95,29 @@ DELIMITER ;
 -- ******************** --
 
 DELIMITER //
-CREATE PROCEDURE listarEmpresasCliente()
+CREATE PROCEDURE spListarEmpresaClientePorID(IN _idempresacliente INT)
 BEGIN
     SELECT 
         EMPCLI.idempresacliente, EMPCLI.razonSocial,
-        EMPCLI.nroDocumento, EMPCLI.direccion,
+        EMPCLI.nroDocumento, EMPCLI.direccion, EMPCLI.correo,
+        DIS.distrito, PRO.provincia, DEP.departamento,
+        EMPCLI.iddistrito, PRO.idprovincia, PRO.iddepartamento, EMPCLI.ubigeo,
+        EMPCLI.actividadEconomica, EMPCLI.telefono
+    FROM empresas_cliente EMPCLI 
+		INNER JOIN distritos DIS ON EMPCLI.iddistrito = DIS.iddistrito
+        INNER JOIN provincias PRO ON DIS.idprovincia = PRO.idprovincia
+        INNER JOIN departamentos DEP on PRO.iddepartamento = DEP.iddepartamento
+    WHERE
+        EMPCLI.idempresacliente = _idempresacliente;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE spListarEmpresasCliente()
+BEGIN
+    SELECT 
+        EMPCLI.idempresacliente, EMPCLI.razonSocial,
+        EMPCLI.nroDocumento, EMPCLI.direccion, EMPCLI.correo,
         DIS.distrito, PRO.provincia, DEP.departamento,
         EMPCLI.iddistrito, EMPCLI.ubigeo,
         EMPCLI.actividadEconomica, EMPCLI.telefono
@@ -80,28 +130,32 @@ BEGIN
 END //
 DELIMITER ;
 
+call sp
+
 DELIMITER //
-CREATE PROCEDURE registrarEmpresaCliente (
+CREATE PROCEDURE spRegistrarEmpresaCliente (
     IN _razonSocial 		VARCHAR(70),
     IN _nroDocumento 		VARCHAR(12),
     IN _direccion 			VARCHAR(60),
+	IN _correo				VARCHAR(60),
     IN _iddistrito 			INT,
     IN _ubigeo 				CHAR(12),
     IN _actividadEconomica 	VARCHAR(70),
     IN _telefono 			CHAR(12)
 )
 BEGIN
-    INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, iddistrito, ubigeo, actividadEconomica, telefono)
-    VALUES (p_razonSocial, p_nroDocumento, p_direccion, p_iddistrito, p_ubigeo, p_actividadEconomica, p_telefono);
+    INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, correo, iddistrito, ubigeo, actividadEconomica, telefono)
+    VALUES (_razonSocial, _nroDocumento, _direccion, _correo, _iddistrito, _ubigeo, _actividadEconomica, _telefono);
 END //
 DELIMITER ;
 
 DELIMITER //
-CREATE PROCEDURE editarEmpresaCliente (
+CREATE PROCEDURE spEditarEmpresaCliente (
     IN _idempresacliente 	INT,
     IN _razonSocial 		VARCHAR(70),
     IN _nroDocumento 		VARCHAR(12),
     IN _direccion 			VARCHAR(60),
+	IN _correo				VARCHAR(60),
     IN _iddistrito 			INT,
     IN _ubigeo 				CHAR(12),
     IN _actividadEconomica 	VARCHAR(70),
@@ -113,6 +167,7 @@ BEGIN
         razonSocial  		= _razonSocial,
         nroDocumento 		= _nroDocumento,
         direccion    		= _direccion,
+        correo				= _correo,
         iddistrito   		= _iddistrito,
         ubigeo       		= _ubigeo,
         actividadEconomica 	= _actividadEconomica,

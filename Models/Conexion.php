@@ -5,9 +5,9 @@ class Conexion{
   //1. Almacenamos los datos de conexión
   private $servidor = "localhost";
   private $puerto = "3306";
-  private $baseDatos = "";
+  private $baseDatos = "proyecto_falcot";
   private $usuario = "root";
-  private $clave = "";
+  private $clave = "admin123";
 
     public function getConexion(){
 
