@@ -46,6 +46,15 @@ if(isset($_POST['operacion'])){
       ];
       echo json_encode($clientes->editarCliente($datosEnviar));
       break; 
+  
+
+    case 'eliminar_cliente':
+
+      $datosEnviar = [
+        'idempresacliente'    => $_POST['idempresacliente']
+      ];
+      echo json_encode($clientes->eliminarEmpresaCliente($datosEnviar));
+      break; 
   }
 }
 

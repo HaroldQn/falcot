@@ -295,7 +295,8 @@ integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIe
       btnEliminar.forEach(function(boton) {
         boton.addEventListener("click", function(event) {
           let id = event.currentTarget.dataset.id;
-          console.log(id);
+          eliminarCliente(id);
+          // console.log(id);
         });
       });
 
@@ -334,6 +335,24 @@ integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIe
           obtenerDistritos(datos.idprovincia);
           renderizarDistrito(datos.idprovincia,datos.iddistrito);
 
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    function eliminarCliente(idcliente){
+      const parametros = new FormData();
+      parametros.append("operacion","eliminar_cliente")
+      parametros.append("idempresacliente", idcliente)
+
+      fetch(`../Controllers/cliente.controller.php`, {
+        method: "POST",
+        body: parametros
+      })
+        .then(res => res.json())
+        .then(datos => {
+          obtenerClientes();
         })
         .catch((error) => {
             console.log(error);

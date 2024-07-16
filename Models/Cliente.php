@@ -23,7 +23,6 @@ class Cliente extends Conexion{
     }
   }
 
-
   public function listarClientes(){
     try {
       $consulta = $this->conexion->prepare("CALL spListarEmpresasCliente");
@@ -77,6 +76,19 @@ class Cliente extends Conexion{
     }
   }
 
+  public function eliminarEmpresaCliente($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spEliminarEmpresaCliente(?)");
+      $consulta->execute(
+        array(
+          $datos['idempresacliente']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
 
 }
 
