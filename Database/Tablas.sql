@@ -50,6 +50,11 @@ CONSTRAINT uk_clave_usuarios UNIQUE(usuario),
 CONSTRAINT fk_idrol_usuarios FOREIGN KEY(idrol) REFERENCES roles(idrol)
 )ENGINE = INNODB;
 
+describe usuarios;
+ALTER TABLE usuarios
+ADD CONSTRAINT uk_usuario UNIQUE (usuario);
+
+
 
 
 CREATE TABLE empresa(

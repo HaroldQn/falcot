@@ -32,6 +32,8 @@ BEGIN
     VALUES (_usuario, _clave, _nombres, _apellidos, _idrol);
 END $$
 
+call 
+
 DELIMITER $$
 CREATE PROCEDURE spu_usuario_editarClave(
     IN _idusuario 	INT,

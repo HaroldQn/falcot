@@ -9,5 +9,8 @@
   
 ?>
 <?php require_once './navbar.php'; ?>
+  <div class="container">
+    
+  </div>
 </body>
 </html>
