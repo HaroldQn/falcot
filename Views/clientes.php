@@ -1,13 +1,4 @@
-<?php
-  session_start(); // Crea o hereda la sessión
 
-  if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
-    # code...
-    include_once 'no_acceso.php';
-    exit();
-  }
-  
-?>
 <?php require_once './navbar.php'; ?>
 <h1 class="text-center">Clientes </h1>
 
@@ -138,6 +129,24 @@ integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIe
     let bandera = true
     let IDcliente = 0;
 
+    function rucSunat(){
+      fetch(`https://api.apis.net.pe/v2/sunat/ruc/full?numero=20610562176`, {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer apis-token-9476.n1TEQmlyBZ3fZNy3RjmLY0HFYRcIL28l",
+            'Content-Type': 'application/json'
+        }
+      })
+      .then(res => res.json())
+      .then(datos => {
+          console.log("datos ruc");
+          console.log(datos);
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+    }
+    rucSunat();
 
     // Funciones para traer y renderizar los datos de las regiones
     function obtenerDepartamentos(){
