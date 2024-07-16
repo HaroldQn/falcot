@@ -30,3 +30,12 @@ class Conexion{
   }
 
 }
+
+// // Prueba de conexión
+// $conexion = new Conexion();
+// try {
+//     $db = $conexion->getConexion();
+//     echo "Conexión exitosa a la base de datos.";
+// } catch (Exception $e) {
+//     echo "Error al conectar a la base de datos: " . $e->getMessage();
+// }
