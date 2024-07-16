@@ -1,3 +1,16 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+
+// Verificar si ya ha iniciado sesión
+if (isset($_SESSION['idusuario'])) {
+  // Si ya está autenticado, redirigir a la página principal o a la vista deseada
+  header("Location: ./views/usuarios.php");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -50,7 +63,7 @@
             parametros.append("clave",$("#clave").value);
 
 
-            fetch(`./Controllers/usuario.controller.php`,{
+            fetch(`./Controllers/usuarioLogin.controller.php`,{
               method: "POST",
               body: parametros
             })

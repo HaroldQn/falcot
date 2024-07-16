@@ -11,17 +11,16 @@ END $$
 
 call spu_usuario_login('admin')
 
-DELIMITER //
-CREATE PROCEDURE listarUsuarios()
+DELIMITER $$
+CREATE PROCEDURE spu_usuario_listarUsuarios()
 BEGIN
     SELECT USU.idusuario, USU.usuario, USU.clave, USU.nombres, USU.apellidos, USU.idrol, ROL.rol
 		FROM usuarios USU INNER JOIN roles ROL ON USU.idrol = ROL.idrol
-			WHERE estado = '1';
-END //
-DELIMITER ;
+			WHERE usu.estado = '1';
+END $$
 
-DELIMITER //
-CREATE PROCEDURE registrarUsuario (
+DELIMITER $$
+CREATE PROCEDURE spu_usuario_registrarUsuario (
     IN _usuario 	VARCHAR(60),
     IN _clave 		VARCHAR(100),
     IN _nombres 	VARCHAR(40),
@@ -31,32 +30,25 @@ CREATE PROCEDURE registrarUsuario (
 BEGIN
     INSERT INTO usuarios (usuario, clave, nombres, apellidos, idrol)
     VALUES (_usuario, _clave, _nombres, _apellidos, _idrol);
-END //
-DELIMITER ;
+END $$
 
-DELIMITER //
-CREATE PROCEDURE editarUsuario (
+DELIMITER $$
+CREATE PROCEDURE spu_usuario_editarClave(
     IN _idusuario 	INT,
-    IN _usuario 	VARCHAR(60),
-    IN _clave 		VARCHAR(100),
-    IN _nombres		VARCHAR(40),
-    IN _apellidos 	VARCHAR(60),
-    IN _idrol 		INT
+    IN _clave 		VARCHAR(100)
 )
 BEGIN
     UPDATE usuarios
     SET 
-        usuario 	= _usuario,
-        clave 		= _clave,
-        nombres 	= _nombres,
-        apellidos 	= _apellidos,
-        idrol 		= _idrol
+        clave 		= _clave
     WHERE idusuario = _idusuario;
-END //
-DELIMITER ;
+END $$
 
-DELIMITER //
-CREATE PROCEDURE eliminarUsuario (
+call spu_usuario_editarClave(1,'hola')
+select * from usuarios;
+
+DELIMITER $$
+CREATE PROCEDURE spu_usuario_eliminarUsuario (
     IN _idusuario 	INT
 )
 BEGIN
@@ -65,8 +57,12 @@ BEGIN
         estado 		= '0',
         fechaFin 	= NOW()
     WHERE idusuario = _idusuario;
-END //
-DELIMITER ;
+END $$
+
+call spu_usuario_eliminarUsuario(1)
+select * from usuarios;
+
+
 
 -- ******************** --
 --  SP ClIENTE EMPRESA  --
