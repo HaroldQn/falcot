@@ -26,8 +26,8 @@
 <div class="container p-3 mx-5">
   <div class="row mb-3 mx-2">
     <div class="col-md-4 d-flex justify-content-start">
-      <input type="text" class="form-control me-2" id="ruc" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-      <button class="btn btn-primary">Buscar</button>
+      <input type="text" class="form-control me-2" id="ruc_buscado" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+      <button class="btn btn-primary" id="btnBuscar">Buscar</button>
     </div>
   </div>
 </div>
@@ -35,10 +35,10 @@
 <div class="mb-5 shadow p-3 mx-5 bg-body rounded border">
   <div class="row mb-3">
     <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
-      <input type="text" class="form-control" placeholder="RAZON SOCIAL" disabled>
+      <input type="text" class="form-control" id="razon_social" placeholder="RAZON SOCIAL" disabled>
     </div>
     <div class="col-sm-6 col-md-3 mb-3 mb-md-0">
-      <input type="text" class="form-control" placeholder="RUC" disabled>
+      <input type="text" class="form-control" id="ruc" placeholder="RUC" disabled>
     </div>
     <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
       <input type="text" class="form-control" placeholder="MONEDA" disabled>
@@ -50,7 +50,7 @@
   
   <div class="row mb-3">
     <div class="col-sm-12 col-md-6 mb-3 mb-md-0">
-      <input type="text" class="form-control" placeholder="DIRECCION">
+      <input type="text" class="form-control" id="direccion" placeholder="DIRECCION">
     </div>
     <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
       <input type="text" class="form-control" placeholder="CELULAR">
@@ -189,6 +189,8 @@
     </div>
   </div>
 </div>
+
+<script src="../Js/buscar_ruc_api.js"></script>
 
 <script>
 
