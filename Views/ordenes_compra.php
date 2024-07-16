@@ -9,8 +9,6 @@
   
 ?>
 <?php require_once './navbar.php'; ?>
-  <div class="container">
-    
-  </div>
+<h1>ORDENES DE COMPRA</h1>
 </body>
 </html>

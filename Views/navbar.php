@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
-<body data-idusuario="<?php echo isset($_SESSION['idusuario']) ? $_SESSION['idusuario'] : ''; ?>">
+<body style="background-color: #F2F5F6" data-idusuario="<?php echo isset($_SESSION['idusuario']) ? $_SESSION['idusuario'] : ''; ?>">
     <div class="container">
         <nav class="navbar navbar-expand-sm navbar-light">
             <a class="navbar-brand" href="#"><strong>FalcotTechnology</strong></a>
