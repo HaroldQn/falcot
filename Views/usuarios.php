@@ -2,12 +2,7 @@
   session_start(); // Crea o hereda la sessión
 
   if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
-    # code...
-    echo "<h1 class='mt-5 text-center'>NO PUEDES TENER ACCESO</h1>";
-    echo "<h5 class='mt-5 text-center'>¡PORVAFOR TRATE DE INICIAR SESION!</h5>";
-    echo "<div class='d-flex justify-content-center align-items-center mt-5'>";
-    echo "<a href='../index.php' class='btn btn-primary btn-lg btn-block text-center'>Iniciar Sesión</a>";
-    echo "</div>";
+    include_once 'no_acceso.php';
     exit();
   }
   
@@ -86,7 +81,7 @@
                 <div class="modal-header bg-success justify-content-center" >
                     <h5 class="modal-title fs-5 text-light" >Actualizar contraseña</>
                 </div>
-                    <form autocomplete="off" id="form-usuario">
+                    <form autocomplete="off" id="form-usuario-clave">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col col-md-12 mt-2">
@@ -168,7 +163,9 @@
                 listarUsuarios();
                 window.location.href = './usuarios.php';
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                notificar('error','El usuario ya existe antes o no se pudo registrar','Vuelva a intentarlo con otro nombre de usuario',2);
+            });
         }
 
         function eliminarUsuario(id){
@@ -183,6 +180,7 @@
             .then(respuesta => respuesta.json())
             .then(data => {
                 listarUsuarios();
+                bienvenida(`¡Usuario eliminado exitosamente!`);
             });
 
         }
@@ -224,9 +222,7 @@
                     actualizarClave(idusuario);
                 });
             }
-        });
-
-        
+        });    
 
         btnGuardar.addEventListener("click", (event) => {
             registrarUsuario();
