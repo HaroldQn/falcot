@@ -54,6 +54,29 @@ class Cliente extends Conexion{
     }
   }
 
+  public function registrarClientePorApi($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spRegistrarEmpresaClienteAPI(?,?,?,?,?,?,?,?,?,?)");
+      $consulta->execute(
+        array(
+          $datos['razonSocial'],
+          $datos['nroDocumento'],
+          $datos['direccion'],
+          $datos['correo'],
+          $datos['contacto'],
+          $datos['celular'],
+          $datos['iddistrito'],
+          $datos['ubigeo'],
+          $datos['actividadEconomica'],
+          $datos['telefono']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
+
   public function editarCliente($datos = []){
     try {
       $consulta = $this->conexion->prepare("CALL spEditarEmpresaCliente(?,?,?,?,?,?,?,?,?)");

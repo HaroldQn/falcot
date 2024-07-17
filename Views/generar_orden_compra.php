@@ -198,17 +198,16 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Seleccionar Cliente</h1>
       </div>
       <div class="modal-body">
+        
+        <div class="list-group" id="contenedor-clientes" role="tablist">
 
-        <ul class="list-group list-group-horizontal ">
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-        </ul>
+        </div>
+        
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary flex-fill" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary flex-fill">Seleccionar</button>
+        <button type="button" id="btnSeleccionar" class="btn btn-primary flex-fill">Seleccionar</button>
       </div>
     </div>
   </div>
@@ -218,12 +217,17 @@
 <script>
 
   // Instanciamos Elementos
-  const fechaInput = document.getElementById('fechaInput')
-  const btnRenderizarFila = document.getElementById("renderizar-fila")
+  const fechaInput = document.getElementById('fechaInput');
+  const btnRenderizarFila = document.getElementById("renderizar-fila");
+  const btnBuscarClienteSistema = document.getElementById("btnBuscarClienteSistema");
+  const btnSeleccionar = document.getElementById("btnSeleccionar");
+  const modalvisor = new bootstrap.Modal(document.getElementById('modal-cliente'));
+
 
   // Creamos Variables
   let fechaActual ='';
   let indiceFila = 0;
+  let IDcliente = 0;
 
   // Asignamos Fecha de hoy
   fechaActual = new Date();
@@ -297,6 +301,91 @@
     indiceFila ++;
     console.log(indiceFila)
     rederizarInputs(indiceFila);
+  });
+
+  // CLIENTES
+  function listarClienteSistema(){
+    const parametros = new FormData();
+    parametros.append("operacion","listar_clientes")
+
+    fetch(`../Controllers/cliente.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+      .then(res => res.json())
+      .then(datos => {
+         console.log(datos)
+         renderizarClientes(datos)
+ 
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  }
+
+  function renderizarClientes(datos){
+
+    let contenedor = document.getElementById("contenedor-clientes");
+
+    let nuevaLista = '';
+    datos.forEach(registro =>{
+      nuevaLista = `
+        <a class="list-group-item list-group-item-action" name="list-cliente" data-bs-toggle="list" data-id="${registro.idempresacliente}">${registro.razonSocial}</a>
+        `;
+        contenedor.innerHTML += nuevaLista;
+      });
+
+    var items = document.querySelectorAll('.list-group-item[name="list-cliente"]');
+
+    items.forEach(function(item) {
+      item.addEventListener('click', function(event) {
+        var id = event.currentTarget.getAttribute('data-id');
+        IDcliente = id;
+        // Aquí puedes hacer lo que necesites con el ID
+      });
+    });
+
+
+
+  }
+
+  function asignarClienteInputs(idcliente){
+    const parametros = new FormData();
+    parametros.append("operacion","listar_clientes_id")
+    parametros.append("idempresacliente", idcliente)
+
+    fetch(`../Controllers/cliente.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+      .then(res => res.json())
+      .then(datos => {
+        console.log(datos)
+        razon_social.value = datos.razonSocial;
+        // actividadEconomica.value = datos.actividadEconomica;
+        correo.value = datos.correo;
+        ruc.value = datos.nroDocumento;
+        direccion.value = datos.direccion;
+        telefono.value = datos.telefono;
+        // ubigeo.value = datos.ubigeo;
+        // selectDepartamento.value = datos.iddepartamento;
+        // obtenerProvincias(datos.iddepartamento);
+        // obtenerDistritos(datos.idprovincia);
+        // renderizarDistrito(datos.idprovincia,datos.iddistrito);
+
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  }
+
+  btnBuscarClienteSistema.addEventListener("click",function(){
+    listarClienteSistema()
+  });
+
+  btnSeleccionar.addEventListener("click",function(){
+    asignarClienteInputs(IDcliente);
+    modalvisor.hide()
   });
 
   // Total - descuento

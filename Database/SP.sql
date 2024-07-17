@@ -138,7 +138,26 @@ BEGIN
 END //
 DELIMITER ;
 
-call sp
+DELIMITER //
+CREATE PROCEDURE spRegistrarEmpresaClienteAPI (
+    IN _razonSocial 		VARCHAR(70),
+    IN _nroDocumento 		VARCHAR(12),
+    IN _direccion 			VARCHAR(60),
+	IN _correo				VARCHAR(60),
+    IN _contacto			VARCHAR(40),
+    IN _celular				CHAR(10),
+    IN _distrito 			VARCHAR(30),
+    IN _ubigeo 				CHAR(12),
+    IN _actividadEconomica 	VARCHAR(70),
+    IN _telefono 			CHAR(12)
+)
+BEGIN
+	SELECT iddistrito INTO @iddistrito FROM distritos WHERE distrito = _distrito;
+    
+    INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, correo, contacto, celular, iddistrito, ubigeo, actividadEconomica, telefono)
+    VALUES (_razonSocial, _nroDocumento, _direccion, _correo, _contacto, _celular, @iddistrito, _ubigeo, _actividadEconomica, _telefono);
+END //
+DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE spRegistrarEmpresaCliente (
