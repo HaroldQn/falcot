@@ -103,9 +103,9 @@ select * from usuarios;
 -- ******************** --
 
 DELIMITER //
-CREATE PROCEDURE spVerificarCliente(IN _ruc INT)
+CREATE PROCEDURE spVerificarCliente(IN _ruc VARCHAR(12))
 BEGIN
-    DECLARE cluentaCliente INT;
+    DECLARE cluentaCliente BOOLEAN;
     
     SELECT COUNT(*) INTO cluentaCliente
     FROM empresas_cliente
@@ -242,7 +242,7 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE spCrearOrdenCompra(
 IN 	_iddetalleusuario 	INT,
-IN 	_idcliente 		 	INT,
+IN 	_cliente 		 	VARCHAR(12),
 IN 	_moneda 		    VARCHAR(10),
 IN 	_fechaCreacion    	DATE,
 IN 	_descuento		 	CHAR(6),
@@ -250,8 +250,13 @@ IN  _grupoCompra		VARCHAR(15),
 IN  _destino			VARCHAR(20)
 )
 BEGIN
+	SELECT idempresacliente INTO @idempresacliente FROM empresas_cliente WHERE nroDocumento = _cliente;
+    
 	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino)
-		VALUES(_iddetalleusuario, _idcliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino);
+		VALUES(_iddetalleusuario, @idempresacliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino);
+        
+	SELECT @@last_insert_id as'idordencompra';
+
 END //
 DELIMITER ;
 

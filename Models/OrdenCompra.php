@@ -16,7 +16,7 @@ class OrdenCompra extends Conexion{
       $consulta->execute(
         array(
           $datos['iddetalleusuario'],
-          $datos['idcliente'],
+          $datos['cliente'],
           $datos['moneda'],
           $datos['fechaCreacion'],
           $datos['descuento'],
@@ -24,7 +24,7 @@ class OrdenCompra extends Conexion{
           $datos['destino']
         )
       );
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $consulta->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
       die ($e->getMessage());
     }

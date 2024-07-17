@@ -10,7 +10,7 @@ if(isset($_POST['operacion'])){
 
       $datosEnviar = [
         'iddetalleusuario'  =>$_POST['iddetalleusuario'],
-        'idcliente'         =>$_POST['idcliente'],
+        'cliente'           =>$_POST['cliente'],
         'moneda'            =>$_POST['moneda'],
         'fechaCreacion'     =>$_POST['fechaCreacion'],
         'descuento'         =>$_POST['descuento'],

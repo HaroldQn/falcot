@@ -48,7 +48,7 @@
     </div>
     <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
       <select id="moneda" class="form-control" placeholder="MONEDA" required>
-        <option value="">Seleccione</option>
+        <option value="">Moneda</option>
         <option value="soles">Soles</option>
         <option value="dolares">Dolares</option>
       </select>
@@ -115,41 +115,42 @@
   
   <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3">añadir fila</button> 
 
-  <div class="row mb-3">
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO">
-    </div>
-    <div class="col-12 col-md-4 mb-3 mb-md-0">
-      <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" required>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <select type="text" class="form-control" name="unidad" required>
-        <option value="">Seleccione</option>
-        <option value="kilos">kilos</option>
-        <option value="Litros">Litros</option>
-      </select>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." required>
-    </div>
-    <div class="col-12 col-md-2 mb-3 mb-md-0">
-      <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-    </div>
-  </div>
-  <hr>
+
 
   <!-- NUEVA FILA : Este div es para la nueva fila -->
   <div class="nueva_fila" id="nueva_fila">
+    <div class="row mb-3">
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO">
+      </div>
+      <div class="col-12 col-md-4 mb-3 mb-md-0">
+        <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" required>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <select type="text" class="form-control" name="unidad" required>
+          <option value="">Seleccione</option>
+          <option value="kilos">kilos</option>
+          <option value="Litros">Litros</option>
+        </select>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." required>
+      </div>
+      <div class="col-12 col-md-2 mb-3 mb-md-0">
+        <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+      </div>
+    </div>
 
   </div>
+  <hr>
 
 
   <div class="row">
@@ -231,6 +232,62 @@
   const btnFinalizarOrdenCompra = document.getElementById("finalizarOrdenCompra");
   const modalvisor = new bootstrap.Modal(document.getElementById('modal-cliente'));
 
+  function registrarOrdenCompra(){
+  
+    const parametros = new FormData();
+    parametros.append("operacion","crear_orden_compra")
+    parametros.append("iddetalleusuario", 1)
+    parametros.append("cliente", ruc.value)
+    parametros.append("moneda", moneda.value)
+    parametros.append("fechaCreacion", fechaInput.value)
+    parametros.append("descuento", descuento.value)
+    parametros.append("grupoCompra", grupoCompra.value)
+    parametros.append("destino", destino.value)
+
+    fetch(`../Controllers/ordencompra.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+      .then(res => res.json())
+      .then(datos => {
+        console.log(datos)
+        if(datos.idordencompra !== null && datos.idordencompra !== "" && datos.idordencompra !== 0){
+          traerDetalleFormularioOrdenCompra(datos.idordencompra)
+        }else{
+
+        }
+        
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  }
+
+  function registrarDetalleOrdenCompra(idcompra, item, centro, descripcion, cantidad, utm, precio){
+    const parametros = new FormData();
+    parametros.append("operacion","crear_detalle_orden_compra")
+    parametros.append("idordencompra", idcompra)
+    parametros.append("item", item)
+    parametros.append("centro", centro)
+    parametros.append("descripcion", descripcion)
+    parametros.append("cantidad", cantidad)
+    parametros.append("utm", utm)
+    parametros.append("precioUnitario", precio)
+
+    fetch(`../Controllers/ordencompra.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+      .then(res => res.json())
+      .then(datos => {
+        console.log(datos)
+
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  }
+
   function verificarClienteExiste(ruc){
     const parametros = new FormData();
     parametros.append("operacion","verificar_cliente")
@@ -243,17 +300,58 @@
       .then(res => res.json())
       .then(datos => {
         console.log(datos)
+        if(datos.exists == 1){
+          console.log("el registro existe")
+          // debemos registrar la orden sin  registrar al cliente
+        }else if(datos.exists == 0){
+          "el registro no existe"
+            // debemos registrar la orden sin  registrar al cliente
+
+        }
       })
       .catch((error) => {
           console.log(error);
       });
   }
 
+  function procesarRow(item, centro, descripcionProducto, cantidad, unidad, precio) {
+    // Aquí puedes manejar los valores como desees
+    console.log('ITEM:', item);
+    console.log('CENTRO:', centro);
+    console.log('DESCRIPCIÓN PRODUCTO:', descripcionProducto);
+    console.log('CANTIDAD:', cantidad);
+    console.log('UNIDAD:', unidad);
+    console.log('PRECIO:', precio);
+
+  }
+
+  function traerDetalleFormularioOrdenCompra(nordecompra){
+    const rows = document.querySelectorAll('#nueva_fila .row');
+    
+    rows.forEach(row => {
+      // Obtener los valores de los inputs dentro de cada row
+      const item = row.querySelector('input[name="item"]').value;
+      const centro = row.querySelector('input[name="centro"]').value;
+      const descripcionProducto = row.querySelector('input[name="descripcionProducto"]').value;
+      const cantidad = row.querySelector('input[name="cantidad"]').value;
+      const unidad = row.querySelector('select[name="unidad"]').value;
+      const precio = row.querySelector('input[name="precio"]').value;
+
+      // Llamar a la función con los valores obtenidos
+      // procesarRow(item, centro, descripcionProducto, cantidad, unidad, precio);
+      registrarDetalleOrdenCompra(nordecompra, item, centro, descripcionProducto, cantidad, unidad, precio)
+
+    });
+  }
+
+  
+
   btnFinalizarOrdenCompra.addEventListener("click",function(){
     let doc_empresa = "";
     doc_empresa = ruc.value;
     console.log(ruc)
-    verificarClienteExiste(doc_empresa)
+    // verificarClienteExiste(doc_empresa)
+    registrarOrdenCompra()
   });
 
 
