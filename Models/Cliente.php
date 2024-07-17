@@ -9,6 +9,20 @@ class Cliente extends Conexion{
     $this->conexion = parent::getConexion();
   }
 
+  public function verificarCliente($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spVerificarCliente(?)");
+      $consulta->execute(
+        array(
+          $datos['ruc']
+        )
+      );
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
+
   public function listarClientePorID($datos = []){
     try {
       $consulta = $this->conexion->prepare("CALL spListarEmpresaClientePorID(?)");

@@ -16,6 +16,13 @@ if(isset($_POST['operacion'])){
       echo json_encode($clientes->listarClientePorID($datosEnviar));
       break; 
 
+    case 'verificar_cliente':
+      $datosEnviar = [
+        'ruc' => $_POST['ruc']
+      ];
+      echo json_encode($clientes->verificarCliente($datosEnviar));
+      break; 
+
     case 'registrar_clientes':
 
       $datosEnviar = [
@@ -29,6 +36,23 @@ if(isset($_POST['operacion'])){
         'telefono'            => $_POST['telefono'],
       ];
       echo json_encode($clientes->registrarCliente($datosEnviar));
+      break; 
+
+    case 'registrar_clientes_Api':
+
+      $datosEnviar = [
+        'razonSocial'         => $_POST['razonSocial'],
+        'nroDocumento'        => $_POST['nroDocumento'],
+        'direccion'           => $_POST['direccion'],
+        'correo'              => $_POST['correo'],
+        'contacto'            => $_POST['contacto'],
+        'celular'             => $_POST['celular'],
+        'iddistrito'          => $_POST['iddistrito'],
+        'ubigeo'              => $_POST['ubigeo'],
+        'actividadEconomica'  => $_POST['actividadEconomica'],
+        'telefono'            => $_POST['telefono'],
+      ];
+      echo json_encode($clientes->registrarClientePorApi($datosEnviar));
       break; 
 
     case 'editar_clientes':

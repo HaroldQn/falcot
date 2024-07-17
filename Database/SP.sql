@@ -103,6 +103,23 @@ select * from usuarios;
 -- ******************** --
 
 DELIMITER //
+CREATE PROCEDURE spVerificarCliente(IN _ruc INT)
+BEGIN
+    DECLARE cluentaCliente INT;
+    
+    SELECT COUNT(*) INTO cluentaCliente
+    FROM empresas_cliente
+    WHERE nroDocumento = _ruc;
+    
+    IF cluentaCliente > 0 THEN
+        SELECT TRUE AS `exists`;
+    ELSE
+        SELECT FALSE AS `exists`;
+    END IF;
+END //
+DELIMITER ;
+
+DELIMITER //
 CREATE PROCEDURE spListarEmpresaClientePorID(IN _idempresacliente INT)
 BEGIN
     SELECT 
@@ -217,6 +234,47 @@ BEGIN
 END //
 DELIMITER ;
 
+
+-- ******************** --
+--  SP Orden Compra  --
+-- ******************** --
+
+DELIMITER //
+CREATE PROCEDURE spCrearOrdenCompra(
+IN 	_iddetalleusuario 	INT,
+IN 	_idcliente 		 	INT,
+IN 	_moneda 		    VARCHAR(10),
+IN 	_fechaCreacion    	DATE,
+IN 	_descuento		 	CHAR(6),
+IN  _grupoCompra		VARCHAR(15),
+IN  _destino			VARCHAR(20)
+)
+BEGIN
+	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino)
+		VALUES(_iddetalleusuario, _idcliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino);
+END //
+DELIMITER ;
+
+
+-- ************************* --
+--  SP Detalle Orden Compra  --
+-- ************************* --
+
+DELIMITER //
+CREATE PROCEDURE spCrearDetalleOrdenCompra(
+IN 	_idordencompra 		INT,
+IN 	_item 		 		CHAR(5),
+IN 	_centro 			INT,
+IN 	_descripcion		VARCHAR(60),
+IN 	_cantidad			INT,
+IN  _utm				CHAR(10),
+IN  _precioUnitario		DECIMAL(10,2)
+)
+BEGIN
+	INSERT INTO detalle_orden_compra(idordencompra, item, centro, descripcion, cantidad, utm, precioUnitario)
+		VALUES(_idordencompra, _item, _centro, _descripcion, _cantidad, _utm, _precioUnitario);
+END //
+DELIMITER ;
 
 
 

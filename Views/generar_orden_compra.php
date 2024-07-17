@@ -44,7 +44,7 @@
       <input type="text" class="form-control" id="razon_social" maxlength="60" placeholder="RAZON SOCIAL" disabled>
     </div>
     <div class="col-sm-6 col-md-3 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="ruc" maxlength="11" placeholder="RUC" disabled>
+      <input type="text" class="form-control" id="ruc" maxlength="11" placeholder="RUC" readonly>
     </div>
     <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
       <select id="moneda" class="form-control" placeholder="MONEDA" required>
@@ -153,11 +153,14 @@
 
 
   <div class="row">
-    <div class="col-12 col-md-5">
+    <div class="col-12 col-md-3">
       <input type="text" class="form-control" id="observaciones" maxlength="50" placeholder="OBSERVACIONES">
     </div>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-3">
       <input type="text" class="form-control" id="grupoCompra"  maxlength="40" placeholder="GRUPO DE COMPRA">
+    </div>
+    <div class="col-12 col-md-3">
+      <input type="text" class="form-control" id="destino"  maxlength="40" placeholder="DESTINO">
     </div>
     <div class="col-12 col-md-3">
       <div class="form-group row">
@@ -185,6 +188,10 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="row">
+    <button type="button" class="btn btn-warning" id="finalizarOrdenCompra">Finalzar</button>
   </div>
   </form>
 </div>
@@ -221,7 +228,33 @@
   const btnRenderizarFila = document.getElementById("renderizar-fila");
   const btnBuscarClienteSistema = document.getElementById("btnBuscarClienteSistema");
   const btnSeleccionar = document.getElementById("btnSeleccionar");
+  const btnFinalizarOrdenCompra = document.getElementById("finalizarOrdenCompra");
   const modalvisor = new bootstrap.Modal(document.getElementById('modal-cliente'));
+
+  function verificarClienteExiste(ruc){
+    const parametros = new FormData();
+    parametros.append("operacion","verificar_cliente")
+    parametros.append("ruc", ruc)
+
+    fetch(`../Controllers/cliente.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+      .then(res => res.json())
+      .then(datos => {
+        console.log(datos)
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  }
+
+  btnFinalizarOrdenCompra.addEventListener("click",function(){
+    let doc_empresa = "";
+    doc_empresa = ruc.value;
+    console.log(ruc)
+    verificarClienteExiste(doc_empresa)
+  });
 
 
   // Creamos Variables
