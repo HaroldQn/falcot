@@ -70,7 +70,7 @@ class Cliente extends Conexion{
 
   public function registrarClientePorApi($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spRegistrarEmpresaClienteAPI(?,?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->conexion->prepare("CALL spRegistrarEmpresaClienteAPI(?,?,?,?,?,?,?,?,?)");
       $consulta->execute(
         array(
           $datos['razonSocial'],
@@ -81,11 +81,10 @@ class Cliente extends Conexion{
           $datos['celular'],
           $datos['iddistrito'],
           $datos['ubigeo'],
-          $datos['actividadEconomica'],
           $datos['telefono']
         )
       );
-      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $consulta->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
       die ($e->getMessage());
     }

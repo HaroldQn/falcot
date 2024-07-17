@@ -41,10 +41,10 @@
   <form action="" id="formulario-orden-pago">
   <div class="row mb-3">
     <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="razon_social" maxlength="60" placeholder="RAZON SOCIAL" disabled>
+      <input type="text" class="form-control" id="razon_social" maxlength="60" placeholder="RAZON SOCIAL" disabled required>
     </div>
     <div class="col-sm-6 col-md-3 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="ruc" maxlength="11" placeholder="RUC" readonly>
+      <input type="text" class="form-control" id="ruc" maxlength="11" placeholder="RUC" readonly required>
     </div>
     <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
       <select id="moneda" class="form-control" placeholder="MONEDA" required>
@@ -124,7 +124,7 @@
         <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO">
+        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
       </div>
       <div class="col-12 col-md-4 mb-3 mb-md-0">
         <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
@@ -232,6 +232,42 @@
   const btnFinalizarOrdenCompra = document.getElementById("finalizarOrdenCompra");
   const modalvisor = new bootstrap.Modal(document.getElementById('modal-cliente'));
 
+  function registrarClienteApi(){
+    const parametros = new FormData();
+    parametros.append("operacion","registrar_clientes_api")
+    parametros.append("razonSocial", razon_social.value)
+    parametros.append("nroDocumento", ruc.value)
+    parametros.append("direccion", direccion.value)
+    parametros.append("correo", correo.value)
+    parametros.append("contacto", contacto.value)
+    parametros.append("celular", celular.value)
+    parametros.append("iddistrito", distrito_cli)
+    parametros.append("ubigeo", ubigeo_cli)
+    parametros.append("telefono", telefono.value)
+
+    fetch(`../Controllers/cliente.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+      .then(res => res.json())
+      .then(datos => {
+        console.log(datos)
+        if(datos.idcliente !== null && datos.idcliente !== "" && datos.idcliente !== 0){
+          bienvenida(`¡Se ha registrado un nuevo usuario!`);
+          setTimeout(function(){
+            registrarOrdenCompra();
+          },2000);  
+
+        }else{
+          //mostrar error
+          console.log("Error al registrar al nuevo cliente")
+        }
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  }
+
   function registrarOrdenCompra(){
   
     const parametros = new FormData();
@@ -243,6 +279,7 @@
     parametros.append("descuento", descuento.value)
     parametros.append("grupoCompra", grupoCompra.value)
     parametros.append("destino", destino.value)
+    parametros.append("observaciones", observaciones.value)
 
     fetch(`../Controllers/ordencompra.controller.php`, {
       method: "POST",
@@ -302,10 +339,11 @@
         console.log(datos)
         if(datos.exists == 1){
           console.log("el registro existe")
-          // debemos registrar la orden sin  registrar al cliente
+          registrarOrdenCompra()
+
         }else if(datos.exists == 0){
           "el registro no existe"
-            // debemos registrar la orden sin  registrar al cliente
+          registrarClienteApi();
 
         }
       })
@@ -349,9 +387,8 @@
   btnFinalizarOrdenCompra.addEventListener("click",function(){
     let doc_empresa = "";
     doc_empresa = ruc.value;
-    console.log(ruc)
-    // verificarClienteExiste(doc_empresa)
-    registrarOrdenCompra()
+    verificarClienteExiste(doc_empresa)
+    
   });
 
 
@@ -380,7 +417,7 @@
         <input type="number" class="form-control" name="item" placeholder="ITEM" disabled>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO">
+        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
       </div>
       <div class="col-12 col-md-4 mb-3 mb-md-0">
         <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>

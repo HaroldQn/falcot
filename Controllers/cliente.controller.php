@@ -38,7 +38,7 @@ if(isset($_POST['operacion'])){
       echo json_encode($clientes->registrarCliente($datosEnviar));
       break; 
 
-    case 'registrar_clientes_Api':
+    case 'registrar_clientes_api':
 
       $datosEnviar = [
         'razonSocial'         => $_POST['razonSocial'],
@@ -49,7 +49,6 @@ if(isset($_POST['operacion'])){
         'celular'             => $_POST['celular'],
         'iddistrito'          => $_POST['iddistrito'],
         'ubigeo'              => $_POST['ubigeo'],
-        'actividadEconomica'  => $_POST['actividadEconomica'],
         'telefono'            => $_POST['telefono'],
       ];
       echo json_encode($clientes->registrarClientePorApi($datosEnviar));

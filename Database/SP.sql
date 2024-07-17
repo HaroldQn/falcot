@@ -165,14 +165,16 @@ CREATE PROCEDURE spRegistrarEmpresaClienteAPI (
     IN _celular				CHAR(10),
     IN _distrito 			VARCHAR(30),
     IN _ubigeo 				CHAR(12),
-    IN _actividadEconomica 	VARCHAR(70),
     IN _telefono 			CHAR(12)
 )
 BEGIN
 	SELECT iddistrito INTO @iddistrito FROM distritos WHERE distrito = _distrito;
     
-    INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, correo, contacto, celular, iddistrito, ubigeo, actividadEconomica, telefono)
-    VALUES (_razonSocial, _nroDocumento, _direccion, _correo, _contacto, _celular, @iddistrito, _ubigeo, _actividadEconomica, _telefono);
+    INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, correo, contacto, celular, iddistrito, ubigeo, telefono)
+    VALUES (_razonSocial, _nroDocumento, _direccion, _correo, _contacto, _celular, @iddistrito, _ubigeo, _telefono);
+
+	SELECT @@last_insert_id as'idcliente';
+
 END //
 DELIMITER ;
 
@@ -247,13 +249,14 @@ IN 	_moneda 		    VARCHAR(10),
 IN 	_fechaCreacion    	DATE,
 IN 	_descuento		 	CHAR(6),
 IN  _grupoCompra		VARCHAR(15),
-IN  _destino			VARCHAR(20)
+IN  _destino			VARCHAR(20),
+IN  _observaciones 		VARCHAR(60)
 )
 BEGIN
 	SELECT idempresacliente INTO @idempresacliente FROM empresas_cliente WHERE nroDocumento = _cliente;
     
-	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino)
-		VALUES(_iddetalleusuario, @idempresacliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino);
+	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino, observaciones)
+		VALUES(_iddetalleusuario, @idempresacliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino, _observaciones);
         
 	SELECT @@last_insert_id as'idordencompra';
 

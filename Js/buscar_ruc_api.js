@@ -1,3 +1,7 @@
+let distrito_cli = "";
+let ubigeo_cli = "";
+let actvidaEco_cli = "";
+
 function registrarClienteApi(razonSocial, numeroDoc, direccion,
     correo, distrito, ubigeo, actividadEconomica, telefono){
 const parametros = new FormData();
@@ -51,6 +55,9 @@ document.getElementById('btnBuscar').addEventListener('click', () => {
             razonSocialBuscado = data.razonSocial;
             rucBuscado = data.numeroDocumento;
             direccionBuscada = data.direccion;
+
+            distrito_cli = data.distrito;
+            ubigeo_cli = data.ubigeo;
       
             razonSocial.value = razonSocialBuscado;
             ruc.value = rucBuscado;
