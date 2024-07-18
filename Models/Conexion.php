@@ -7,7 +7,7 @@ class Conexion{
   private $puerto = "3306";
   private $baseDatos = "proyecto_falcot";
   private $usuario = "root";
-  private $clave = "admin123";
+  private $clave = "";
 
     public function getConexion(){
 
@@ -30,12 +30,3 @@ class Conexion{
   }
 
 }
-
-// // Prueba de conexión
-// $conexion = new Conexion();
-// try {
-//     $db = $conexion->getConexion();
-//     echo "Conexión exitosa a la base de datos.";
-// } catch (Exception $e) {
-//     echo "Error al conectar a la base de datos: " . $e->getMessage();
-// }
