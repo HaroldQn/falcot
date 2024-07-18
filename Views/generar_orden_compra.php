@@ -17,7 +17,7 @@
   <title>Generar Orden de Compra</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="">
 
 <div class="container">
   <h3 class="text-center">GENERAR ORDEN DE COMPRA</h3>
@@ -110,10 +110,11 @@
       <strong>IMPORTE TOTAL</strong>
     </div>
     <div class="col-12 col-md-1 text-center">
+      <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3"><i class="lni lni-plus"></i> </button> 
     </div>
   </div>
+  <hr>
   
-  <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3">añadir fila</button> 
 
 
 
@@ -134,9 +135,10 @@
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
-          <option value="">Seleccione</option>
-          <option value="kilos">kilos</option>
-          <option value="Litros">Litros</option>
+          <option value="">-----</option>
+          <option value="KG">KG</option>
+          <option value="L">L</option>
+          <option value="UNID">UNID</option>
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
@@ -150,9 +152,9 @@
     </div>
 
   </div>
+  
+  
   <hr>
-
-
   <div class="row">
     <div class="col-12 col-md-3">
       <input type="text" class="form-control" id="observaciones" maxlength="50" placeholder="OBSERVACIONES">
@@ -179,7 +181,7 @@
       <div class="form-group row">
         <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control mt-1" id="descuento" placeholder="DESCUENTO">
+          <input type="text" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO">
         </div>
       </div>
       <div class="form-group row">
@@ -188,12 +190,15 @@
           <input type="text" class="form-control mt-1" id="total" placeholder="TOTAL" disabled>
         </div>
       </div>
+      
+      <div class="row">
+        <button type="submit" class="btn btn-success flex-fill" id="finalizarOrdenCompra">Finalzar</button>
+      </div>
+
+
     </div>
   </div>
 
-  <div class="row">
-    <button type="button" class="btn btn-warning" id="finalizarOrdenCompra">Finalzar</button>
-  </div>
   </form>
 </div>
 
@@ -231,6 +236,7 @@
   const btnSeleccionar = document.getElementById("btnSeleccionar");
   const btnFinalizarOrdenCompra = document.getElementById("finalizarOrdenCompra");
   const modalvisor = new bootstrap.Modal(document.getElementById('modal-cliente'));
+  const formOrdePago = new bootstrap.Modal(document.getElementById('formulario-orden-pago'));
 
   function registrarClienteApi(){
     const parametros = new FormData();
@@ -280,6 +286,7 @@
     parametros.append("grupoCompra", grupoCompra.value)
     parametros.append("destino", destino.value)
     parametros.append("observaciones", observaciones.value)
+    parametros.append("condicionpago", condPago.value)
 
     fetch(`../Controllers/ordencompra.controller.php`, {
       method: "POST",
@@ -352,17 +359,6 @@
       });
   }
 
-  function procesarRow(item, centro, descripcionProducto, cantidad, unidad, precio) {
-    // Aquí puedes manejar los valores como desees
-    console.log('ITEM:', item);
-    console.log('CENTRO:', centro);
-    console.log('DESCRIPCIÓN PRODUCTO:', descripcionProducto);
-    console.log('CANTIDAD:', cantidad);
-    console.log('UNIDAD:', unidad);
-    console.log('PRECIO:', precio);
-
-  }
-
   function traerDetalleFormularioOrdenCompra(nordecompra){
     const rows = document.querySelectorAll('#nueva_fila .row');
     
@@ -375,16 +371,18 @@
       const unidad = row.querySelector('select[name="unidad"]').value;
       const precio = row.querySelector('input[name="precio"]').value;
 
-      // Llamar a la función con los valores obtenidos
-      // procesarRow(item, centro, descripcionProducto, cantidad, unidad, precio);
       registrarDetalleOrdenCompra(nordecompra, item, centro, descripcionProducto, cantidad, unidad, precio)
 
     });
   }
 
-  
 
   btnFinalizarOrdenCompra.addEventListener("click",function(){
+
+    // if (!formOrdePago.checkValidity()) {
+    //   return;
+    // }
+
     let doc_empresa = "";
     doc_empresa = ruc.value;
     verificarClienteExiste(doc_empresa)
@@ -427,9 +425,10 @@
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
-          <option value="">Seleccione</option>
-          <option value="kilos">kilos</option>
-          <option value="Litros">Litros</option>
+          <option value="">-----</option>
+          <option value="KG">KG</option>
+          <option value="L">L</option>
+          <option value="UNID">UNID</option>
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">

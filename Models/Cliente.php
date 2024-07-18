@@ -36,6 +36,20 @@ class Cliente extends Conexion{
       die ($e->getMessage());
     }
   }
+  
+  public function buscarClientePorRuc($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spBuscarClientePorRuc(?)");
+      $consulta->execute(
+        array(
+          $datos['ruc']
+        )
+      );
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
 
   public function listarClientes(){
     try {
@@ -125,6 +139,8 @@ class Cliente extends Conexion{
       die ($e->getMessage());
     }
   }
+
+
 
 }
 

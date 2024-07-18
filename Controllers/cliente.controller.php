@@ -16,6 +16,13 @@ if(isset($_POST['operacion'])){
       echo json_encode($clientes->listarClientePorID($datosEnviar));
       break; 
 
+    case 'buscar_cliente_ruc':
+      $datosEnviar = [
+        'ruc' => $_POST['ruc']
+      ];
+      echo json_encode($clientes->buscarClientePorRuc($datosEnviar));
+      break; 
+
     case 'verificar_cliente':
       $datosEnviar = [
         'ruc' => $_POST['ruc']

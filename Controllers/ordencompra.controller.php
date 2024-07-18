@@ -17,6 +17,7 @@ if(isset($_POST['operacion'])){
         'grupoCompra'       =>$_POST['grupoCompra'],
         'destino'           =>$_POST['destino'],
         'observaciones'     =>$_POST['observaciones'],
+        'condicionpago'     =>$_POST['condicionpago'],
       ];
 
       echo json_encode($orden->registrarOrdenCompra($datosEnviar));

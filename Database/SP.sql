@@ -93,14 +93,28 @@ BEGIN
     WHERE idusuario = _idusuario;
 END $$
 
-call spu_usuario_eliminarUsuario(1)
-select * from usuarios;
-
-
 
 -- ******************** --
 --  SP ClIENTE EMPRESA  --
 -- ******************** --
+DELIMITER //
+CREATE PROCEDURE spBuscarClientePorRuc(
+IN _ruc VARCHAR(12)
+)
+BEGIN
+	SELECT 
+        EMPCLI.idempresacliente, EMPCLI.razonSocial,
+        EMPCLI.nroDocumento, EMPCLI.direccion, EMPCLI.correo,
+        DIS.distrito, EMPCLI.iddistrito, EMPCLI.ubigeo, EMPCLI.contacto,
+        EMPCLI.actividadEconomica, EMPCLI.telefono, EMPCLI.celular
+    FROM empresas_cliente EMPCLI 
+		INNER JOIN distritos DIS ON EMPCLI.iddistrito = DIS.iddistrito
+	WHERE EMPCLI.nroDocumento = _ruc;
+
+END //
+DELIMITER ;
+
+
 
 DELIMITER //
 CREATE PROCEDURE spVerificarCliente(IN _ruc VARCHAR(12))
@@ -250,13 +264,14 @@ IN 	_fechaCreacion    	DATE,
 IN 	_descuento		 	CHAR(6),
 IN  _grupoCompra		VARCHAR(15),
 IN  _destino			VARCHAR(20),
-IN  _observaciones 		VARCHAR(60)
+IN  _observaciones 		VARCHAR(60),
+IN  _condicionPago      VARCHAR(40)
 )
 BEGIN
 	SELECT idempresacliente INTO @idempresacliente FROM empresas_cliente WHERE nroDocumento = _cliente;
     
-	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino, observaciones)
-		VALUES(_iddetalleusuario, @idempresacliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino, _observaciones);
+	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino, observaciones, condicionPago)
+		VALUES(_iddetalleusuario, @idempresacliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino, _observaciones, _condicionPago);
         
 	SELECT @@last_insert_id as'idordencompra';
 
