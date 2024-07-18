@@ -114,41 +114,6 @@
     </div>
   </div>
   
-  <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3"><i class="bi bi-plus-lg"></i></button> 
-
-  <div class="row mb-3">
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO">
-    </div>
-    <div class="col-12 col-md-4 mb-3 mb-md-0">
-      <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" required>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <select type="text" class="form-control" name="unidad" required>
-        <option value="">Seleccione</option>
-        <option value="kilos">kilos</option>
-        <option value="Litros">Litros</option>
-      </select>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-      <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." required>
-    </div>
-    <div class="col-12 col-md-2 mb-3 mb-md-0">
-      <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
-    </div>
-    <div class="col-12 col-md-1 mb-3 mb-md-0">
-    </div>
-  </div>
-  <hr>
-  
-
-
 
   <!-- NUEVA FILA : Este div es para la nueva fila -->
   <div class="nueva_fila" id="nueva_fila">
@@ -169,7 +134,7 @@
         <select type="text" class="form-control" name="unidad" required>
           <option value="">-----</option>
           <option value="KG">KG</option>
-          <option value="L">L</option>
+          <option value="LT">Lt</option>
           <option value="UNID">UNID</option>
         </select>
       </div>
@@ -406,14 +371,19 @@
       registrarDetalleOrdenCompra(nordecompra, item, centro, descripcionProducto, cantidad, unidad, precio)
 
     });
+
+    window.location.href = `../reports/pdf_orden_compra.php?idordencompra=${nordecompra}`
+    // window.open(`../reports/pdf_orden_compra.php?idordencompra=${nordecompra}`, '_blank');
+
+
   }
 
 
   btnFinalizarOrdenCompra.addEventListener("click",function(){
 
-    // if (!formOrdePago.checkValidity()) {
-    //   return;
-    // }
+    if (!formOrdePago.checkValidity()) {
+      return;
+    }
 
     let doc_empresa = "";
     doc_empresa = ruc.value;

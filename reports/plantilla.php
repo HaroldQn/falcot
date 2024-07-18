@@ -114,7 +114,7 @@
             </tr>
             <tr>
                 <td colspan="1" class="bold-text gr">ORGINAL:</td>
-                <td colspan="11" class=""><?php echo htmlspecialchars($resultado[0]['original']); ?></td>
+                <td colspan="11" class=""></td>
                 <th class=""></th>
                 <th class="totales bold-text gr">TOTAL:</th>
                 <td class="resultado">S/ 200,74</td>
