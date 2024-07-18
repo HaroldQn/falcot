@@ -1,29 +1,26 @@
 -- ************* --
 --   SP UBIGEO   --
 -- ************* --
-DELIMITER //
+DELIMITER $$
 CREATE PROCEDURE spListarDepartamentos()
 BEGIN
     SELECT iddepartamento, departamento
 		FROM departamentos;
-END //
-DELIMITER ;
+END $$
 
-DELIMITER //
+DELIMITER $$
 CREATE PROCEDURE spListarProvincias(IN _iddepartamento INT)
 BEGIN
     SELECT idprovincia, provincia
 		FROM provincias WHERE iddepartamento = _iddepartamento  ;
-END //
-DELIMITER ;
+END $$
 
-DELIMITER //
+DELIMITER $$
 CREATE PROCEDURE spListarDistritos( IN _idprovincia INT)
 BEGIN
     SELECT iddistrito, distrito
 		FROM distritos WHERE idprovincia = _idprovincia ;
-END //
-DELIMITER ;
+END $$
 
 
 
@@ -63,8 +60,6 @@ BEGIN
     INSERT INTO usuarios (usuario, clave, nombres, apellidos, idrol)
     VALUES (_usuario, _clave, _nombres, _apellidos, _idrol);
 END $$
-
-call 
 
 DELIMITER $$
 CREATE PROCEDURE spu_usuario_editarClave(
@@ -216,6 +211,61 @@ BEGIN
     WHERE idempresacliente = _idempresacliente;
 END //
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE spu_obetner_orden_compra(
+	IN _idordencompra INT
+)
+BEGIN
+    SELECT 
+        oc.idordencompra,
+        oc.moneda,
+        oc.fechaCreacion,
+        oc.descuento,
+        oc.grupoCompra,
+        oc.destino,
+        oc.original,
+        oc.estado,
+		oc.observaciones,
+        u.nombres AS usuario_nombres,
+        u.apellidos AS usuario_apellidos,
+        ec.razonSocial AS cliente_razonSocial,
+        ec.nroDocumento AS cliente_ruc,
+        ec.celular AS cliente_celular,
+        ec.telefono AS cliente_telefono,
+        ec.contacto AS cliente_contacto,
+        ec.correo AS cliente_correo,
+        ec.direccion AS cliente_direccion
+    FROM 
+        orden_compra oc
+        INNER JOIN detalle_usuarios du ON oc.iddetalleusuario = du.iddetalleusuario
+        INNER JOIN usuarios u ON du.idusuario = u.idusuario
+        INNER JOIN empresas_cliente ec ON oc.idcliente = ec.idempresacliente
+	WHERE idordencompra = _idordencompra;
+END $$
+
+DELIMITER $$
+CREATE PROCEDURE obtener_detalle_orden_compra (
+    IN p_idordencompra INT
+)
+BEGIN
+    SELECT 
+        doc.iddetalleordencompra,
+        doc.idordencompra,
+        doc.item,
+        doc.centro,
+        doc.descripcion,
+        doc.cantidad,
+        doc.utm,
+        doc.precioUnitario,
+        (doc.cantidad * doc.precioUnitario) AS total
+    FROM 
+        detalle_orden_compra doc
+    WHERE 
+        doc.idordencompra = p_idordencompra;
+END $$
+
+
 
 
 

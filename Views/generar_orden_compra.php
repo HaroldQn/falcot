@@ -113,7 +113,7 @@
     </div>
   </div>
   
-  <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3">añadir fila</button> 
+  <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3"><i class="bi bi-plus-lg"></i></button> 
 
   <div class="row mb-3">
     <div class="col-12 col-md-1 mb-3 mb-md-0">
@@ -271,7 +271,7 @@
         <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <button type="button" class="btn-close" onclick="eliminarFila('fila-${indiceFila}')"></button>
+        <button type="button" class="btn btn-close btn-danger" onclick="eliminarFila('fila-${indiceFila}')"><i class="bi bi-trash-fill"></i></button>
       </div>
     `;
     
