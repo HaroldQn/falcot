@@ -29,172 +29,175 @@
       <input type="text" class="form-control me-2" id="ruc_buscado" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
       <button class="btn btn-primary" id="btnBuscar">Buscar</button>
     </div>
+
     <div class="col-md-4 d-flex justify-content-start">
-
       <button class="btn btn-warning" id="btnBuscarClienteSistema" data-bs-toggle="modal" data-bs-target="#modal-cliente">Buscar Sistema</button>
-
     </div>
+    
   </div>
 </div>
 
 <div class="mb-5  p-3 bg-body ">
   <form action="" id="formulario-orden-pago">
-  <div class="row mb-3">
-    <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="razon_social" maxlength="60" placeholder="RAZON SOCIAL" disabled required>
-    </div>
-    <div class="col-sm-6 col-md-3 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="ruc" maxlength="11" placeholder="RUC" readonly required>
-    </div>
-    <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-      <select id="moneda" class="form-control" placeholder="MONEDA" required>
-        <option value="">Moneda</option>
-        <option value="soles">Soles</option>
-        <option value="dolares">Dolares</option>
-      </select>
-    </div>
-    <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-      <input type="number" class="form-control" id="nFactura" placeholder="N° FACTURA" disabled>
-    </div>
-  </div>
-  
-  <div class="row mb-3">
-    <div class="col-sm-12 col-md-6 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="direccion" maxlength="60" placeholder="DIRECCION" required>
-    </div>
-    <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-      <input type="tel" class="form-control" id="celular" maxlength="9" placeholder="CELULAR">
-    </div>
-    <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="condPago" maxlength="30" placeholder="COND. PAGO">
-    </div>
-    <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-      <input type="date" class="form-control" id="fechaInput" placeholder="FECHA" required>
-    </div>
-  </div>
-  
-  <div class="row mb-3">
-    <div class="col-sm-12 col-md-3 mb-3 mb-md-0"></div>
-    <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="correo" maxlength="40" placeholder="CORREO">
-    </div>
-    <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="contacto" maxlength="40" placeholder="CONTACTO">
-    </div>
-    <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
-      <input type="tel" maxlength="12" id="telefono" class="form-control" placeholder="TELEFONO">
-    </div>
-  </div>
-  <hr>
-
-  <div class="row mb-3">
-    <div class="col-12 col-md-1 text-center">
-      <strong>ITEM</strong>
-    </div>
-    <div class="col-12 col-md-1 text-center">
-      <strong>CENTRO</strong>
-    </div>
-    <div class="col-12 col-md-4 text-center">
-      <strong>DESCRIPCIÓN DEL SERVICIO</strong>
-    </div>
-    <div class="col-12 col-md-1 text-center">
-      <strong>CANTIDAD PEDIDA</strong>
-    </div>
-    <div class="col-12 col-md-1 text-center">
-      <strong>UNID.</strong>
-    </div>
-    <div class="col-12 col-md-1 text-center">
-      <strong>PRECIO UNITARIO</strong>
-    </div>
-    <div class="col-12 col-md-2 text-center">
-      <strong>IMPORTE TOTAL</strong>
-    </div>
-    <div class="col-12 col-md-1 text-center">
-      <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3"><i class="lni lni-plus"></i> </button> 
-    </div>
-  </div>
-  
-
-  <!-- NUEVA FILA : Este div es para la nueva fila -->
-  <div class="nueva_fila" id="nueva_fila">
     <div class="row mb-3">
-      <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
+      <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
+        <input type="text" class="form-control" id="razon_social" maxlength="60" placeholder="RAZON SOCIAL" disabled required>
       </div>
-      <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
+      <div class="col-sm-6 col-md-3 mb-3 mb-md-0">
+        <input type="text" class="form-control" id="ruc" maxlength="11" placeholder="RUC" readonly required>
       </div>
-      <div class="col-12 col-md-4 mb-3 mb-md-0">
-        <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
-      </div>
-      <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" required>
-      </div>
-      <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <select type="text" class="form-control" name="unidad" required>
-          <option value="">-----</option>
-          <option value="KG">KG</option>
-          <option value="LT">Lt</option>
-          <option value="UNID">UNID</option>
+      <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
+        <select id="moneda" class="form-control" placeholder="MONEDA" required>
+          <option value="">Moneda</option>
+          <option value="soles">Soles</option>
+          <option value="dolares">Dolares</option>
         </select>
       </div>
-      <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." required>
-      </div>
-      <div class="col-12 col-md-2 mb-3 mb-md-0">
-        <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
-      </div>
-      <div class="col-12 col-md-1 mb-3 mb-md-0">
+      <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
+        <input type="number" class="form-control" id="nFactura" placeholder="N° FACTURA" disabled>
       </div>
     </div>
+  
+    <div class="row mb-3">
+      <div class="col-sm-12 col-md-6 mb-3 mb-md-0">
+        <input type="text" class="form-control" id="direccion" maxlength="60" placeholder="DIRECCION" required>
+      </div>
+      <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
+        <input type="tel" class="form-control" id="celular" maxlength="9" placeholder="CELULAR" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+      </div>
+      <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
+        <select type="text" class="form-control" id="condPago" placeholder="COND. PAGO">
+          <option value="">COND. PAGO</option>
+          <option value="contado">contado</option>
+          <option value="7 días">7 días</option>
+          <option value="15 días">15 días</option>
+          <option value="30 días">30 días</option>
+        </select>
+      </div>
+      <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
+        <input type="date" class="form-control" id="fechaInput" placeholder="FECHA" required>
+      </div>
+    </div>
+  
+    <div class="row mb-3">
+      <div class="col-sm-12 col-md-3 mb-3 mb-md-0"></div>
+      <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
+        <input type="text" class="form-control" id="correo" maxlength="40" placeholder="CORREO">
+      </div>
+      <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
+        <input type="text" class="form-control" id="contacto" maxlength="40" placeholder="CONTACTO">
+      </div>
+      <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
+        <input type="tel" maxlength="12" id="telefono" class="form-control" placeholder="TELEFONO" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+      </div>
+    </div>
+    <hr>
 
-  </div>
+    <div class="row mb-3">
+      <div class="col-12 col-md-1 text-center">
+        <strong>ITEM</strong>
+      </div>
+      <div class="col-12 col-md-1 text-center">
+        <strong>CENTRO</strong>
+      </div>
+      <div class="col-12 col-md-4 text-center">
+        <strong>DESCRIPCIÓN DEL SERVICIO</strong>
+      </div>
+      <div class="col-12 col-md-1 text-center">
+        <strong>CANTIDAD PEDIDA</strong>
+      </div>
+      <div class="col-12 col-md-1 text-center">
+        <strong>UNID.</strong>
+      </div>
+      <div class="col-12 col-md-1 text-center">
+        <strong>PRECIO UNITARIO</strong>
+      </div>
+      <div class="col-12 col-md-2 text-center">
+        <strong>IMPORTE TOTAL</strong>
+      </div>
+      <div class="col-12 col-md-1 text-center">
+        <button type="button" id="renderizar-fila" class="btn-success btn-sm btn mb-3"><i class="lni lni-plus"></i> </button> 
+      </div>
+    </div>
+  
+
+    <!-- NUEVA FILA : Este div es para la nueva fila -->
+    <div class="nueva_fila" id="nueva_fila">
+      <div class="row mb-3">
+        <div class="col-12 col-md-1 mb-3 mb-md-0">
+          <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
+        </div>
+        <div class="col-12 col-md-1 mb-3 mb-md-0">
+          <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
+        </div>
+        <div class="col-12 col-md-4 mb-3 mb-md-0">
+          <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
+        </div>
+        <div class="col-12 col-md-1 mb-3 mb-md-0">
+          <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+        </div>
+        <div class="col-12 col-md-1 mb-3 mb-md-0">
+          <select type="text" class="form-control" name="unidad" required>
+            <option value="">-----</option>
+            <option value="KG">KG</option>
+            <option value="LT">Lt</option>
+            <option value="UNID">UNID</option>
+          </select>
+        </div>
+        <div class="col-12 col-md-1 mb-3 mb-md-0">
+          <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+        </div>
+        <div class="col-12 col-md-2 mb-3 mb-md-0">
+          <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
+        </div>
+        <div class="col-12 col-md-1 mb-3 mb-md-0">
+        </div>
+      </div>
+    </div>
   
   
-  <hr>
-  <div class="row">
-    <div class="col-12 col-md-3">
-      <input type="text" class="form-control" id="observaciones" maxlength="50" placeholder="OBSERVACIONES">
-    </div>
-    <div class="col-12 col-md-3">
-      <input type="text" class="form-control" id="grupoCompra"  maxlength="40" placeholder="GRUPO DE COMPRA">
-    </div>
-    <div class="col-12 col-md-3">
-      <input type="text" class="form-control" id="destino"  maxlength="40" placeholder="DESTINO">
-    </div>
-    <div class="col-12 col-md-3">
-      <div class="form-group row">
-        <label for="subtotal" class="col-sm-4 col-form-label">SUBTOTAL:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control mt-1" id="subtotal" placeholder="SUBTOTAL" disabled>
+    <hr>
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <input type="text" class="form-control" id="observaciones" maxlength="50" placeholder="OBSERVACIONES">
+      </div>
+      <div class="col-12 col-md-3">
+        <input type="text" class="form-control" id="grupoCompra"  maxlength="40" placeholder="GRUPO DE COMPRA">
+      </div>
+      <div class="col-12 col-md-3">
+        <input type="text" class="form-control" id="destino"  maxlength="40" placeholder="DESTINO">
+      </div>
+      <div class="col-12 col-md-3">
+        <div class="form-group row">
+          <label for="subtotal" class="col-sm-4 col-form-label">SUBTOTAL:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control mt-1" id="subtotal" placeholder="SUBTOTAL" disabled>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="impuesto" class="col-sm-4 col-form-label">IMPUESTO:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="total" class="col-sm-4 col-form-label">TOTAL:</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control mt-1" id="total" placeholder="TOTAL" disabled>
+          </div>
+        </div>
+        
+        <div class="row">
+          <button type="submit" class="btn btn-success flex-fill" id="finalizarOrdenCompra">Finalzar</button>
         </div>
       </div>
-      <div class="form-group row">
-        <label for="impuesto" class="col-sm-4 col-form-label">IMPUESTO:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="total" class="col-sm-4 col-form-label">TOTAL:</label>
-        <div class="col-sm-8">
-          <input type="text" class="form-control mt-1" id="total" placeholder="TOTAL" disabled>
-        </div>
-      </div>
-      
-      <div class="row">
-        <button type="submit" class="btn btn-success flex-fill" id="finalizarOrdenCompra">Finalzar</button>
-      </div>
-
-
     </div>
-  </div>
 
   </form>
 </div>
@@ -233,7 +236,8 @@
   const btnSeleccionar = document.getElementById("btnSeleccionar");
   const btnFinalizarOrdenCompra = document.getElementById("finalizarOrdenCompra");
   const modalvisor = new bootstrap.Modal(document.getElementById('modal-cliente'));
-  const formOrdePago = new bootstrap.Modal(document.getElementById('formulario-orden-pago'));
+  const formOrdePago = document.getElementById('formulario-orden-pago');
+
 
   function registrarClienteApi(){
     const parametros = new FormData();
@@ -291,8 +295,8 @@
     })
       .then(res => res.json())
       .then(datos => {
-        console.log(datos)
         if(datos.idordencompra !== null && datos.idordencompra !== "" && datos.idordencompra !== 0){
+          console.log("se registro una orden nueva")
           traerDetalleFormularioOrdenCompra(datos.idordencompra)
         }else{
 
@@ -321,7 +325,7 @@
     })
       .then(res => res.json())
       .then(datos => {
-        console.log(datos)
+        console.log("se registro un detalle nuevo")
 
       })
       .catch((error) => {
@@ -372,19 +376,28 @@
 
     });
 
-    window.location.href = `../reports/pdf_orden_compra.php?idordencompra=${nordecompra}`
-    // window.open(`../reports/pdf_orden_compra.php?idordencompra=${nordecompra}`, '_blank');
+    // window.location.href = `../reports/pdf_orden_compra.php?idordencompra=${nordecompra}`
+
+    bienvenida(`¡Se ha creado una nueva orden de compra!`);
+    setTimeout(function(){
+      window.open(`../reports/pdf_orden_compra.php?idordencompra=${nordecompra}`, '_blank');
+      formOrdePago.reset();
+      location.reload();
+      
+    },2000);  
 
 
   }
 
 
-  btnFinalizarOrdenCompra.addEventListener("click",function(){
-
+  btnFinalizarOrdenCompra.addEventListener("click",function(event){
+    
+    // console.log("DSasd")
     if (!formOrdePago.checkValidity()) {
       return;
     }
-
+    
+    event.preventDefault();
     let doc_empresa = "";
     doc_empresa = ruc.value;
     verificarClienteExiste(doc_empresa)
@@ -423,7 +436,7 @@
         <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" required>
+        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
@@ -434,7 +447,7 @@
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." required>
+        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
       </div>
       <div class="col-12 col-md-2 mb-3 mb-md-0">
         <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>

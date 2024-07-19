@@ -68,7 +68,7 @@ function BuscarClientePorApi(){
     })
     .then(data => {
         if(data.razonSocial){
-            console.log(data)
+            // console.log(data)
             razonSocialBuscado = data.razonSocial;
             rucBuscado = data.numeroDocumento;
             direccionBuscada = data.direccion;
