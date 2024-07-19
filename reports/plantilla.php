@@ -17,10 +17,10 @@
                 </th>
             </tr>
         </table>
-        <table class="info-table top">
+        <table class="info-table top uppercase">
             <tr>
                 <th class=" bold-text gr">SEÑORES:</th>
-                <td colspan="2"><?php echo htmlspecialchars($resultado[0]['cliente_razonSocial']); ?></td>
+                <td colspan="2" class="pala""><?php echo htmlspecialchars($resultado[0]['cliente_razonSocial']); ?></td>
                 <th class="bold-text gr">R.U.C.:</th>
                 <td><?php echo htmlspecialchars($resultado[0]['cliente_ruc']); ?></td>
                 <th class=" bold-text gr">MONEDA:</th>
@@ -46,19 +46,19 @@
                 <th colspan="1" class=" bold-text gr">CONTACTO:</th>
                 <td colspan="1" class="crece2"><?php echo htmlspecialchars($resultado[0]['cliente_contacto']); ?></td>
                 <th class=" bold-text gr">TELÉFONO:</th>
-                <td colspan="1"><?php echo htmlspecialchars($resultado[0]['cliente_telefono']); ?></td>
+                <td colspan="1" class="crece3"><?php echo htmlspecialchars($resultado[0]['cliente_telefono']); ?></td>
             </tr>
         </table>
         <table class="items-table">
             <thead>
                 <tr>
-                    <th class="bold-text">ITEM</th>
-                    <th class="bold-text">CENTRO</th>
-                    <th class="descrip bold-text">DESCRIPCIÓN DE MATERIALES</th>
-                    <th class="cantidad bold-text">CANTIDAD PEDIDA</th>
-                    <th class="bold-text">UNID.</th>
-                    <th class="bold-text">PRECIO UNITARIO</th>
-                    <th class="bold-text">IMPORTE TOTAL</th>
+                    <th class="bold-text gr">ITEM</th>
+                    <th class="bold-text gr">CENTRO</th>
+                    <th class="descrip bold-text gr">DESCRIPCIÓN DE MATERIALES</th>
+                    <th class="cantidad bold-text gr">CANTIDAD PEDIDA</th>
+                    <th class="bold-text gr">UNID.</th>
+                    <th class="bold-text gr">PRECIO UNITARIO</th>
+                    <th class="bold-text gr">IMPORTE TOTAL</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,9 +72,9 @@
                             <tr>
                                 <td>{$i['item']}</td>
                                 <td>{$i['centro']}</td>
-                                <td>{$i['descripcion']}</td>
+                                <td class='uppercase'>{$i['descripcion']}</td>
                                 <td>{$i['cantidad']}</td>
-                                <td>{$i['utm']}</td>
+                                <td class='uppercase'>{$i['utm']}</td>
                                 <td>{$i['precioUnitario']}</td>
                                 <td>{$i['total']}</td>
                             </tr>
@@ -87,42 +87,43 @@
         <table class="footer-info">
             <tr>
                 <th class="bold-text gr">OBSERVACIONES:</th>
-                <td class="cabe" colspan="11"><?php echo htmlspecialchars($resultado[0]['observaciones']); ?></td>
+                <td class="nota uppercase" colspan="11"><?php echo htmlspecialchars($resultado[0]['observaciones']); ?></td>
                 <th class="vacio no-bottom-border"></th>
                 <th class="totales bold-text gr">SUBTOTAL:</th>
-                <td class="resultado">S/ 100,37</td>
+                <td class="resultado">S/ <?php echo htmlspecialchars($totales[0]['Subtotal']); ?></td>
             </tr>
-            <tr>
-                <th class="bold-text gr">GRUPO DE COMPRA:</th>
-                <td class="cabe" colspan="11"><?php echo htmlspecialchars($resultado[0]['grupoCompra']); ?></td>
-                <th class="no-bottom-border"></th>
-                <th class="totales bold-text gr">IMPUESTO:</th>
-                <td class="resultado">S/ 18,07</td>
-            </tr>
+            
             <tr>
                 <th class="bold-text gr">CREADO POR:</th>
-                <td class="creado" colspan="4">
+                <td class="creado uppercase" colspan="4">
                     <?php echo htmlspecialchars($resultado[0]['usuario_nombres']); ?>
                     <?php echo htmlspecialchars($resultado[0]['usuario_apellidos']); ?>
                 </td>
-                <th class="bold-text gr">DESTINO:</th>
-                <td class="destino" colspan="6"><?php echo htmlspecialchars($resultado[0]['destino']); ?></td>
+                <th class="bold-text gr ">DESTINO:</th>
+                <td class="destino uppercase" colspan="6"><?php echo htmlspecialchars($resultado[0]['destino']); ?></td>
                 <th class="no-bottom-border"></th>
-                <th class="totales bold-text gr">DESCUENTO:</th>
-                <td class="resultado">S/ 82,30</td>
+                
+                <th class="totales bold-text gr">IMPUESTO:</th>
+                <td class="resultado">S/ <?php echo htmlspecialchars($totales[0]['IGV']); ?></td>
                 
             </tr>
             <tr>
-                <td colspan="1" class="bold-text gr">ORGINAL:</td>
-                <td colspan="11" class=""></td>
+                <th class="bold-text gr">MONTO:</th>
+                <td class="cabe uppercase nota" colspan="11"><?php echo htmlspecialchars($totalEnLetras); ?></td>
+                <th class="no-bottom-border"></th>
+                <th class="totales bold-text gr">DESCUENTO:</th>
+                <td class="resultado">S/ <?php echo htmlspecialchars($totales[0]['Descuento']); ?></td>
+            </tr>
+            <tr>
+                <td colspan="1" class="bold-text gr">NOTA:</td>
+                <td colspan="11" class="nota">PRESENTAR COPIA DEL PRESENTE DOCUMENTO Y CONFORMIDAD AL MOMENTO DE PRESENTAR SU FACTURA</td>
                 <th class=""></th>
                 <th class="totales bold-text gr">TOTAL:</th>
-                <td class="resultado">S/ 200,74</td>
+                <td class="resultado">S/ <?php echo htmlspecialchars($totales[0]['Total']); ?></td>
             </tr>
         </table>
         <div class="footer">
-            <p>NOTA: PRESENTAR COPIA DEL PRESENTE DOCUMENTO Y CONFORMIDAD AL MOMENTO DE PRESENTAR SU FACTURA</p>
-            <p>EL NÚMERO DE LA ORDEN DE COMPRA DEBE APARECER EN TODAS LAS FACTURAS Y CORRESPONDENCIA.</p>
+            <p class="bold-text ">EL NÚMERO DE LA ORDEN DE COMPRA DEBE APARECER EN TODAS LAS FACTURAS Y CORRESPONDENCIA.</p>
         </div>
     </div>
 </body>

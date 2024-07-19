@@ -41,4 +41,20 @@ class Reporte extends Conexion
         die($e->getMessage());
         }
     }
+
+    public function obtener_totales_orden_compra($datos = [])
+    {
+        try {
+        $cmd = $this->conexion->prepare('CALL spu_calcular_totales(?)');
+        $cmd->execute(
+            array(
+            $datos['idordencompra']
+            )
+        );
+
+        return $cmd->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+        die($e->getMessage());
+        }
+    }
 }
