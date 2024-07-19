@@ -25,15 +25,20 @@
 
 <div class="container p-3 mx-5">
   <div class="row mb-3 mx-2">
+    
     <div class="col-md-4 d-flex justify-content-start">
       <input type="text" class="form-control me-2" id="ruc_buscado" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
       <button class="btn btn-primary" id="btnBuscar">Buscar</button>
+      <button class="btn btn-warning ml-2" id="btnBuscarClienteSistema" data-bs-toggle="modal" data-bs-target="#modal-cliente"><i class="lni lni-users"></i></button>
     </div>
 
     <div class="col-md-4 d-flex justify-content-start">
-      <button class="btn btn-warning" id="btnBuscarClienteSistema" data-bs-toggle="modal" data-bs-target="#modal-cliente">Buscar Sistema</button>
     </div>
-    
+
+    <div class="col-md-4 d-flex">
+    </div>
+
+
   </div>
 </div>
 
@@ -276,14 +281,17 @@
   }
 
   function registrarOrdenCompra(){
-  
+    let descuento_verificado = descuento.value;
+    if (descuento_verificado == null || descuento_verificado == ''){
+      descuento_verificado = 0;
+    }
     const parametros = new FormData();
     parametros.append("operacion","crear_orden_compra")
     parametros.append("iddetalleusuario", 1)
     parametros.append("cliente", ruc.value)
     parametros.append("moneda", moneda.value)
     parametros.append("fechaCreacion", fechaInput.value)
-    parametros.append("descuento", descuento.value)
+    parametros.append("descuento", descuento_verificado)
     parametros.append("grupoCompra", grupoCompra.value)
     parametros.append("destino", destino.value)
     parametros.append("observaciones", observaciones.value)

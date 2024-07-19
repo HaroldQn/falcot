@@ -10,11 +10,21 @@
 <?php require_once './navbar.php'; ?>
 <h1 class="text-center">Clientes </h1>
 
-<div class="container container-sm">
-  <button type="button" class="btn btn-success mb-3" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
 
-  <table class="table table-bordered text-center" id="tabla-cliente">
-    <thead >
+<div class="container">
+  <div class="row">
+    <div class="col col-md-4"></div>
+    <div class="col col-md-4"></div>
+    <div class="col col-md-4 d-flex justify-content-end">
+      <button type="button" class="btn btn-success mb-3" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
+
+    </div>
+  </div>
+</div>
+<div class="container container-sm">
+
+  <table class="table table-sm table-bordered text-center" id="tabla-cliente">
+    <thead class="table-dark">
       <tr>
         <th scope="col">#</th>
         <th scope="col">Razon social</th>

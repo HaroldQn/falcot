@@ -51,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
         //  console.log(datos)   
         
          selectProvincia.innerHTML=""
+         selectProvincia.innerHTML="<option value=''>Seleccione</option>"
+
          datos.forEach(dato => {
           const option = document.createElement('option');
           option.value = dato.idprovincia;
@@ -77,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // console.log(datos)   
       
         selectDistrito.innerHTML=""
+        selectDistrito.innerHTML=`<option value="" >Seleccione</option>`
         datos.forEach(dato => {
         const option = document.createElement('option');
         option.value = dato.iddistrito;
@@ -123,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
   selectDepartamento.addEventListener("change",function (event){
     let idprovincia = selectDepartamento.value;
     obtenerProvincias(idprovincia)
+    selectDistrito.innerHTML="<option value=''>Seleccione</option>"
   })
 
   selectProvincia.addEventListener("change",function (event){
@@ -160,11 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${numFila}</td>
                 <td>${registro.razonSocial}</td>
                 <td>${registro.nroDocumento}</td>
-                <td>${registro.direccion}</td>
+                <td></td>
                 <td>${registro.telefono}</td>
                 <td>
-                    <button class="btn btn-warning editar" data-id=${registro.idempresacliente} data-bs-toggle="modal" data-bs-target="#modal-cliente"><i class="lni lni-pencil"></i></button>
-                    <button class="btn btn-danger eliminar" data-id=${registro.idempresacliente}><i class="lni lni-trash-can"></i></button>
+                    <button class="btn btn-warning editar d-inline-block" data-id=${registro.idempresacliente} data-bs-toggle="modal" data-bs-target="#modal-cliente"><i class="lni lni-pencil"></i></button>
+                    <button class="btn btn-danger eliminar d-inline-block" data-id=${registro.idempresacliente}><i class="lni lni-trash-can"></i></button>
                 </td>
             </tr>
         `;

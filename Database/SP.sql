@@ -304,6 +304,65 @@ END $$
 -- ******************** --
 --  SP Orden Compra  --
 -- ******************** --
+DELIMITER //
+CREATE PROCEDURE spCambiarEstadoAprobado(IN _idordencompra INT)
+BEGIN
+	UPDATE orden_compra 
+    SET
+		estado = 2
+	WHERE idordencompra = _idordencompra;
+END //
+DELIMITER;
+
+DELIMITER //
+CREATE PROCEDURE spCambiarEstadoRechazado(IN _idordencompra INT)
+BEGIN
+	UPDATE orden_compra 
+    SET
+		estado = 0
+	WHERE idordencompra = _idordencompra;
+END //
+DELIMITER;
+
+
+DELIMITER // 
+CREATE PROCEDURE spListarOrdenCompraPorRol(
+ IN _idrol INT
+)
+BEGIN
+	SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial,ORDCOMP.fechaCreacion, ORDCOMP.estado FROM orden_compra ORDCOMP
+    INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
+    INNER JOIN detalle_usuarios DETUSU ON  ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
+    INNER JOIN usuarios USU ON DETUSU.idusuario = USU.idusuario;
+    
+END //
+DELIMITER ;
+
+CALL spListarOrdenCompraPorRol('2024-07-15')
+
+DELIMITER //
+CREATE PROCEDURE spListarOrdenCompraPorRol(
+    IN _fechaCreacion VARCHAR(10)  
+)
+BEGIN
+    IF _fechaCreacion IS NULL OR _fechaCreacion = '' THEN
+        -- List all orders if _fechaCreacion is NULL
+        SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial, ORDCOMP.fechaCreacion, ORDCOMP.estado 
+        FROM orden_compra ORDCOMP
+        INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
+        INNER JOIN detalle_usuarios DETUSU ON ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
+        INNER JOIN usuarios USU ON DETUSU.idusuario = USU.idusuario;
+    ELSE
+        -- Filter orders by _fechaCreacion
+        SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial, ORDCOMP.fechaCreacion, ORDCOMP.estado 
+        FROM orden_compra ORDCOMP
+        INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
+        INNER JOIN detalle_usuarios DETUSU ON ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
+        INNER JOIN usuarios USU ON DETUSU.idusuario = USU.idusuario
+        WHERE ORDCOMP.fechaCreacion = _fechaCreacion;
+    END IF;
+END //
+DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE spCrearOrdenCompra(

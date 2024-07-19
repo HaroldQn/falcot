@@ -52,6 +52,46 @@ class OrdenCompra extends Conexion{
     }
   }
 
+  public function listarOrdenCompraPorRol($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spListarOrdenCompraPorRol(?)");
+      $consulta->execute(
+        array(
+          $datos['idrol']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
+
+  public function cambiarEstadoAprobado($datos=[]){
+    try {
+      $consulta = $this->conexion->prepare("CALL spCambiarEstadoAprobado(?)");
+      $consulta->execute(
+        array(
+          $datos['idordencompra']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
+  public function cambiarEstadoRechazado($datos=[]){
+    try {
+      $consulta = $this->conexion->prepare("CALL spCambiarEstadoRechazado(?)");
+      $consulta->execute(
+        array(
+          $datos['idordencompra']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
 
 
 

@@ -6,6 +6,33 @@ if(isset($_POST['operacion'])){
   $orden = new OrdenCompra;
 
   switch ($_POST['operacion']) {
+    case 'cambiar_estado_aprobado':
+
+      $datosEnviar = [
+        'idordencompra'  =>$_POST['idordencompra'],
+      ];
+
+      echo json_encode($orden->cambiarEstadoAprobado($datosEnviar));
+      break; 
+
+    case 'cambiar_estado_rechazado':
+
+      $datosEnviar = [
+        'idordencompra'  =>$_POST['idordencompra'],
+      ];
+
+      echo json_encode($orden->cambiarEstadoRechazado($datosEnviar));
+      break; 
+
+    case 'listar_orden_rol':
+
+      $datosEnviar = [
+        'idrol'  =>$_POST['idrol'],
+      ];
+
+      echo json_encode($orden->listarOrdenCompraPorRol($datosEnviar));
+      break; 
+
     case 'crear_orden_compra':
 
       $datosEnviar = [
