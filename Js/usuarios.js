@@ -20,24 +20,35 @@ document.addEventListener("DOMContentLoaded",()=>{
         .then(data =>{
             lista.innerHTML = '';
             datos = data.filter( rol => rol.rol == 'asistente');
-            datos.forEach( usuario => {
-                let fila = '';
-
-                fila =`
+            console.log(datos)
+            if (datos.length == 0) {
+                let fila = `
                     <tr>
-                        <td>${usuario.usuario}</td>
-                        <td>${usuario.nombres}</td>
-                        <td>${usuario.apellidos}</td>
-                        <td>${usuario.rol}</td>
-                        <td>
-                            <button class="btn btn-primary editar" id="btn-editar-${usuario.idusuario}" data-id="${usuario.idusuario}" data-bs-toggle="modal" data-bs-target="#modal-clave">Editar</button>
-                            <button class="btn btn-danger eliminar" id="btn-eliminar-${usuario.idusuario}" data-id="${usuario.idusuario}"><i class="bi bi-trash"></i></button>
-                        </td>
-                        
+                        <td colspan="5" class="text-center">No hay datos</td>
                     </tr>
                 `
-            lista.innerHTML += fila;
-            });
+                lista.innerHTML += fila
+            }
+            else{
+                datos.forEach( usuario => {
+                    let fila = '';
+    
+                    fila =`
+                        <tr>
+                            <td>${usuario.usuario}</td>
+                            <td>${usuario.nombres}</td>
+                            <td>${usuario.apellidos}</td>
+                            <td>${usuario.rol}</td>
+                            <td>
+                                <button class="btn btn-primary editar" id="btn-editar-${usuario.idusuario}" data-id="${usuario.idusuario}" data-bs-toggle="modal" data-bs-target="#modal-clave">Editar</button>
+                                <button class="btn btn-danger eliminar" id="btn-eliminar-${usuario.idusuario}" data-id="${usuario.idusuario}"><i class="bi bi-trash"></i></button>
+                            </td>
+                            
+                        </tr>
+                    `
+                lista.innerHTML += fila;
+                });
+            }
         });
     }
 

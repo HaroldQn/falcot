@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${registro.nroDocumento}</td>
                 <td>${registro.direccion}</td>
                 <td>${registro.telefono}</td>
-                <td>
+                <td style="display: flex; gap: 10px;">
                     <button class="btn btn-warning editar" data-id=${registro.idempresacliente} data-bs-toggle="modal" data-bs-target="#modal-cliente"><i class="lni lni-pencil"></i></button>
                     <button class="btn btn-danger eliminar" data-id=${registro.idempresacliente}><i class="lni lni-trash-can"></i></button>
                 </td>

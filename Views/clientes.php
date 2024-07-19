@@ -8,37 +8,35 @@
   }
 ?>
 <?php require_once './navbar.php'; ?>
-<h1 class="text-center">Clientes </h1>
+  <div class="container">
+    <h1 class="text-center m-3">Clientes </h1>
+  <div class="container row mb-3 mt-3">
+      <div class="col col-md-4">
+      </div>
+      <div class="col col-md-4"></div>
+      <div class="col col-md-4 d-flex justify-content-end">
+      <button type="button" class="btn btn-success mb-1" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
+      </div>
+  </div>
 
-<div class="container container-sm">
-  <button type="button" class="btn btn-success mb-3" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
-
-  <table class="table table-bordered text-center" id="tabla-cliente">
-    <thead >
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Razon social</th>
-        <th scope="col">Ruc</th>
-        <th scope="col">Dirección</th>
-        <th scope="col">Telefono</th>
-        <th scope="col">Opciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <!-- <th scope="row">1</th>
-        <td>a</td>
-        <td>b</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>
-          <button type="button" class="btn btn-sm btn-warning editar">Editar</button>
-          <button type="button" class=" btn btn-sm btn-danger eliminar">Eliminar</button>
-        </td> -->
-      </tr>
-    </tbody>
-  </table>
-
+  <div class="">
+    <div class="table-responsive">
+      <table class="table table-striped  table-sm table-bordered text-center" id="tabla-cliente">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Razon social</th>
+            <th scope="col">Ruc</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- Modal -->

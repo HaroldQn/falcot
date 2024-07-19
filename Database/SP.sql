@@ -298,6 +298,33 @@ BEGIN
         doc.idordencompra = p_idordencompra;
 END $$
 
+DELIMITER $$
+CREATE PROCEDURE spu_calcular_totales(
+    IN _idordencompra INT
+)
+BEGIN
+    DECLARE subtotal DECIMAL(10,2);
+    DECLARE igv DECIMAL(10,2);
+    DECLARE descuento_final DECIMAL(10,2);
+    DECLARE total DECIMAL(10,2);
+
+    SELECT SUM(cantidad * precioUnitario)
+    INTO subtotal
+    FROM detalle_orden_compra
+    WHERE idordencompra = _idordencompra;
+    SET igv = subtotal * 0.18;
+    
+    SELECT descuento
+    INTO descuento_final
+    FROM orden_compra
+    WHERE idordencompra = _idordencompra;
+
+    SET total = (subtotal + igv) - descuento_final;
+    SELECT subtotal AS Subtotal, igv AS IGV, descuento_final AS Descuento, total AS Total;
+END $$
+call spu_calcular_totales(1)
+select * from orden_compra;
+select * from detalle_orden_compra;
 
 
 

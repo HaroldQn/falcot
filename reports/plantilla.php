@@ -17,7 +17,7 @@
                 </th>
             </tr>
         </table>
-        <table class="info-table top">
+        <table class="info-table top uppercase">
             <tr>
                 <th class=" bold-text gr">SEÑORES:</th>
                 <td colspan="2" class="pala""><?php echo htmlspecialchars($resultado[0]['cliente_razonSocial']); ?></td>
@@ -52,13 +52,13 @@
         <table class="items-table">
             <thead>
                 <tr>
-                    <th class="bold-text">ITEM</th>
-                    <th class="bold-text">CENTRO</th>
-                    <th class="descrip bold-text">DESCRIPCIÓN DE MATERIALES</th>
-                    <th class="cantidad bold-text">CANTIDAD PEDIDA</th>
-                    <th class="bold-text">UNID.</th>
-                    <th class="bold-text">PRECIO UNITARIO</th>
-                    <th class="bold-text">IMPORTE TOTAL</th>
+                    <th class="bold-text gr">ITEM</th>
+                    <th class="bold-text gr">CENTRO</th>
+                    <th class="descrip bold-text gr">DESCRIPCIÓN DE MATERIALES</th>
+                    <th class="cantidad bold-text gr">CANTIDAD PEDIDA</th>
+                    <th class="bold-text gr">UNID.</th>
+                    <th class="bold-text gr">PRECIO UNITARIO</th>
+                    <th class="bold-text gr">IMPORTE TOTAL</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,9 +72,9 @@
                             <tr>
                                 <td>{$i['item']}</td>
                                 <td>{$i['centro']}</td>
-                                <td>{$i['descripcion']}</td>
+                                <td class='uppercase'>{$i['descripcion']}</td>
                                 <td>{$i['cantidad']}</td>
-                                <td>{$i['utm']}</td>
+                                <td class='uppercase'>{$i['utm']}</td>
                                 <td>{$i['precioUnitario']}</td>
                                 <td>{$i['total']}</td>
                             </tr>
@@ -87,7 +87,7 @@
         <table class="footer-info">
             <tr>
                 <th class="bold-text gr">OBSERVACIONES:</th>
-                <td class="nota" colspan="11"><?php echo htmlspecialchars($resultado[0]['observaciones']); ?></td>
+                <td class="nota uppercase" colspan="11"><?php echo htmlspecialchars($resultado[0]['observaciones']); ?></td>
                 <th class="vacio no-bottom-border"></th>
                 <th class="totales bold-text gr">SUBTOTAL:</th>
                 <td class="resultado">S/ <?php echo htmlspecialchars($totales[0]['Subtotal']); ?></td>
@@ -95,12 +95,12 @@
             
             <tr>
                 <th class="bold-text gr">CREADO POR:</th>
-                <td class="creado" colspan="4">
+                <td class="creado uppercase" colspan="4">
                     <?php echo htmlspecialchars($resultado[0]['usuario_nombres']); ?>
                     <?php echo htmlspecialchars($resultado[0]['usuario_apellidos']); ?>
                 </td>
-                <th class="bold-text gr">DESTINO:</th>
-                <td class="destino" colspan="6"><?php echo htmlspecialchars($resultado[0]['destino']); ?></td>
+                <th class="bold-text gr ">DESTINO:</th>
+                <td class="destino uppercase" colspan="6"><?php echo htmlspecialchars($resultado[0]['destino']); ?></td>
                 <th class="no-bottom-border"></th>
                 
                 <th class="totales bold-text gr">IMPUESTO:</th>
@@ -109,7 +109,7 @@
             </tr>
             <tr>
                 <th class="bold-text gr">MONTO:</th>
-                <td class="cabe" colspan="11"></td>
+                <td class="cabe uppercase nota" colspan="11"><?php echo htmlspecialchars($totalEnLetras); ?></td>
                 <th class="no-bottom-border"></th>
                 <th class="totales bold-text gr">DESCUENTO:</th>
                 <td class="resultado">S/ <?php echo htmlspecialchars($totales[0]['Descuento']); ?></td>

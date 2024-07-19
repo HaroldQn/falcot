@@ -2,6 +2,7 @@
 
 // Composer
 require_once '../vendor/autoload.php';
+require_once './lector_numeros.php';
 
 // Html2Pdf
 use Spipu\Html2Pdf\Html2Pdf;
@@ -22,6 +23,9 @@ try {
     $resultado = $reporte_header->obtener_orden_compra(['idordencompra' => $id]);
     $detalle = $reporte_header->obtener_detalle_orden_compra(['idordencompra' => $id]);
     $totales = $reporte_header->obtener_totales_orden_compra(['idordencompra' => $id]);
+
+    // Convertir el total a palabras
+    $totalEnLetras = convertir_a_palabras($totales[0]['Total']);
 
     // Desplegar la data obtenida en nuestra plantilla
     include './plantilla.php';
