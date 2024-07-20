@@ -42,9 +42,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./clientes.php">Clientes</a>
                     </li>
+                    <?php if ($_SESSION['idrol'] == 1): ?> 
                     <li class="nav-item">
                         <a class="nav-link" href="./usuarios.php">Usuarios</a>
                     </li>
+                    <?php endif; ?>
                     <li class="nav-item">
                         <a class="nav-link" href="../Controllers/usuarioLogin.controller.php?operacion=destroy">Cerrar sesión</a>
                     </li>

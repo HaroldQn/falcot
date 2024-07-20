@@ -37,7 +37,7 @@
   </div>
 </div>
 
-<div class="mb-5  p-3 bg-body ">
+<div class="mb-5  p-3 bg-body" id="div-1">
   <form action="" id="formulario-orden-pago">
   <div class="row mb-3">
     <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
@@ -48,7 +48,7 @@
     </div>
     <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
       <select id="moneda" class="form-control" placeholder="MONEDA" required>
-        <option value="">Moneda</option>
+        <option value="">Tipo de Moneda</option>
         <option value="soles">Soles</option>
         <option value="dolares">Dolares</option>
       </select>
@@ -60,7 +60,7 @@
   
   <div class="row mb-3">
     <div class="col-sm-12 col-md-6 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="direccion" maxlength="60" placeholder="DIRECCION" required>
+      <input type="text" class="form-control" id="direccion" maxlength="60" placeholder="DIRECCION" required disabled>
     </div>
     <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
       <input type="tel" class="form-control" id="celular" maxlength="9" placeholder="CELULAR">
@@ -76,7 +76,7 @@
   <div class="row mb-3">
     <div class="col-sm-12 col-md-3 mb-3 mb-md-0"></div>
     <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
-      <input type="text" class="form-control" id="correo" maxlength="40" placeholder="CORREO">
+      <input type="gmail" class="form-control" id="correo" maxlength="40" placeholder="CORREO">
     </div>
     <div class="col-sm-12 col-md-3 mb-3 mb-md-0">
       <input type="text" class="form-control" id="contacto" maxlength="40" placeholder="CONTACTO">
@@ -122,24 +122,24 @@
         <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
+        <input type="tel" class="form-control" name="centro" maxlength="10" min="0" placeholder="CENTRO" required>
       </div>
       <div class="col-12 col-md-4 mb-3 mb-md-0">
         <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" required>
+        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" min="1" placeholder="CANT" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
           <option value="">-----</option>
           <option value="KG">KG</option>
-          <option value="LT">Lt</option>
+          <option value="LT">LT</option>
           <option value="UNID">UNID</option>
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." required>
+        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO" required>
       </div>
       <div class="col-12 col-md-2 mb-3 mb-md-0">
         <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -172,13 +172,13 @@
       <div class="form-group row">
         <label for="impuesto" class="col-sm-4 col-form-label">IMPUESTO:</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO">
+          <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO" disabled>
         </div>
       </div>
       <div class="form-group row">
         <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
         <div class="col-sm-8">
-          <input type="text" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO">
+          <input type="number" class="form-control mt-1" value="0" id="descuento" min="0" max="100" placeholder="DESCUENTO">
         </div>
       </div>
       <div class="form-group row">
@@ -578,13 +578,19 @@
       subtotal += parseFloat(field.value) || 0;
     });
 
-    document.getElementById('subtotal').value = subtotal.toFixed(2);
+    subtotal_p = document.getElementById('subtotal').value = subtotal.toFixed(2);
+    impuesto_f = subtotal * 0.18;
 
-    let impuesto = parseFloat(document.getElementById('impuesto').value) || 0;
+    document.getElementById('impuesto').value = impuesto_f.toFixed(2);
     let descuento = parseFloat(document.getElementById('descuento').value) || 0;
 
-    let totalConImpuesto = subtotal + (subtotal * (impuesto / 100));
+    const max = document.getElementById('descuento');
+
+    let totalConImpuesto = subtotal + impuesto_f;
+    max.setAttribute("max", totalConImpuesto);
+
     let totalFinal = totalConImpuesto - descuento;
+
 
     document.getElementById('total').value = totalFinal.toFixed(2);
   }

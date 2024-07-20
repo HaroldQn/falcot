@@ -123,7 +123,7 @@
             </tr>
         </table>
         <div class="footer">
-            <p class="bold-text ">EL NÚMERO DE LA ORDEN DE COMPRA DEBE APARECER EN TODAS LAS FACTURAS Y CORRESPONDENCIA.</p>
+            <p class="bold-text">EL NÚMERO DE LA ORDEN DE COMPRA DEBE APARECER EN TODAS LAS FACTURAS Y CORRESPONDENCIA.</p>
         </div>
     </div>
 </body>
