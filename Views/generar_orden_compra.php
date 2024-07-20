@@ -595,6 +595,27 @@
     document.getElementById('total').value = totalFinal.toFixed(2);
   }
 
+  function editar_cliente_existe(idcliente){
+    const parametros = new FormData();
+    parametros.append("operacion","")
+    parametros.append("celular", celular.value)
+    parametros.append("correo", correo.value)
+    parametros.append("contacto", contacto.value)
+    parametros.append("telefono", telefono.value)
+
+    fetch(`../Controllers/ordencompra.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Actualizado")
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+  }
+
   document.addEventListener('input', calcularTotales);
   document.getElementById('descuento').addEventListener('input', calcularTotales);
 </script>

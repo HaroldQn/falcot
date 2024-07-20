@@ -32,7 +32,7 @@
                 <th class=" bold-text gr">DIRECCIÓN:</th>
                 <td colspan="2" class="pala"><?php echo htmlspecialchars($resultado[0]['cliente_direccion']); ?></td>
                 <th colspan="1" class="bold-text gr">CELULAR:</th>
-                <td colspan="1"><?php echo htmlspecialchars($resultado[0]['cliente_celular']); ?></td>
+                <td colspan="1"><?php echo htmlspecialchars($resultado[0]['celular']); ?></td>
                 <th class=" bold-text gr">COND. PAGO:</th>
                 <td>CONTADO</td>
                 
@@ -42,11 +42,11 @@
             <tr>
                 <th colspan="3" class=" bold-text"></th>
                 <th colspan="1" class=" bold-text gr">CORREO:</th>
-                <td colspan="1" class="crece"><?php echo htmlspecialchars($resultado[0]['cliente_correo']); ?></td>
+                <td colspan="1" class="crece"><?php echo htmlspecialchars($resultado[0]['correo']); ?></td>
                 <th colspan="1" class=" bold-text gr">CONTACTO:</th>
-                <td colspan="1" class="crece2"><?php echo htmlspecialchars($resultado[0]['cliente_contacto']); ?></td>
+                <td colspan="1" class="crece2"><?php echo htmlspecialchars($resultado[0]['contacto']); ?></td>
                 <th class=" bold-text gr">TELÉFONO:</th>
-                <td colspan="1" class="crece3"><?php echo htmlspecialchars($resultado[0]['cliente_telefono']); ?></td>
+                <td colspan="1" class="crece3"><?php echo htmlspecialchars($resultado[0]['telefono']); ?></td>
             </tr>
         </table>
         <table class="items-table">
