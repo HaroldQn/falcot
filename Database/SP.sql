@@ -325,6 +325,8 @@ END $$
 call spu_calcular_totales(1)
 select * from orden_compra;
 select * from detalle_orden_compra;
+insert into detalle_orden_compra(idordencompra,item,centro,descripcion,cantidad,utm,preciounitario)
+values(14,2,1,'prueba,',3,'KG',33);
 
 
 
