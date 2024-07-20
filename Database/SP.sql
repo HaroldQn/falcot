@@ -267,6 +267,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- ESTA FUNCION TIENES QUE VOLVERLA A EJECUTAR
 DELIMITER $$
 CREATE PROCEDURE spu_obetner_orden_compra(
 	IN _idordencompra INT
@@ -281,6 +282,12 @@ BEGIN
         oc.destino,
         oc.original,
         oc.estado,
+
+        oc.celular,
+        oc.telefeno,
+        oc.contacto,
+        oc.correo,
+
 		oc.observaciones,
         u.nombres AS usuario_nombres,
         u.apellidos AS usuario_apellidos,
@@ -298,6 +305,8 @@ BEGIN
         INNER JOIN empresas_cliente ec ON oc.idcliente = ec.idempresacliente
 	WHERE idordencompra = _idordencompra;
 END $$
+
+-- ---------------------------------------------------------------
 
 DELIMITER $$
 CREATE PROCEDURE obtener_detalle_orden_compra (
