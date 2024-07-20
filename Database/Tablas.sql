@@ -34,6 +34,8 @@ estado 		CHAR(1) 		DEFAULT(1),
 CONSTRAINT 	uk_rol_roles UNIQUE(rol)
 )ENGINE = INNODB;
 
+select * from roles;
+
 
 
 CREATE TABLE usuarios(
@@ -118,6 +120,8 @@ estado				CHAR(1) 		DEFAULT(1),
 CONSTRAINT fk_iddetalleusuario_orden_compra FOREIGN KEY(iddetalleusuario) REFERENCES detalle_usuarios(iddetalleusuario),
 CONSTRAINT fk_idcliente_orden_compra FOREIGN KEY(idcliente) REFERENCES empresas_cliente(idempresacliente)
 )ENGINE = INNODB; 
+
+select * from orden_compra;
 
 
 

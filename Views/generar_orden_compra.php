@@ -42,7 +42,7 @@
   </div>
 </div>
 
-<div class="mb-5  p-3 bg-body ">
+<div class="mb-5  p-3 bg-body" id="div-1">
   <form action="" id="formulario-orden-pago">
     <div class="row mb-3">
       <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
@@ -600,13 +600,19 @@
       subtotal += parseFloat(field.value) || 0;
     });
 
-    document.getElementById('subtotal').value = subtotal.toFixed(2);
+    subtotal_p = document.getElementById('subtotal').value = subtotal.toFixed(2);
+    impuesto_f = subtotal * 0.18;
 
-    let impuesto = parseFloat(document.getElementById('impuesto').value) || 0;
+    document.getElementById('impuesto').value = impuesto_f.toFixed(2);
     let descuento = parseFloat(document.getElementById('descuento').value) || 0;
 
-    let totalConImpuesto = subtotal + (subtotal * (impuesto / 100));
+    const max = document.getElementById('descuento');
+
+    let totalConImpuesto = subtotal + impuesto_f;
+    max.setAttribute("max", totalConImpuesto);
+
     let totalFinal = totalConImpuesto - descuento;
+
 
     document.getElementById('total').value = totalFinal.toFixed(2);
   }
