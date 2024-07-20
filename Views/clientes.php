@@ -28,7 +28,7 @@
             <th scope="col">Razon social</th>
             <th scope="col">Ruc</th>
             <th scope="col">Dirección</th>
-            <th scope="col">Telefono</th>
+            <th scope="col">Teléfono</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>
@@ -52,26 +52,22 @@
             <label for="razonSocial" class="form-label">Ingrese Razon social</label>
             <input type="text" class="form-control" id="razonSocial" maxlength="60" required>
 
+            <div class="row mb-2 mt-1">
+              <div class="col col-sm-12">
+                <label for="direccion" class="form-label">Ingrese dirección</label>
+                <input type="text" class="form-control mb-1" id="direccion" maxlength="60" required>
+              </div>
+            </div>
+
             <div class="row mt-2">
               <div class="col col-md-6">
-                <label for="actividadEconomica" class="form-label">Actividad Economica</label>
-                <input type="text" class="form-control mb-1" id="actividadEconomica" maxlength="60">
+                <label for="numeroDoc" class="form-label">Ingrese ruc</label>
+                <input type="tel" maxlength="12" class="form-control" id="numeroDoc" required>
               </div>
 
               <div class="col col-md-6">
                 <label for="correo" class="form-label">Correo</label>
-                <input type="text" class="form-control mb-1" id="correo" maxlength="30">
-              </div>
-            </div>
-
-            <div class="row mb-2">
-              <div class="col col-sm-6">             
-                <label for="numeroDoc" class="form-label">Ingrese NumeroDoc</label>
-                <input type="number" class="form-control" id="numeroDoc" required>
-              </div>
-              <div class="col col-sm-6">
-                <label for="direccion" class="form-label">Ingrese dirección</label>
-                <input type="text" class="form-control mb-1" id="direccion" maxlength="60" required>
+                <input type="text" class="form-control mb-1" id="correo" maxlength="40">
               </div>
             </div>
 
@@ -98,20 +94,32 @@
 
             <div class="row mb-2">
               <div class="col col-sm-6">
+                <label for="celular" class="form-label">Celular</label>
+                <input type="tel" maxlength="9" class="form-control mb-1" id="celular">
+              </div>
+
+              <div class="col col-sm-6">
+                <label for="contacto" class="form-label">Contacto</label>
+                <input type="text" class="form-control mb-1" id="contacto" maxlength="40">
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col col-sm-6">
                 <label for="telefono" class="form-label">Teléfono</label>
-                <input type="number" class="form-control mb-1" id="telefono">
+                <input type="tel" maxlength="12" class="form-control mb-1" id="telefono">
               </div>
 
               <div class="col col-sm-6">
                 <label for="ubigeo" class="form-label">Ubigeo</label>
-                <input type="text" class="form-control mb-1" id="ubigeo" maxlength="60">
+                <input type="text" class="form-control mb-1" id="ubigeo" maxlength="12">
               </div>
             </div>
 
           </div>
           <div class="modal-footer" style="background-color:#ABB2B9">
             <button type="button" class="btn btn-secondary flex-fill" data-bs-dismiss="modal">cerrar</button>
-            <button type="submit" id="btnGuardar" class="btn btn-primary flex-fill">Guardar</button>
+            <button type="submit" id="btnGuardar" data-bs-dismiss="modal" class="btn btn-primary flex-fill">Guardar</button>
           </div>
         </form>
     </div>

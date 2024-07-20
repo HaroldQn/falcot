@@ -63,7 +63,7 @@ class Cliente extends Conexion{
 
   public function registrarCliente($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spRegistrarEmpresaCliente(?,?,?,?,?,?,?,?)");
+      $consulta = $this->conexion->prepare("CALL spRegistrarEmpresaCliente(?,?,?,?,?,?,?,?,?)");
       $consulta->execute(
         array(
           $datos['razonSocial'],
@@ -72,8 +72,9 @@ class Cliente extends Conexion{
           $datos['correo'],
           $datos['iddistrito'],
           $datos['ubigeo'],
-          $datos['actividadEconomica'],
-          $datos['telefono']
+          $datos['telefono'],
+          $datos['celular'],
+          $datos['contacto']
         )
       );
       return $consulta->fetchAll(PDO::FETCH_ASSOC);
@@ -106,7 +107,7 @@ class Cliente extends Conexion{
 
   public function editarCliente($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spEditarEmpresaCliente(?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->conexion->prepare("CALL spEditarEmpresaCliente(?,?,?,?,?,?,?,?,?,?)");
       $consulta->execute(
         array(
           $datos['idempresacliente'],
@@ -116,8 +117,9 @@ class Cliente extends Conexion{
           $datos['correo'],
           $datos['iddistrito'],
           $datos['ubigeo'],
-          $datos['actividadEconomica'],
-          $datos['telefono']
+          $datos['telefono'],
+          $datos['celular'],
+          $datos['contacto']
         )
       );
       return $consulta->fetchAll(PDO::FETCH_ASSOC);

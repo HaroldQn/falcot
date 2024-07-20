@@ -39,8 +39,9 @@ if(isset($_POST['operacion'])){
         'correo'              => $_POST['correo'],
         'iddistrito'          => $_POST['iddistrito'],
         'ubigeo'              => $_POST['ubigeo'],
-        'actividadEconomica'  => $_POST['actividadEconomica'],
         'telefono'            => $_POST['telefono'],
+        'celular'            => $_POST['celular'],
+        'contacto'            => $_POST['contacto'],
       ];
       echo json_encode($clientes->registrarCliente($datosEnviar));
       break; 
@@ -71,8 +72,9 @@ if(isset($_POST['operacion'])){
         'correo'              => $_POST['correo'],
         'iddistrito'          => $_POST['iddistrito'],
         'ubigeo'              => $_POST['ubigeo'],
-        'actividadEconomica'  => $_POST['actividadEconomica'],
         'telefono'            => $_POST['telefono'],
+        'celular'            => $_POST['celular'],
+        'contacto'            => $_POST['contacto'],
       ];
       echo json_encode($clientes->editarCliente($datosEnviar));
       break; 

@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const crearUsuario = document.getElementById("crear-usuario");
   const formulario = document.getElementById("form-modal");
   const btnGuardar = document.getElementById("btnGuardar");
-  const modalvisor = new bootstrap.Modal(document.getElementById('modal-cliente'));
+  const modalvisor = new bootstrap.Modal('#modal-cliente');
+  const modalTitle = document.getElementById("titulo-modal")
 
   // varible bandera y el id del cliente
   let bandera = true
@@ -15,11 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
   // Funciones para traer y renderizar los datos de las regiones
 
   function bloquearCampos(){
+    let razonSocial = document.getElementById("razonSocial")
+    let ruc = document.getElementById("numeroDoc")
 
+    razonSocial.setAttribute("readonly", true)
+    ruc.setAttribute("readonly", true)
   }
 
   function desbloquearCampos(){
-    
+    let razonSocial = document.getElementById("razonSocial")
+    let ruc = document.getElementById("numeroDoc")
+
+    razonSocial.removeAttribute("readonly")
+    ruc.removeAttribute("readonly")
   }
 
   function obtenerDepartamentos(){
@@ -230,9 +239,11 @@ document.addEventListener("DOMContentLoaded", () => {
     btnModificar.forEach(function(boton) {
       boton.addEventListener("click", function(event) {
         bandera = false
+        modalTitle.innerHTML="Editar Cliente";
         let id = event.currentTarget.dataset.id;
         IDcliente = id;
-        obtenerClientePorId(id)
+        obtenerClientePorId(id);
+        bloquearCampos();
       });
     });
 
@@ -251,12 +262,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(datos => {
         console.log(datos)
         razonSocial.value = datos.razonSocial;
-        actividadEconomica.value = datos.actividadEconomica;
         correo.value = datos.correo;
         numeroDoc.value = datos.nroDocumento;
         direccion.value = datos.direccion;
         telefono.value = datos.telefono;
         ubigeo.value = datos.ubigeo;
+        celular.value = datos.celular;
+        contacto.value = datos.contacto;
         selectDepartamento.value = datos.iddepartamento;
         obtenerProvinciasEditar(datos.iddepartamento,datos.idprovincia);
         // obtenerDistritos(datos.idprovincia);
@@ -295,8 +307,10 @@ document.addEventListener("DOMContentLoaded", () => {
     parametros.append("correo", correo.value)
     parametros.append("iddistrito",distrito.value)
     parametros.append("ubigeo",ubigeo.value)
-    parametros.append("actividadEconomica",actividadEconomica.value)
+    // parametros.append("actividadEconomica",actividadEconomica.value)
     parametros.append("telefono",telefono.value)
+    parametros.append("celular",celular.value)
+    parametros.append("contacto",contacto.value)
 
     fetch(`../Controllers/cliente.controller.php`, {
       method: "POST",
@@ -322,8 +336,10 @@ document.addEventListener("DOMContentLoaded", () => {
     parametros.append("correo", correo.value)
     parametros.append("iddistrito",distrito.value)
     parametros.append("ubigeo",ubigeo.value)
-    parametros.append("actividadEconomica",actividadEconomica.value)
+    // parametros.append("actividadEconomica",actividadEconomica.value)
     parametros.append("telefono",telefono.value)
+    parametros.append("celular",celular.value)
+    parametros.append("contacto",contacto.value)
 
     fetch(`../Controllers/cliente.controller.php`, {
       method: "POST",
@@ -340,19 +356,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   crearUsuario.addEventListener("click", function(){
     bandera = true
+    desbloquearCampos();
+    modalTitle.innerHTML="Registrar Cliente";
     formulario.reset();
   });
 
-  btnGuardar.addEventListener("click", function(){
+  btnGuardar.addEventListener("click", function(event){
+
     if (!formulario.checkValidity()) { return; }
+
+    event.preventDefault();
+    
+
     if(bandera){
       registrarCliente();
-      modalvisor.hide();
       
     }else{
       // console.log("bandera FALSE")
       // console.log(IDcliente)
       editarCliente(IDcliente)
+
     }
   })
 

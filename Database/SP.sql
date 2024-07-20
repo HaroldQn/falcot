@@ -136,7 +136,7 @@ BEGIN
         EMPCLI.nroDocumento, EMPCLI.direccion, EMPCLI.correo,
         DIS.distrito, PRO.provincia, DEP.departamento,
         EMPCLI.iddistrito, PRO.idprovincia, PRO.iddepartamento, EMPCLI.ubigeo,
-        EMPCLI.actividadEconomica, EMPCLI.telefono
+        EMPCLI.actividadEconomica, EMPCLI.telefono, EMPCLI.celular, EMPCLI.contacto
     FROM empresas_cliente EMPCLI 
 		INNER JOIN distritos DIS ON EMPCLI.iddistrito = DIS.iddistrito
         INNER JOIN provincias PRO ON DIS.idprovincia = PRO.idprovincia
@@ -154,7 +154,7 @@ BEGIN
         EMPCLI.nroDocumento, EMPCLI.direccion, EMPCLI.correo,
         DIS.distrito, PRO.provincia, DEP.departamento,
         EMPCLI.iddistrito, EMPCLI.ubigeo,
-        EMPCLI.actividadEconomica, EMPCLI.telefono
+        EMPCLI.actividadEconomica, EMPCLI.telefono, EMPCLI.celular, EMPCLI.contacto
     FROM empresas_cliente EMPCLI 
 		INNER JOIN distritos DIS ON EMPCLI.iddistrito = DIS.iddistrito
         INNER JOIN provincias PRO ON DIS.idprovincia = PRO.idprovincia
@@ -195,12 +195,13 @@ CREATE PROCEDURE spRegistrarEmpresaCliente (
 	IN _correo				VARCHAR(60),
     IN _iddistrito 			INT,
     IN _ubigeo 				CHAR(12),
-    IN _actividadEconomica 	VARCHAR(70),
-    IN _telefono 			CHAR(12)
+    IN _telefono 			CHAR(12),
+    IN _celular				CHAR(10),
+    IN _contacto			VARCHAR(40)
 )
 BEGIN
-    INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, correo, iddistrito, ubigeo, actividadEconomica, telefono)
-    VALUES (_razonSocial, _nroDocumento, _direccion, _correo, _iddistrito, _ubigeo, _actividadEconomica, _telefono);
+    INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, correo, iddistrito, ubigeo, telefono, celular, contacto)
+    VALUES (_razonSocial, _nroDocumento, _direccion, _correo, _iddistrito, _ubigeo, _telefono, _celular, _contacto);
 END //
 DELIMITER ;
 
@@ -213,8 +214,9 @@ CREATE PROCEDURE spEditarEmpresaCliente (
 	IN _correo				VARCHAR(60),
     IN _iddistrito 			INT,
     IN _ubigeo 				CHAR(12),
-    IN _actividadEconomica 	VARCHAR(70),
-    IN _telefono 			CHAR(12)
+    IN _telefono 			CHAR(12),
+    IN _celular				CHAR(10),
+    IN _contacto			VARCHAR(40)
 )
 BEGIN
     UPDATE empresas_cliente
@@ -225,8 +227,9 @@ BEGIN
         correo				= _correo,
         iddistrito   		= _iddistrito,
         ubigeo       		= _ubigeo,
-        actividadEconomica 	= _actividadEconomica,
         telefono     		= _telefono,
+        celular				= _celular,
+        contacto			= _contacto,
         fechaEdicion 		= NOW()
     WHERE idempresacliente = _idempresacliente;
 END //
