@@ -13,6 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let IDcliente = 0;
 
   // Funciones para traer y renderizar los datos de las regiones
+
+  function bloquearCampos(){
+
+  }
+
+  function desbloquearCampos(){
+    
+  }
+
   function obtenerDepartamentos(){
     let parametros = new FormData();
     parametros.append("operacion","listar_departamentos")
@@ -57,6 +66,36 @@ document.addEventListener("DOMContentLoaded", () => {
           const option = document.createElement('option');
           option.value = dato.idprovincia;
           option.textContent = dato.provincia;
+          selectProvincia.appendChild(option);
+        });
+      })
+      .catch((error) => {
+          console.log(error);
+      });
+  }
+
+  function obtenerProvinciasEditar(id, idprovincia){
+    let parametros = new FormData();
+    parametros.append("operacion","listar_provincias")
+    parametros.append("iddepartamento",id)
+
+    fetch(`../Controllers/region.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+      .then(res => res.json())
+      .then(datos => {
+        //  console.log(datos)   
+          selectProvincia.innerHTML ="";
+         datos.forEach(dato => {
+          const option = document.createElement('option');
+          option.value = dato.idprovincia;
+          option.textContent = dato.provincia;
+
+          if (dato.idprovincia === idprovincia) {
+            option.selected = true;
+          }
+
           selectProvincia.appendChild(option);
         });
       })
@@ -126,7 +165,8 @@ document.addEventListener("DOMContentLoaded", () => {
   selectDepartamento.addEventListener("change",function (event){
     let idprovincia = selectDepartamento.value;
     obtenerProvincias(idprovincia)
-    selectDistrito.innerHTML="<option value=''>Seleccione</option>"
+    selectDistrito.innerHTML="";
+    selectDistrito.innerHTML="<option value=''>Seleccione</option>";
   })
 
   selectProvincia.addEventListener("change",function (event){
@@ -218,8 +258,8 @@ document.addEventListener("DOMContentLoaded", () => {
         telefono.value = datos.telefono;
         ubigeo.value = datos.ubigeo;
         selectDepartamento.value = datos.iddepartamento;
-        obtenerProvincias(datos.iddepartamento);
-        obtenerDistritos(datos.idprovincia);
+        obtenerProvinciasEditar(datos.iddepartamento,datos.idprovincia);
+        // obtenerDistritos(datos.idprovincia);
         renderizarDistrito(datos.idprovincia,datos.iddistrito);
 
       })

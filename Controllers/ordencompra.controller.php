@@ -41,7 +41,7 @@ if(isset($_POST['operacion'])){
         'moneda'            =>$_POST['moneda'],
         'fechaCreacion'     =>$_POST['fechaCreacion'],
         'descuento'         =>$_POST['descuento'],
-        'grupoCompra'       =>$_POST['grupoCompra'],
+        'grupoCompra'       =>"",
         'destino'           =>$_POST['destino'],
         'observaciones'     =>$_POST['observaciones'],
         'condicionpago'     =>$_POST['condicionpago'],

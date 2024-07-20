@@ -35,7 +35,7 @@ try {
 
     $html2pdf->pdf->SetDisplayMode('fullpage');
     $html2pdf->writeHTML($content);
-    $html2pdf->output('reporte-diario.pdf');
+    $html2pdf->output('orden-compra-'.$id.'.pdf');
 } catch (Html2PdfException $e) {
     $html2pdf->clean();
 

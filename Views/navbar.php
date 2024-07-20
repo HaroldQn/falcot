@@ -24,29 +24,29 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
-<body style="background-color: #F2F5F6" data-idusuario="<?php echo isset($_SESSION['idusuario']) ? $_SESSION['idusuario'] : ''; ?>">
-    <div class="container">
-        <nav class="navbar navbar-expand-sm navbar-light">
-            <a class="navbar-brand" href="#"><strong>FalcotTechnology</strong></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+<body style="background-color:#E5E8E8" data-idusuario="<?php echo isset($_SESSION['idusuario']) ? $_SESSION['idusuario'] : ''; ?>">
+    <div class="bg-dark">
+        <nav class="navbar navbar-expand-sm navbar-light w-100">
+            <a class="navbar-brand text-light" href="#"><strong>FalcotTechnology</strong> <?php echo ($_SESSION["nombres"] ." ".$_SESSION["apellidos"]);?></a>
+            <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon text-light"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="./ordenes_compra.php">Lista de Ordenes</a>
+                        <a class="nav-link text-light fw-bolder" href="./ordenes_compra.php"><strong>Lista de Ordenes</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./generar_orden_compra.php">Generar orden</a>
+                        <a class="nav-link text-light fw-bolder" href="./generar_orden_compra.php"><strong>Generar orden</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./clientes.php">Clientes</a>
+                        <a class="nav-link text-light fw-bolder" href="./clientes.php"><strong>Clientes</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./usuarios.php">Usuarios</a>
+                        <a class="nav-link text-light fw-bolder" href="./usuarios.php"><strong>Usuarios</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../Controllers/usuarioLogin.controller.php?operacion=destroy">Cerrar sesión</a>
+                        <a class="nav-link text-light fw-bolder" href="../Controllers/usuarioLogin.controller.php?operacion=destroy"><strong><i class="bi bi-box-arrow-left"></i></strong></a>
                     </li>
                 </ul>
             </div>

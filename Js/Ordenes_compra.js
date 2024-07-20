@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnFechaFiltro.value = formattedDate
   }
 
+
   function obtenerOrdenesCompra(){
     let fecha = btnFechaFiltro.value
     let fechaSTR = String(fecha)
@@ -30,10 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(datos => {
 
         if(datos.length > 0){
+            console.log(datos)
             renderizarTabla(datos);
         }else{
             tabla.innerHTML = '';
-            tabla.innerHTML = '<tr><td colspan="4" class="table-active">No se econtraron ordenes este día</td></tr>';
+            tabla.innerHTML = '<tr><td colspan="5" class="table-active">No se econtraron ordenes de compra este día</td></tr>';
 
         }
 
@@ -95,7 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
             } else if (dato.estado == 2) {
                 verificar = `
-                    <button class="btn btn-success aceptado" data-id="${dato.idordencompra}">Aceptado</button>
+                  <a href="../reports/pdf_orden_compra.php?idordencompra=${dato.idordencompra}" download='orden-compra-${dato.idordencompra}'
+                  type="button" class="btn btn-success aceptado" data-id="${dato.idordencompra}">Aceptado</a>
                 `;
             } else if (dato.estado == 0) {
                 verificar = `
@@ -109,7 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
             } else if (dato.estado == 2) {
                 verificar = `
-                    <button class="btn btn-success aceptado" data-id="${dato.idordencompra}">Aceptado</button>
+                  <a href="../reports/pdf_orden_compra.php?idordencompra=${dato.idordencompra}" download='orden-compra-${dato.idordencompra}'
+                    type="button" class="btn btn-success aceptado" data-id="${dato.idordencompra}">Aceptado</a>
                 `;
             } else if (dato.estado == 0) {
                 verificar = `
@@ -122,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <tr>
                 <td>${numFila}</td>
                 <td>${dato.razonSocial}</td>
+                <td>${dato.nroDocumento}</td>
                 <td>${dato.fechaCreacion}</td>
                 <td d-flex justify-content-around>${verificar}</td>
             </tr>

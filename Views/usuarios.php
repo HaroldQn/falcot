@@ -10,7 +10,7 @@
 
 <?php require_once './navbar.php'; ?>
     <div class="container">
-        <h1 class="text-center m-3">Gestion de Usuario</h1>
+        <h3 class="text-center m-3">Gestión de Usuarios</h3>
     <div class="container row mb-3 mt-3">
         <div class="col col-md-4">
         </div>

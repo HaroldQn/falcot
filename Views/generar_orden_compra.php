@@ -19,7 +19,7 @@
 </head>
 <body class="">
 
-<div class="container">
+<div class="container mt-3" >
   <h3 class="text-center">GENERAR ORDEN DE COMPRA</h3>
 </div>
 
@@ -163,15 +163,15 @@
   
     <hr>
     <div class="row">
-      <div class="col-12 col-md-3">
+      
+      <div class="col-12 col-md-9">
         <input type="text" class="form-control" id="observaciones" maxlength="50" placeholder="OBSERVACIONES">
+        <input type="text" class="form-control mt-3" id="destino"  maxlength="60" placeholder="DESTINO">
+
       </div>
-      <div class="col-12 col-md-3">
-        <input type="text" class="form-control" id="grupoCompra"  maxlength="40" placeholder="GRUPO DE COMPRA">
-      </div>
-      <div class="col-12 col-md-3">
-        <input type="text" class="form-control" id="destino"  maxlength="40" placeholder="DESTINO">
-      </div>
+
+
+
       <div class="col-12 col-md-3">
         <div class="form-group row">
           <label for="subtotal" class="col-sm-4 col-form-label">SUBTOTAL:</label>
@@ -199,7 +199,7 @@
         </div>
         
         <div class="row">
-          <button type="submit" class="btn btn-success flex-fill" id="finalizarOrdenCompra">Finalzar</button>
+          <button type="button " class="btn btn-success flex-fill" id="finalizarOrdenCompra">Finalzar</button>
         </div>
       </div>
     </div>
@@ -235,6 +235,7 @@
 <script>
 
   // Instanciamos Elementos
+  destino.value = 'CAL. LUIS GALVEZ RONCEROS 230 C. P.  SANTA ROSA';
   const fechaInput = document.getElementById('fechaInput');
   const btnRenderizarFila = document.getElementById("renderizar-fila");
   const btnBuscarClienteSistema = document.getElementById("btnBuscarClienteSistema");
@@ -292,7 +293,7 @@
     parametros.append("moneda", moneda.value)
     parametros.append("fechaCreacion", fechaInput.value)
     parametros.append("descuento", descuento_verificado)
-    parametros.append("grupoCompra", grupoCompra.value)
+    // parametros.append("grupoCompra", grupoCompra.value)
     parametros.append("destino", destino.value)
     parametros.append("observaciones", observaciones.value)
     parametros.append("condicionpago", condPago.value)
@@ -399,7 +400,7 @@
 
 
   btnFinalizarOrdenCompra.addEventListener("click",function(event){
-    
+    // console.log("fok")
     // console.log("DSasd")
     if (!formOrdePago.checkValidity()) {
       return;

@@ -322,9 +322,7 @@ BEGIN
     SET total = (subtotal + igv) - descuento_final;
     SELECT subtotal AS Subtotal, igv AS IGV, descuento_final AS Descuento, total AS Total;
 END $$
-call spu_calcular_totales(1)
-select * from orden_compra;
-select * from detalle_orden_compra;
+
 
 
 
@@ -374,14 +372,14 @@ CREATE PROCEDURE spListarOrdenCompraPorRol(
 BEGIN
     IF _fechaCreacion IS NULL OR _fechaCreacion = '' THEN
         -- List all orders if _fechaCreacion is NULL
-        SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial, ORDCOMP.fechaCreacion, ORDCOMP.estado 
+        SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial, EMPRCLI.nroDocumento, ORDCOMP.fechaCreacion, ORDCOMP.estado 
         FROM orden_compra ORDCOMP
         INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
         INNER JOIN detalle_usuarios DETUSU ON ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
         INNER JOIN usuarios USU ON DETUSU.idusuario = USU.idusuario;
     ELSE
         -- Filter orders by _fechaCreacion
-        SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial, ORDCOMP.fechaCreacion, ORDCOMP.estado 
+        SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial,  EMPRCLI.nroDocumento,ORDCOMP.fechaCreacion, ORDCOMP.estado 
         FROM orden_compra ORDCOMP
         INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
         INNER JOIN detalle_usuarios DETUSU ON ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
@@ -399,7 +397,7 @@ IN 	_moneda 		    VARCHAR(10),
 IN 	_fechaCreacion    	DATE,
 IN 	_descuento		 	CHAR(6),
 IN  _grupoCompra		VARCHAR(15),
-IN  _destino			VARCHAR(20),
+IN  _destino			VARCHAR(60),
 IN  _observaciones 		VARCHAR(60),
 IN  _condicionPago      VARCHAR(40)
 )

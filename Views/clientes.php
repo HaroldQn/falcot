@@ -9,13 +9,13 @@
 ?>
 <?php require_once './navbar.php'; ?>
   <div class="container">
-    <h1 class="text-center m-3">Clientes </h1>
+    <h3 class="text-center m-3">Gestión de Clientes </h3>
   <div class="container row mb-3 mt-3">
       <div class="col col-md-4">
       </div>
       <div class="col col-md-4"></div>
       <div class="col col-md-4 d-flex justify-content-end">
-      <button type="button" class="btn btn-success mb-1" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
+        <button type="button" class="btn btn-success mb-1" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
       </div>
   </div>
 
@@ -43,16 +43,16 @@
 <div class="modal fade" id="modal-cliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header text-center">
-        <h1 class="modal-title " id="titulo-modal">Agregar nuevo cliente</h1>
+      <div class="modal-header d-flex justify-content-center bg-dark" >
+        <h3 class="modal-title text-light" id="titulo-modal">Agregar nuevo cliente</h3>
       </div>
       <form action="" id="form-modal" autocomplete="off">
-        <div class="modal-body">
+        <div class="modal-body "style="background-color:#E5E8E8">
 
             <label for="razonSocial" class="form-label">Ingrese Razon social</label>
             <input type="text" class="form-control" id="razonSocial" maxlength="60" required>
 
-            <div class="row">
+            <div class="row mt-2">
               <div class="col col-md-6">
                 <label for="actividadEconomica" class="form-label">Actividad Economica</label>
                 <input type="text" class="form-control mb-1" id="actividadEconomica" maxlength="60">
@@ -70,7 +70,7 @@
                 <input type="number" class="form-control" id="numeroDoc" required>
               </div>
               <div class="col col-sm-6">
-                <label for="direccion" class="form-label">Ingrese direccion</label>
+                <label for="direccion" class="form-label">Ingrese dirección</label>
                 <input type="text" class="form-control mb-1" id="direccion" maxlength="60" required>
               </div>
             </div>
@@ -98,7 +98,7 @@
 
             <div class="row mb-2">
               <div class="col col-sm-6">
-                <label for="telefono" class="form-label">Telefono</label>
+                <label for="telefono" class="form-label">Teléfono</label>
                 <input type="number" class="form-control mb-1" id="telefono">
               </div>
 
@@ -109,7 +109,7 @@
             </div>
 
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" style="background-color:#ABB2B9">
             <button type="button" class="btn btn-secondary flex-fill" data-bs-dismiss="modal">cerrar</button>
             <button type="submit" id="btnGuardar" class="btn btn-primary flex-fill">Guardar</button>
           </div>

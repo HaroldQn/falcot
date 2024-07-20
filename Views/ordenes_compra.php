@@ -9,8 +9,8 @@
   $idrol = isset($_SESSION['idrol']) ? $_SESSION['idrol'] : '';
 ?>
 <?php require_once './navbar.php'; ?>
-<div class="container text-center">
-  <h1>ORDENES DE COMPRA</h1>
+<div class="container text-center mt-3">
+  <h3>ORDENES DE COMPRA</h3>
 </div>
 
 <div class="container">
@@ -20,7 +20,6 @@
       <input type="date" class="form-control" id="fecha-filtrar">
     </div>
     <div class="col col-md-4">
-
     </div>
     <div class="col col-md-4"></div>
   </div>
@@ -32,9 +31,10 @@
     <thead class="table-dark" >
       <tr>
         <th scope="col" width="10%">#</th>
-        <th scope="col" width="60%">Razon social</th>
-        <th scope="col" width="15%">fecha</th>
-        <th scope="col" width="15%">estado</th>
+        <th scope="col" width="45%">Razon social</th>
+        <th scope="col" width="15%">ruc</th>
+        <th scope="col" width="15%">Fecha</th>
+        <th scope="col" width="15%">Estado</th>
       </tr>
     </thead>
     <tbody>
