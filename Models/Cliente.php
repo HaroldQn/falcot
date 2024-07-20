@@ -142,6 +142,24 @@ class Cliente extends Conexion{
     }
   }
 
+  public function editarCLienteEnOrdenCompra($datos=[]){
+    try {
+      $consulta = $this->conexion->prepare("CALL spEditarClienteEnOrdenCompra(?,?,?,?,?)");
+      $consulta->execute(
+        array(
+          $datos['idcliente'],
+          $datos['celular'],
+          $datos['correo'],
+          $datos['contacto'],
+          $datos['telefono']
+        )
+      );
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die ($e->getMessage());
+    }
+  }
+
 
 
 }

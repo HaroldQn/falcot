@@ -133,13 +133,13 @@
           <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
+          <input type="tel" class="form-control" name="centro" maxlength="10" min="0"  placeholder="CENTRO" required>
         </div>
         <div class="col-12 col-md-4 mb-3 mb-md-0">
           <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+          <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" min="1"  placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
           <select type="text" class="form-control" name="unidad" required>
@@ -182,13 +182,13 @@
         <div class="form-group row">
           <label for="impuesto" class="col-sm-4 col-form-label">IMPUESTO:</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO">
+            <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO" readonly>
           </div>
         </div>
         <div class="form-group row">
           <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            <input type="number" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
           </div>
         </div>
         <div class="form-group row">
@@ -245,6 +245,29 @@
   const formOrdePago = document.getElementById('formulario-orden-pago');
 
 
+  function editar_cliente_existe(idcliente){
+    const parametros = new FormData();
+    parametros.append("operacion","editar_cliente_orden_compra")
+    parametros.append("idcliente",idcliente)
+    parametros.append("celular", celular.value)
+    parametros.append("correo", correo.value)
+    parametros.append("contacto", contacto.value)
+    parametros.append("telefono", telefono.value)
+
+    fetch(`../Controllers/cliente.controller.php`, {
+      method: "POST",
+      body: parametros
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Actualizado")
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+  }
+
+
   function registrarClienteApi(){
     const parametros = new FormData();
     parametros.append("operacion","registrar_clientes_api")
@@ -297,6 +320,10 @@
     parametros.append("destino", destino.value)
     parametros.append("observaciones", observaciones.value)
     parametros.append("condicionpago", condPago.value)
+    parametros.append("celular", celular.value)
+    parametros.append("telefono", telefono.value)
+    parametros.append("contacto", contacto.value)
+    parametros.append("correo", correo.value)
 
     fetch(`../Controllers/ordencompra.controller.php`, {
       method: "POST",
@@ -356,7 +383,8 @@
         console.log(datos)
         if(datos.exists == 1){
           console.log("el registro existe")
-          registrarOrdenCompra()
+          editar_cliente_existe(IDcliente)
+          registrarOrdenCompra();
 
         }else if(datos.exists == 0){
           "el registro no existe"
@@ -558,6 +586,8 @@
         ruc.value = datos.nroDocumento;
         direccion.value = datos.direccion;
         telefono.value = datos.telefono;
+        contacto.value = datos.contacto;
+        celular.value = datos.celular;
         // ubigeo.value = datos.ubigeo;
         // selectDepartamento.value = datos.iddepartamento;
         // obtenerProvincias(datos.iddepartamento);

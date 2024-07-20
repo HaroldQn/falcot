@@ -12,7 +12,7 @@ class OrdenCompra extends Conexion{
 
   public function registrarOrdenCompra($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spCrearOrdenCompra(?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->conexion->prepare("CALL spCrearOrdenCompra(?,?,?,?,?,?,?,?,?,?,?,?,?)");
       $consulta->execute(
         array(
           $datos['iddetalleusuario'],
@@ -23,7 +23,11 @@ class OrdenCompra extends Conexion{
           $datos['grupoCompra'],
           $datos['destino'],
           $datos['observaciones'],
-          $datos['condicionpago']
+          $datos['condicionpago'],
+          $datos['celular'],
+          $datos['telefono'],
+          $datos['contacto'],
+          $datos['correo'],
         )
       );
       return $consulta->fetch(PDO::FETCH_ASSOC);

@@ -87,6 +87,19 @@ if(isset($_POST['operacion'])){
       ];
       echo json_encode($clientes->eliminarEmpresaCliente($datosEnviar));
       break; 
+  
+
+    case 'editar_cliente_orden_compra':
+
+      $datosEnviar = [
+        'idcliente'     => $_POST['idcliente'],
+        'celular'       => $_POST['celular'],
+        'correo'        => $_POST['correo'],
+        'contacto'      => $_POST['contacto'],
+        'telefono'      => $_POST['telefono'],
+      ];
+      echo json_encode($clientes->editarCLienteEnOrdenCompra($datosEnviar));
+      break; 
   }
 }
 

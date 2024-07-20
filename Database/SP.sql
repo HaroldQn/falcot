@@ -235,6 +235,25 @@ BEGIN
 END //
 DELIMITER ;
 
+
+DELIMITER //
+CREATE PROCEDURE spEditarClienteEnOrdenCompra(
+IN _idcliente INT,
+IN _celular CHAR(10),
+IN _correo  VARCHAR(60),
+IN _contacto VARCHAR(40),
+IN _telefono CHAR(12)
+)
+BEGIN
+	UPDATE empresas_cliente SET
+    celular = _celular ,
+    correo  = _correo ,
+    contacto = _contacto,
+    telefono = _telefono
+    WHERE idempresacliente = _idcliente;
+END //
+DELIMITER ;
+
 DELIMITER //
 CREATE PROCEDURE eliminarEmpresaCliente (
     IN _idempresacliente 	INT
@@ -401,13 +420,17 @@ IN 	_descuento		 	CHAR(6),
 IN  _grupoCompra		VARCHAR(15),
 IN  _destino			VARCHAR(60),
 IN  _observaciones 		VARCHAR(60),
-IN  _condicionPago      VARCHAR(40)
+IN  _condicionPago      VARCHAR(40),
+IN  _celular 			CHAR(9),
+IN 	_telefono			CHAR(12),
+IN  _contacto			VARCHAR(40),
+IN  _correo            	VARCHAR(60)
 )
 BEGIN
 	SELECT idempresacliente INTO @idempresacliente FROM empresas_cliente WHERE nroDocumento = _cliente;
     
-	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino, observaciones, condicionPago)
-		VALUES(_iddetalleusuario, @idempresacliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino, _observaciones, _condicionPago);
+	INSERT INTO orden_compra(iddetalleusuario, idcliente, moneda, fechaCreacion, descuento, grupoCompra, destino, observaciones, condicionPago, celular, telefono, contacto, correo)
+		VALUES(_iddetalleusuario, @idempresacliente, _moneda, _fechaCreacion, _descuento, _grupoCompra, _destino, _observaciones, _condicionPago, _celular, _telefono, _contacto, _correo);
         
 	SELECT @@last_insert_id as'idordencompra';
 
