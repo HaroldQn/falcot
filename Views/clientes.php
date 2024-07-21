@@ -27,8 +27,7 @@
             <th scope="col">#</th>
             <th scope="col">Razon social</th>
             <th scope="col">Ruc</th>
-            <th scope="col">Dirección</th>
-            <th scope="col">Teléfono</th>
+            <th scope="col">Celular</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>

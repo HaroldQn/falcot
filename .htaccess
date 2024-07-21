@@ -1,27 +1,27 @@
-RewriteBase /
+# RewriteBase /
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.html -f
-RewriteRule ^([^\.]+)$ $1.html [NC,L]
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME}\.html -f
+# RewriteRule ^([^\.]+)$ $1.html [NC,L]
 
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteCond %{REQUEST_FILENAME}\.php -f
+# RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-RewriteEngine On
+# RewriteEngine On
 
-# Bloquear accesos
+# # Bloquear accesos
 
-RewriteRule ^Controllers/ - [F,L]
-RewriteRule ^Models/ - [F,L]
-RewriteRule ^Js/ - [F,L]
-RewriteRule ^Api/ - [F,L]
-RewriteRule ^Css/ - [F,L]
-RewriteRule ^vendor/ - [F,L]
-RewriteRule ^Database/ - [F,L]
-RewriteRule ^reports/ - [F,L]
-RewriteRule ^Test/ - [F,L]
+# RewriteRule ^Controllers/ - [F,L]
+# RewriteRule ^Models/ - [F,L]
+# RewriteRule ^Js/ - [F,L]
+# RewriteRule ^Api/ - [F,L]
+# RewriteRule ^Css/ - [F,L]
+# RewriteRule ^vendor/ - [F,L]
+# RewriteRule ^Database/ - [F,L]
+# RewriteRule ^reports/ - [F,L]
+# RewriteRule ^Test/ - [F,L]
 
-# mostrar error Personalizado
-ErrorDocument 403 /403.html
+# # mostrar error Personalizado
+# ErrorDocument 403 /403.html

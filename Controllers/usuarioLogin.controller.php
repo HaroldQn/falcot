@@ -31,6 +31,8 @@ if (isset($_POST['operacion'])) {
       $_SESSION["idrol"] = $registro["idrol"];     
       $_SESSION["estado"] = $registro["estado"];     
       $_SESSION["fechaInicio"] = $registro["fechaInicio"];         
+      $_SESSION["fechaInicio"] = $registro["fechaInicio"];
+      $_SESSION["iddetalleusuario"] = $registro["iddetalleusuario"];
 
       if(password_verify($_POST['clave'],$claveEncriptada)){
         $_SESSION["status"]= TRUE;

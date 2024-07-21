@@ -155,7 +155,7 @@
           </select>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+          <input type="number" class="form-control precio" name="precio" min="0" maxlength="15" placeholder="PRECIO U." required>
         </div>
         <div class="col-12 col-md-2 mb-3 mb-md-0">
           <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -193,7 +193,7 @@
         <div class="form-group row">
           <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
           <div class="col-sm-8">
-            <input type="number" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            <input type="number" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO" min="0" >
           </div>
         </div>
         <div class="form-group row">
@@ -309,6 +309,8 @@
       });
   }
 
+  let idusu = "<?php echo $_SESSION['iddetalleusuario'] ?>";
+
   function registrarOrdenCompra(){
     let descuento_verificado = descuento.value;
     if (descuento_verificado == null || descuento_verificado == ''){
@@ -316,7 +318,7 @@
     }
     const parametros = new FormData();
     parametros.append("operacion","crear_orden_compra")
-    parametros.append("iddetalleusuario", 1)
+    parametros.append("iddetalleusuario", idusu)
     parametros.append("cliente", ruc.value)
     parametros.append("moneda", moneda.value)
     parametros.append("fechaCreacion", fechaInput.value)
