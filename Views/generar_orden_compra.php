@@ -144,9 +144,14 @@
         <div class="col-12 col-md-1 mb-3 mb-md-0">
           <select type="text" class="form-control" name="unidad" required>
             <option value="">-----</option>
-            <option value="KG">KG</option>
-            <option value="LT">Lt</option>
-            <option value="UNID">UNID</option>
+            <option value="KG">UND</option>
+            <option value="LT">METRO</option>
+            <option value="UNID">KG</option>
+            <option value="UNID">GL</option>
+            <option value="UNID">KIT</option>
+            <option value="UNID">JUEGO</option>
+            <option value="UNID">LT</option>
+            <option value="UNID">LB</option>
           </select>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
@@ -478,9 +483,14 @@
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
           <option value="">-----</option>
+          <option value="UND">UND</option>
+          <option value="METRO">METRO</option>
           <option value="KG">KG</option>
-          <option value="L">L</option>
-          <option value="UNID">UNID</option>
+          <option value="GL">GL</option>
+          <option value="KIT">KIT</option>
+          <option value="JUEGO">JUEGO</option>
+          <option value="L">LT</option>
+          <option value="LB">LB</option>
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
