@@ -323,6 +323,8 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((error) => {
           console.log(error);
+          notificar('error','El cliente ya existió antes o no se pudo registrar','Vuelva a intentarlo con otro ruc',2);
+
       });
   }
 

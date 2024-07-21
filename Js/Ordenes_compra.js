@@ -91,8 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (usuario == 1) {
             if (dato.estado == 1) {
                 verificar = `
+                    <a href="../reports/pdf_orden_compra.php?idordencompra=${dato.idordencompra}" download='orden-compra-${dato.idordencompra}'
+                    type="button" class="btn btn-primary observar" data-id="${dato.idordencompra}"><i class="bi bi-file-earmark-text-fill"></i></a>
+
                     <button class="btn btn-success confirmar" data-id="${dato.idordencompra}"><i class="lni lni-checkmark-circle"></i></button>
-                    <button class="btn btn-warning editar" data-id="${dato.idordencompra}"><i class="lni lni-pencil"></i></button>
                     <button class="btn btn-danger rechazar" data-id="${dato.idordencompra}"><i class="lni lni-trash-can"></i></button>
                 `;
             } else if (dato.estado == 2) {
@@ -142,7 +144,10 @@ document.addEventListener("DOMContentLoaded", () => {
       btnAceptar.forEach(function(boton) {
         boton.addEventListener("click", function(event) {
           let id = event.currentTarget.dataset.id;
-          cambiarEstadoAceptado(id);    
+          cambiarEstadoAceptado(id);
+          bienvenida(`¡Se ha aprovado una orden de compra!`);
+          setTimeout(function(){
+          },2000);      
         });
       });
 

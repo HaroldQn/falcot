@@ -65,15 +65,15 @@
   
     <div class="row mb-3">
       <div class="col-sm-12 col-md-6 mb-3 mb-md-0">
-        <input type="text" class="form-control" id="direccion" maxlength="60" placeholder="DIRECCION" required>
+        <input type="text" class="form-control" id="direccion" maxlength="60" placeholder="DIRECCION" required readonly>
       </div>
       <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
         <input type="tel" class="form-control" id="celular" maxlength="9" placeholder="CELULAR" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
       </div>
       <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-        <select type="text" class="form-control" id="condPago" placeholder="COND. PAGO">
+        <select type="text" class="form-control" id="condPago" placeholder="COND. PAGO" required>
           <option value="">COND. PAGO</option>
-          <option value="contado">contado</option>
+          <option value="contado">Contado</option>
           <option value="7 días">7 días</option>
           <option value="15 días">15 días</option>
           <option value="30 días">30 días</option>
@@ -133,7 +133,7 @@
           <input type="number" class="form-control" value="1" name="item" placeholder="ITEM" readonly>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="tel" class="form-control" name="centro" maxlength="10" min="0"  placeholder="CENTRO" required>
+          <input type="tel" class="form-control" name="centro" maxlength="10" min="0"  placeholder="CENTRO" required oninput="this.value = this.value.replace(/[^0-9]/g, '');">
         </div>
         <div class="col-12 col-md-4 mb-3 mb-md-0">
           <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
@@ -467,7 +467,7 @@
         <input type="number" class="form-control" name="item" placeholder="ITEM" disabled>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
+        <input type="tel" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required oninput="this.value = this.value.replace(/[^0-9]/g, '');">
       </div>
       <div class="col-12 col-md-4 mb-3 mb-md-0">
         <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>

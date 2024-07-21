@@ -54,7 +54,7 @@ function bienvenida(mensaje){
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       cancelButtonText: "Cancelar",
-      confirmButtonText: "Eliminarlo"
+      confirmButtonText: "Rechazarlo"
       }).then((result) => {
           if (result.isConfirmed) {
               callback()

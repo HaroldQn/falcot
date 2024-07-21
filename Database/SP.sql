@@ -284,7 +284,7 @@ BEGIN
         oc.estado,
 
         oc.celular,
-        oc.telefeno,
+        oc.telefono,
         oc.contacto,
         oc.correo,
 
