@@ -23,11 +23,11 @@
   <h3 class="text-center">GENERAR ORDEN DE COMPRA</h3>
 </div>
 
-<div class="container p-3 mx-5">
-  <div class="row mb-3 mx-2">
+<div class="">
+  <div class="row mb-3 mx-1">
     
     <div class="col-md-4 d-flex justify-content-start">
-      <input type="text" class="form-control me-2" id="ruc_buscado" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+      <input type="text" class="form-control " id="ruc_buscado" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
       <button class="btn btn-primary" id="btnBuscar">Buscar</button>
       <button class="btn btn-warning ml-2" id="btnBuscarClienteSistema" data-bs-toggle="modal" data-bs-target="#modal-cliente"><i class="lni lni-users"></i></button>
     </div>
