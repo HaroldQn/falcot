@@ -23,10 +23,6 @@ BEGIN
 END $$
 
 
-
-
-
-
 -- ************* --
 --  SP USUARIOS  --
 -- ************* --
@@ -37,8 +33,6 @@ IN _usuario VARCHAR(60)
 BEGIN
 	SELECT * from usuarios where usuario = _usuario and fechaFin IS NULL;
 END $$
-
-call spu_usuario_login('admin')
 
 DELIMITER $$
 CREATE PROCEDURE spu_usuario_listarUsuarios()
@@ -72,9 +66,6 @@ BEGIN
         clave 		= _clave
     WHERE idusuario = _idusuario;
 END $$
-
-call spu_usuario_editarClave(1,'hola')
-select * from usuarios;
 
 DELIMITER $$
 CREATE PROCEDURE spu_usuario_eliminarUsuario (
@@ -380,35 +371,18 @@ END //
 DELIMITER;
 
 
-DELIMITER // 
-CREATE PROCEDURE spListarOrdenCompraPorRol(
- IN _idrol INT
-)
-BEGIN
-	SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial,ORDCOMP.fechaCreacion, ORDCOMP.estado FROM orden_compra ORDCOMP
-    INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
-    INNER JOIN detalle_usuarios DETUSU ON  ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
-    INNER JOIN usuarios USU ON DETUSU.idusuario = USU.idusuario;
-    
-END //
-DELIMITER ;
-
-CALL spListarOrdenCompraPorRol('2024-07-15')
-
 DELIMITER //
 CREATE PROCEDURE spListarOrdenCompraPorRol(
     IN _fechaCreacion VARCHAR(10)  
 )
 BEGIN
     IF _fechaCreacion IS NULL OR _fechaCreacion = '' THEN
-        -- List all orders if _fechaCreacion is NULL
         SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial, EMPRCLI.nroDocumento, ORDCOMP.fechaCreacion, ORDCOMP.estado 
         FROM orden_compra ORDCOMP
         INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
         INNER JOIN detalle_usuarios DETUSU ON ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
         INNER JOIN usuarios USU ON DETUSU.idusuario = USU.idusuario;
     ELSE
-        -- Filter orders by _fechaCreacion
         SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial,  EMPRCLI.nroDocumento,ORDCOMP.fechaCreacion, ORDCOMP.estado 
         FROM orden_compra ORDCOMP
         INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente

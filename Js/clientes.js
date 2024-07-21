@@ -231,7 +231,10 @@ document.addEventListener("DOMContentLoaded", () => {
     btnEliminar.forEach(function(boton) {
       boton.addEventListener("click", function(event) {
         let id = event.currentTarget.dataset.id;
-        eliminarCliente(id);
+        
+        PreguntarEliminaClienteEmpresa(function(){
+          eliminarCliente(id);
+      })
         // console.log(id);
       });
     });
