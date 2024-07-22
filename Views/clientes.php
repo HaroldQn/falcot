@@ -27,8 +27,7 @@
             <th scope="col">#</th>
             <th scope="col">Razon social</th>
             <th scope="col">Ruc</th>
-            <th scope="col">Dirección</th>
-            <th scope="col">Teléfono</th>
+            <th scope="col">Celular</th>
             <th scope="col">Opciones</th>
           </tr>
         </thead>
@@ -62,7 +61,7 @@
             <div class="row mt-2">
               <div class="col col-md-6">
                 <label for="numeroDoc" class="form-label">Ingrese ruc</label>
-                <input type="tel" maxlength="12" class="form-control" id="numeroDoc" required>
+                <input type="tel" maxlength="11" class="form-control" id="numeroDoc" required>
               </div>
 
               <div class="col col-md-6">

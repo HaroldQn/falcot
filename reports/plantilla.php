@@ -2,6 +2,10 @@
 </head>
 <body>
     <div class="container-2">
+        <?php if($resultado[0]['estado'] == 1){
+                echo '<div class="watermark">ESTE DOCUMENTO NO ES VALIDADO</div>';
+            }
+        ?>
         <table>
             <tr>
                 <th>

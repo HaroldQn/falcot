@@ -1,6 +1,8 @@
 let distrito_cli = "";
 let ubigeo_cli = "";
 let actvidaEco_cli = "";
+let provincia_cli = "";
+let departamento_cli= "";
 
 function limpiarInputsCliente(){
     razon_social.value = '';
@@ -75,6 +77,8 @@ function BuscarClientePorApi(){
 
             distrito_cli = data.distrito;
             ubigeo_cli = data.ubigeo;
+            provincia_cli = data.provincia;
+            departamento_cli= data.departamento;
       
             razonSocial.value = razonSocialBuscado;
             ruc.value = rucBuscado;

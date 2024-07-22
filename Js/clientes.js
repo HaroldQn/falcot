@@ -213,8 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${numFila}</td>
                 <td>${registro.razonSocial}</td>
                 <td>${registro.nroDocumento}</td>
-                <td></td>
-                <td>${registro.telefono}</td>
+                <td>${registro.celular}</td>
                 <td>
                     <button class="btn btn-warning editar d-inline-block" data-id=${registro.idempresacliente} data-bs-toggle="modal" data-bs-target="#modal-cliente"><i class="lni lni-pencil"></i></button>
                     <button class="btn btn-danger eliminar d-inline-block" data-id=${registro.idempresacliente}><i class="lni lni-trash-can"></i></button>

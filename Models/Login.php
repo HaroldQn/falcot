@@ -1,6 +1,6 @@
 <?php
 
-require_once '../Models/conexion.php';
+require_once 'Conexion.php';
 
 class usuarioLogin extends Conexion
 {

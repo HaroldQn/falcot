@@ -6,7 +6,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // Verificar si ya ha iniciado sesión
 if (isset($_SESSION['idusuario'])) {
   // Si ya está autenticado, redirigir a la página principal o a la vista deseada
-  header("Location: ./views/usuarios.php");
+  header("Location: ./Views/clientes");
   exit();
 }
 ?>
@@ -73,7 +73,7 @@ if (isset($_SESSION['idusuario'])) {
                 if(data.acceso == true){
                   bienvenida(`¡Inicio de Sesión Exitoso!`);
                   setTimeout(function(){
-                    window.location.href = './views/clientes.php'
+                    window.location.href = './Views/clientes'
                   },2000);               
                 }else{
                   //alert("Acceso denegado");

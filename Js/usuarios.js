@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         .then(respuesta => respuesta.json())
         .then(data =>{
             listarUsuarios();
-            window.location.href = './usuarios.php';
+            window.location.href = './usuarios';
         })
         .catch(error => console.log(error));
     }

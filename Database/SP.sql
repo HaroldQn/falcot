@@ -165,10 +165,16 @@ CREATE PROCEDURE spRegistrarEmpresaClienteAPI (
     IN _celular				CHAR(10),
     IN _distrito 			VARCHAR(30),
     IN _ubigeo 				CHAR(12),
-    IN _telefono 			CHAR(12)
+    IN _telefono			CHAR(12),
+    IN _provincia			VARCHAR(30),
+	IN _departamento		VARCHAR(30)
 )
 BEGIN
-	SELECT iddistrito INTO @iddistrito FROM distritos WHERE distrito = _distrito;
+	
+	SELECT DIS.iddistrito INTO @iddistrito FROM distritos DIS
+    left JOIN provincias PRO ON DIS.idprovincia = PRO.idprovincia
+    left JOIN departamentos DEP ON PRO.iddepartamento = DEP.iddepartamento 
+    WHERE DIS.distrito = _distrito AND PRO.provincia = _provincia AND DEP.departamento = _departamento;
     
     INSERT INTO empresas_cliente (razonSocial, nroDocumento, direccion, correo, contacto, celular, iddistrito, ubigeo, telefono)
     VALUES (_razonSocial, _nroDocumento, _direccion, _correo, _contacto, _celular, @iddistrito, _ubigeo, _telefono);

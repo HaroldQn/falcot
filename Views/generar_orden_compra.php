@@ -23,11 +23,11 @@
   <h3 class="text-center">GENERAR ORDEN DE COMPRA</h3>
 </div>
 
-<div class="container p-3 mx-5">
-  <div class="row mb-3 mx-2">
+<div class="">
+  <div class="row mb-3 mx-1">
     
     <div class="col-md-4 d-flex justify-content-start">
-      <input type="text" class="form-control me-2" id="ruc_buscado" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+      <input type="text" class="form-control " id="ruc_buscado" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
       <button class="btn btn-primary" id="btnBuscar">Buscar</button>
       <button class="btn btn-warning ml-2" id="btnBuscarClienteSistema" data-bs-toggle="modal" data-bs-target="#modal-cliente"><i class="lni lni-users"></i></button>
     </div>
@@ -59,7 +59,7 @@
         </select>
       </div>
       <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-        <input type="number" class="form-control" id="nFactura" placeholder="N° FACTURA" disabled>
+        <input type="number" class="form-control" id="nFactura" placeholder="N° O/C" disabled>
       </div>
     </div>
   
@@ -112,7 +112,7 @@
         <strong>CANTIDAD PEDIDA</strong>
       </div>
       <div class="col-12 col-md-1 text-center">
-        <strong>UNID.</strong>
+        <strong>UTM.</strong>
       </div>
       <div class="col-12 col-md-1 text-center">
         <strong>PRECIO UNITARIO</strong>
@@ -144,13 +144,19 @@
         <div class="col-12 col-md-1 mb-3 mb-md-0">
           <select type="text" class="form-control" name="unidad" required>
             <option value="">-----</option>
-            <option value="KG">KG</option>
-            <option value="LT">Lt</option>
-            <option value="UNID">UNID</option>
+            <option value="KG">UND</option>
+            <option value="LT">METRO</option>
+            <option value="UNID">KG</option>
+            <option value="UNID">GL</option>
+            <option value="UNID">KIT</option>
+            <option value="UNID">JUEGO</option>
+            <option value="UNID">LT</option>
+            <option value="UNID">LB</option>
+            <option value="UNID">M3</option>
           </select>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+          <input type="number" class="form-control precio" name="precio" step="0.001" min="0" maxlength="15" placeholder="PRECIO U." required>
         </div>
         <div class="col-12 col-md-2 mb-3 mb-md-0">
           <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -188,7 +194,7 @@
         <div class="form-group row">
           <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
           <div class="col-sm-8">
-            <input type="number" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO" min="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+            <input type="number" class="form-control mt-1" value="0" id="descuento" placeholder="DESCUENTO" min="0" >
           </div>
         </div>
         <div class="form-group row">
@@ -269,6 +275,16 @@
 
 
   function registrarClienteApi(){
+    console.log("razonSocial", razon_social.value)
+    console.log("nroDocumento", ruc.value)
+    console.log("direccion", direccion.value)
+    console.log("correo", correo.value)
+    console.log("contacto", contacto.value)
+    console.log("celular", celular.value)
+    console.log("iddistrito", distrito_cli)
+    console.log("ubigeo", ubigeo_cli)
+    console.log("telefono",telefono.value)
+      
     const parametros = new FormData();
     parametros.append("operacion","registrar_clientes_api")
     parametros.append("razonSocial", razon_social.value)
@@ -280,29 +296,34 @@
     parametros.append("iddistrito", distrito_cli)
     parametros.append("ubigeo", ubigeo_cli)
     parametros.append("telefono", telefono.value)
+    parametros.append("provincia", provincia_cli)
+    parametros.append("departamento", departamento_cli)
+    
+    
 
     fetch(`../Controllers/cliente.controller.php`, {
       method: "POST",
       body: parametros
     })
-      .then(res => res.json())
+      .then(res => res.text())
       .then(datos => {
         console.log(datos)
         if(datos.idcliente !== null && datos.idcliente !== "" && datos.idcliente !== 0){
-          bienvenida(`¡Se ha registrado un nuevo usuario!`);
+          bienvenida(`¡Se ha registrado un nuevo Cliente!`);
           setTimeout(function(){
             registrarOrdenCompra();
           },2000);  
 
         }else{
           //mostrar error
-          console.log("Error al registrar al nuevo cliente")
         }
       })
       .catch((error) => {
           console.log(error);
       });
   }
+
+  let idusu = "<?php echo $_SESSION['iddetalleusuario'] ?>";
 
   function registrarOrdenCompra(){
     let descuento_verificado = descuento.value;
@@ -311,7 +332,7 @@
     }
     const parametros = new FormData();
     parametros.append("operacion","crear_orden_compra")
-    parametros.append("iddetalleusuario", 1)
+    parametros.append("iddetalleusuario", idusu)
     parametros.append("cliente", ruc.value)
     parametros.append("moneda", moneda.value)
     parametros.append("fechaCreacion", fechaInput.value)
@@ -435,6 +456,7 @@
     }
     
     event.preventDefault();
+    btnFinalizarOrdenCompra.disabled = true;
     let doc_empresa = "";
     doc_empresa = ruc.value;
     verificarClienteExiste(doc_empresa)
@@ -478,13 +500,18 @@
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
           <option value="">-----</option>
+          <option value="UND">UND</option>
+          <option value="METRO">METRO</option>
           <option value="KG">KG</option>
-          <option value="L">L</option>
-          <option value="UNID">UNID</option>
+          <option value="GL">GL</option>
+          <option value="KIT">KIT</option>
+          <option value="JUEGO">JUEGO</option>
+          <option value="L">LT</option>
+          <option value="LB">LB</option>
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+        <input type="number" class="form-control precio" name="precio" step="0.001" min="0" maxlength="15" placeholder="PRECIO U." required>
       </div>
       <div class="col-12 col-md-2 mb-3 mb-md-0">
         <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -533,7 +560,7 @@
     })
       .then(res => res.json())
       .then(datos => {
-         console.log(datos)
+         //console.log(datos)
          renderizarClientes(datos)
  
       })
@@ -579,7 +606,7 @@
     })
       .then(res => res.json())
       .then(datos => {
-        console.log(datos)
+        //console.log(datos)
         razon_social.value = datos.razonSocial;
         // actividadEconomica.value = datos.actividadEconomica;
         correo.value = datos.correo;
@@ -647,26 +674,26 @@
     document.getElementById('total').value = totalFinal.toFixed(2);
   }
 
-  function editar_cliente_existe(idcliente){
-    const parametros = new FormData();
-    parametros.append("operacion","")
-    parametros.append("celular", celular.value)
-    parametros.append("correo", correo.value)
-    parametros.append("contacto", contacto.value)
-    parametros.append("telefono", telefono.value)
+//   function editar_cliente_existe(idcliente){
+//     const parametros = new FormData();
+//     parametros.append("operacion","")
+//     parametros.append("celular", celular.value)
+//     parametros.append("correo", correo.value)
+//     parametros.append("contacto", contacto.value)
+//     parametros.append("telefono", telefono.value)
 
-    fetch(`../Controllers/ordencompra.controller.php`, {
-      method: "POST",
-      body: parametros
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Actualizado")
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-  }
+//     fetch(`../Controllers/ordencompra.controller.php`, {
+//       method: "POST",
+//       body: parametros
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log("Actualizado")
+//     })
+//     .catch((error) => {
+//         console.log(error);
+//     });
+//   }
 
   document.addEventListener('input', calcularTotales);
   document.getElementById('descuento').addEventListener('input', calcularTotales);

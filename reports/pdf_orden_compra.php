@@ -1,4 +1,11 @@
 <?php
+  session_start(); // Crea o hereda la sessión
+
+  if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
+    # code...
+    include '../Views/no_acceso.php';
+    exit();
+  }
 
 // Composer
 require_once '../vendor/autoload.php';

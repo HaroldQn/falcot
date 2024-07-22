@@ -11,7 +11,7 @@
         <h1>NO PUEDES TENER ACCESO</h1>
         <h5>¡POR FAVOR TRATE DE INICIAR SESION!</h5>
         <div class="button-container">
-            <a href="../index.php" class="btn">Iniciar Sesión</a>
+            <a href="../" class="btn">Iniciar Sesión</a>
         </div>
     </div>
 </body>

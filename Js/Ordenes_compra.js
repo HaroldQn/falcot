@@ -126,14 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         html += `
             <tr>
-                <td>${numFila}</td>
+                <td>OR-00${dato.idordencompra}</td>
                 <td>${dato.razonSocial}</td>
                 <td>${dato.nroDocumento}</td>
                 <td>${dato.fechaCreacion}</td>
                 <td d-flex justify-content-around>${verificar}</td>
             </tr>
         `;
-        numFila++;
+        //numFila++;
       });
 
       tabla.innerHTML += html;
