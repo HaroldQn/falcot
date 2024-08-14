@@ -43,7 +43,7 @@
 </div>
 
 <div class="mb-5  p-3 bg-body" id="div-1">
-  <form action="" id="formulario-orden-pago">
+  <form action="" autocomplete="off" id="formulario-orden-pago">
     <div class="row mb-3">
       <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
         <input type="text" class="form-control" id="razon_social" maxlength="60" placeholder="RAZON SOCIAL" disabled required>
@@ -59,7 +59,7 @@
         </select>
       </div>
       <div class="col-sm-6 col-md-2 mb-3 mb-md-0">
-        <input type="number" class="form-control" id="nFactura" placeholder="N° FACTURA" disabled>
+        <input type="number" class="form-control" id="nFactura" placeholder="N° O/C" disabled>
       </div>
     </div>
   
@@ -112,7 +112,7 @@
         <strong>CANTIDAD PEDIDA</strong>
       </div>
       <div class="col-12 col-md-1 text-center">
-        <strong>UNID.</strong>
+        <strong>UTM.</strong>
       </div>
       <div class="col-12 col-md-1 text-center">
         <strong>PRECIO UNITARIO</strong>
@@ -139,23 +139,24 @@
           <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" min="1"  placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+          <input type="number" class="form-control cantidad" name="cantidad" min="0"  placeholder="CANT" required>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
           <select type="text" class="form-control" name="unidad" required>
             <option value="">-----</option>
-            <option value="KG">UND</option>
-            <option value="LT">METRO</option>
-            <option value="UNID">KG</option>
-            <option value="UNID">GL</option>
-            <option value="UNID">KIT</option>
-            <option value="UNID">JUEGO</option>
-            <option value="UNID">LT</option>
-            <option value="UNID">LB</option>
+            <option value="UND">UND</option>
+            <option value="METRO">METRO</option>
+            <option value="KG">KG</option>
+            <option value="GL">GL</option>
+            <option value="KIT">KIT</option>
+            <option value="JUEGO">JUEGO</option>
+            <option value="L">LT</option>
+            <option value="LB">LB</option>
+            <option value="M3">M3</option>
           </select>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="number" class="form-control precio" name="precio" min="0" maxlength="15" placeholder="PRECIO U." required>
+          <input type="number" class="form-control precio" name="precio" step="0.0001" min="0" maxlength="15" placeholder="PRECIO U." required>
         </div>
         <div class="col-12 col-md-2 mb-3 mb-md-0">
           <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -274,6 +275,16 @@
 
 
   function registrarClienteApi(){
+    console.log("razonSocial", razon_social.value)
+    console.log("nroDocumento", ruc.value)
+    console.log("direccion", direccion.value)
+    console.log("correo", correo.value)
+    console.log("contacto", contacto.value)
+    console.log("celular", celular.value)
+    console.log("iddistrito", distrito_cli)
+    console.log("ubigeo", ubigeo_cli)
+    console.log("telefono",telefono.value)
+      
     const parametros = new FormData();
     parametros.append("operacion","registrar_clientes_api")
     parametros.append("razonSocial", razon_social.value)
@@ -285,6 +296,10 @@
     parametros.append("iddistrito", distrito_cli)
     parametros.append("ubigeo", ubigeo_cli)
     parametros.append("telefono", telefono.value)
+    parametros.append("provincia", provincia_cli)
+    parametros.append("departamento", departamento_cli)
+    
+    
 
     fetch(`../Controllers/cliente.controller.php`, {
       method: "POST",
@@ -294,14 +309,13 @@
       .then(datos => {
         console.log(datos)
         if(datos.idcliente !== null && datos.idcliente !== "" && datos.idcliente !== 0){
-          bienvenida(`¡Se ha registrado un nuevo usuario!`);
+          bienvenida(`¡Se ha registrado un nuevo Cliente!`);
           setTimeout(function(){
             registrarOrdenCompra();
           },2000);  
 
         }else{
           //mostrar error
-          console.log("Error al registrar al nuevo cliente")
         }
       })
       .catch((error) => {
@@ -442,6 +456,7 @@
     }
     
     event.preventDefault();
+    btnFinalizarOrdenCompra.disabled = true;
     let doc_empresa = "";
     doc_empresa = ruc.value;
     verificarClienteExiste(doc_empresa)
@@ -480,7 +495,7 @@
         <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+        <input type="number" class="form-control cantidad" name="cantidad" min="0"  placeholder="CANT" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
@@ -493,10 +508,11 @@
           <option value="JUEGO">JUEGO</option>
           <option value="L">LT</option>
           <option value="LB">LB</option>
+          <option value="M3">M3</option>
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control precio" name="precio" maxlength="15" placeholder="PRECIO U." oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+        <input type="number" class="form-control precio" name="precio" step="0.0001" min="0" maxlength="15" placeholder="PRECIO U." required>
       </div>
       <div class="col-12 col-md-2 mb-3 mb-md-0">
         <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -545,7 +561,7 @@
     })
       .then(res => res.json())
       .then(datos => {
-         console.log(datos)
+         //console.log(datos)
          renderizarClientes(datos)
  
       })
@@ -557,7 +573,7 @@
   function renderizarClientes(datos){
 
     let contenedor = document.getElementById("contenedor-clientes");
-
+    contenedor.innerHTML = "";
     let nuevaLista = '';
     datos.forEach(registro =>{
       nuevaLista = `
@@ -591,7 +607,8 @@
     })
       .then(res => res.json())
       .then(datos => {
-        console.log(datos)
+        direccion.setAttribute("readonly", true);
+        //console.log(datos)
         razon_social.value = datos.razonSocial;
         // actividadEconomica.value = datos.actividadEconomica;
         correo.value = datos.correo;
@@ -656,29 +673,29 @@
     let totalFinal = totalConImpuesto - descuento;
 
 
-    document.getElementById('total').value = totalFinal.toFixed(2);
+    document.getElementById('total').value = totalFinal.toFixed(1);
   }
 
-  function editar_cliente_existe(idcliente){
-    const parametros = new FormData();
-    parametros.append("operacion","")
-    parametros.append("celular", celular.value)
-    parametros.append("correo", correo.value)
-    parametros.append("contacto", contacto.value)
-    parametros.append("telefono", telefono.value)
+//   function editar_cliente_existe(idcliente){
+//     const parametros = new FormData();
+//     parametros.append("operacion","")
+//     parametros.append("celular", celular.value)
+//     parametros.append("correo", correo.value)
+//     parametros.append("contacto", contacto.value)
+//     parametros.append("telefono", telefono.value)
 
-    fetch(`../Controllers/ordencompra.controller.php`, {
-      method: "POST",
-      body: parametros
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Actualizado")
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-  }
+//     fetch(`../Controllers/ordencompra.controller.php`, {
+//       method: "POST",
+//       body: parametros
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log("Actualizado")
+//     })
+//     .catch((error) => {
+//         console.log(error);
+//     });
+//   }
 
   document.addEventListener('input', calcularTotales);
   document.getElementById('descuento').addEventListener('input', calcularTotales);

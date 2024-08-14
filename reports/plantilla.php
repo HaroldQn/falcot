@@ -3,7 +3,7 @@
 <body>
     <div class="container-2">
         <?php if($resultado[0]['estado'] == 1){
-                echo '<div class="watermark">ESTE DOCUMENTO NO ES VALIDADO</div>';
+                echo '<div class="watermark">ESTE DOCUMENTO NO ES VÁLIDO</div>';
             }
         ?>
         <table>
@@ -38,7 +38,8 @@
                 <th colspan="1" class="bold-text gr">CELULAR:</th>
                 <td colspan="1"><?php echo htmlspecialchars($resultado[0]['celular']); ?></td>
                 <th class=" bold-text gr">COND. PAGO:</th>
-                <td>CONTADO</td>
+                <td colspan="1"><?php echo htmlspecialchars($resultado[0]['condicionPago']); ?></td>
+
                 
                 <th colspan="1" class=" bold-text gr">FECHA:</th>
                 <td colspan="1"><?php echo htmlspecialchars($resultado[0]['fechaCreacion']); ?></td>

@@ -61,7 +61,7 @@
             <div class="row mt-2">
               <div class="col col-md-6">
                 <label for="numeroDoc" class="form-label">Ingrese ruc</label>
-                <input type="tel" maxlength="12" class="form-control" id="numeroDoc" required>
+                <input type="tel" maxlength="11" class="form-control" id="numeroDoc" required>
               </div>
 
               <div class="col col-md-6">

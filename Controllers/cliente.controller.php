@@ -58,6 +58,8 @@ if(isset($_POST['operacion'])){
         'iddistrito'          => $_POST['iddistrito'],
         'ubigeo'              => $_POST['ubigeo'],
         'telefono'            => $_POST['telefono'],
+        'provincia'           => $_POST['provincia'],
+        'departamento'        => $_POST['departamento'],
       ];
       echo json_encode($clientes->registrarClientePorApi($datosEnviar));
       break; 

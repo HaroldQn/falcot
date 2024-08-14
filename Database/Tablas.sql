@@ -7,12 +7,16 @@ departamento 		VARCHAR(60) 	NOT NULL,
 CONSTRAINT uk_departamento_departamentos UNIQUE(departamento)
 )ENGINE = INNODB;
 
+
+
 CREATE TABLE provincias(
 idprovincia 		INT 			PRIMARY KEY 	AUTO_INCREMENT,
 provincia 			VARCHAR(60) 	NOT NULL,
 iddepartamento 		INT 			NOT NULL,
 CONSTRAINT fk_iddepartamento_provincias FOREIGN KEY(iddepartamento) REFERENCES departamentos(iddepartamento)
 )ENGINE = INNODB;
+
+
 
 CREATE TABLE distritos(
 iddistrito 		INT 			PRIMARY KEY 	AUTO_INCREMENT,
@@ -21,12 +25,18 @@ idprovincia		INT				NOT NULL,
 CONSTRAINT fk_idprovincia_distritos FOREIGN KEY(idprovincia) REFERENCES provincias(idprovincia)
 )ENGINE = INNODB;
 
+
+
 CREATE TABLE roles(
 idrol 		INT 			PRIMARY KEY 	AUTO_INCREMENT,
 rol 		VARCHAR(25) 	NOT NULL,
 estado 		CHAR(1) 		DEFAULT(1),
 CONSTRAINT 	uk_rol_roles UNIQUE(rol)
 )ENGINE = INNODB;
+
+select * from roles;
+
+
 
 CREATE TABLE usuarios(
 idusuario 		INT 			PRIMARY KEY AUTO_INCREMENT,
@@ -36,11 +46,18 @@ nombres 		VARCHAR(40) 	NOT NULL,
 apellidos 		VARCHAR(60) 	NOT NULL,
 idrol 			INT 			NULL,
 estado 			CHAR(1) 		DEFAULT(1),
-fechaInicio	 	DATE 			DEFAULT CURRENT_DATE,
+fechaInicio	 	DATE 			DEFAULT(now()),
 fechaFin 		DATE 			NULL,
 CONSTRAINT uk_clave_usuarios UNIQUE(usuario),
-CONSTRAINT fk_idrol_usuarios FOREIGN KEY(idrol) REFERENCES roles(idrol),
+CONSTRAINT fk_idrol_usuarios FOREIGN KEY(idrol) REFERENCES roles(idrol)
 )ENGINE = INNODB;
+
+describe usuarios;
+select * from usuarios;
+ALTER TABLE usuarios
+ADD CONSTRAINT uk_usuario UNIQUE (usuario);
+
+
 
 
 CREATE TABLE empresa(
@@ -52,6 +69,8 @@ iddistrito 		INT 			NOT NULL,
 CONSTRAINT fk_distrito_empresa FOREIGN KEY(iddistrito) REFERENCES distritos(iddistrito)
 )ENGINE = INNODB;
 
+
+
 CREATE TABLE detalle_usuarios(
 iddetalleusuario 	INT 		PRIMARY KEY 	AUTO_INCREMENT,
 idusuario 			INT 		NOT NULL,
@@ -59,6 +78,8 @@ idempresa			INT 		NOT NULL,
 CONSTRAINT fk_idusuario_detalle_usuarios FOREIGN KEY(idusuario) REFERENCES usuarios(idusuario),
 CONSTRAINT fk_idempresa_detalle_usuarios FOREIGN KEY(idempresa) REFERENCES empresa(idempresa)
 )ENGINE = INNODB;
+
+
 
 CREATE TABLE empresas_cliente(
 idempresacliente 	INT 			PRIMARY KEY 	AUTO_INCREMENT,
@@ -90,7 +111,7 @@ iddetalleusuario 	INT 			NOT NULL,
 idcliente 			INT 			NOT NULL,
 moneda 				VARCHAR(10) 	NOT NULL,
 fechaCreacion 		DATE 			DEFAULT(now()),
-descuento 			DECIMAL(10,2)   NULL,
+descuento 			CHAR(6)			NULL,
 grupoCompra 		VARCHAR(15) 	NULL,
 destino 			VARCHAR(60) 	NULL,
 observaciones 		VARCHAR(60)		NULL,
@@ -105,13 +126,17 @@ CONSTRAINT fk_iddetalleusuario_orden_compra FOREIGN KEY(iddetalleusuario) REFERE
 CONSTRAINT fk_idcliente_orden_compra FOREIGN KEY(idcliente) REFERENCES empresas_cliente(idempresacliente)
 )ENGINE = INNODB; 
 
+select * from orden_compra;
+
+
+
 CREATE TABLE detalle_orden_compra(
 iddetalleordencompra 	INT 			PRIMARY KEY AUTO_INCREMENT,
 idordencompra 			INT 			NOT NULL,
 item 					CHAR(5) 		NOT NULL,
 centro 					INT 			NULL,
 descripcion 			VARCHAR(60) 	NOT NULL,
-cantidad 				DECIMAL(10,2) 		NOT NULL,
+cantidad 				INT 			NOT NULL,
 utm 					CHAR(10) 		NOT NULL,
 precioUnitario 			DECIMAL(10,2) 	NOT NULL
 )ENGINE = INNODB;

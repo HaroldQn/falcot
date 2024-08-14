@@ -85,7 +85,7 @@ class Cliente extends Conexion{
 
   public function registrarClientePorApi($datos = []){
     try {
-      $consulta = $this->conexion->prepare("CALL spRegistrarEmpresaClienteAPI(?,?,?,?,?,?,?,?,?)");
+      $consulta = $this->conexion->prepare("CALL spRegistrarEmpresaClienteAPI(?,?,?,?,?,?,?,?,?,?,?)");
       $consulta->execute(
         array(
           $datos['razonSocial'],
@@ -96,7 +96,9 @@ class Cliente extends Conexion{
           $datos['celular'],
           $datos['iddistrito'],
           $datos['ubigeo'],
-          $datos['telefono']
+          $datos['telefono'],
+          $datos['provincia'],
+          $datos['departamento']
         )
       );
       return $consulta->fetch(PDO::FETCH_ASSOC);
