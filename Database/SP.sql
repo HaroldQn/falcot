@@ -23,6 +23,10 @@ BEGIN
 END $$
 
 
+
+
+
+
 -- ************* --
 --  SP USUARIOS  --
 -- ************* --
@@ -31,7 +35,9 @@ CREATE PROCEDURE spu_usuario_login(
 IN _usuario VARCHAR(60)
 )
 BEGIN
-	SELECT * from usuarios where usuario = _usuario and fechaFin IS NULL;
+	SELECT * from usuarios USU
+    LEFT join detalle_usuarios DT ON USU.idusuario = DT.idusuario  
+    where USU.usuario = _usuario and USU.estado = 1;
 END $$
 
 DELIMITER $$
@@ -39,7 +45,7 @@ CREATE PROCEDURE spu_usuario_listarUsuarios()
 BEGIN
     SELECT USU.idusuario, USU.usuario, USU.clave, USU.nombres, USU.apellidos, USU.idrol, ROL.rol
 		FROM usuarios USU INNER JOIN roles ROL ON USU.idrol = ROL.idrol
-			WHERE usu.estado = '1';
+			WHERE USU.estado = '1';
 END $$
 
 DELIMITER $$
@@ -383,12 +389,14 @@ CREATE PROCEDURE spListarOrdenCompraPorRol(
 )
 BEGIN
     IF _fechaCreacion IS NULL OR _fechaCreacion = '' THEN
+        -- List all orders if _fechaCreacion is NULL
         SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial, EMPRCLI.nroDocumento, ORDCOMP.fechaCreacion, ORDCOMP.estado 
         FROM orden_compra ORDCOMP
         INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente
         INNER JOIN detalle_usuarios DETUSU ON ORDCOMP.iddetalleusuario = DETUSU.iddetalleusuario
         INNER JOIN usuarios USU ON DETUSU.idusuario = USU.idusuario;
     ELSE
+        -- Filter orders by _fechaCreacion
         SELECT USU.idrol, ORDCOMP.idordencompra, EMPRCLI.razonSocial,  EMPRCLI.nroDocumento,ORDCOMP.fechaCreacion, ORDCOMP.estado 
         FROM orden_compra ORDCOMP
         INNER JOIN empresas_cliente EMPRCLI ON ORDCOMP.idcliente = EMPRCLI.idempresacliente

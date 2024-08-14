@@ -43,7 +43,7 @@
 </div>
 
 <div class="mb-5  p-3 bg-body" id="div-1">
-  <form action="" id="formulario-orden-pago">
+  <form action="" autocomplete="off" id="formulario-orden-pago">
     <div class="row mb-3">
       <div class="col-sm-12 col-md-5 mb-3 mb-md-0">
         <input type="text" class="form-control" id="razon_social" maxlength="60" placeholder="RAZON SOCIAL" disabled required>
@@ -139,24 +139,24 @@
           <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" min="1"  placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+          <input type="number" class="form-control cantidad" name="cantidad" min="0"  placeholder="CANT" required>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
           <select type="text" class="form-control" name="unidad" required>
             <option value="">-----</option>
-            <option value="KG">UND</option>
-            <option value="LT">METRO</option>
-            <option value="UNID">KG</option>
-            <option value="UNID">GL</option>
-            <option value="UNID">KIT</option>
-            <option value="UNID">JUEGO</option>
-            <option value="UNID">LT</option>
-            <option value="UNID">LB</option>
-            <option value="UNID">M3</option>
+            <option value="UND">UND</option>
+            <option value="METRO">METRO</option>
+            <option value="KG">KG</option>
+            <option value="GL">GL</option>
+            <option value="KIT">KIT</option>
+            <option value="JUEGO">JUEGO</option>
+            <option value="L">LT</option>
+            <option value="LB">LB</option>
+            <option value="M3">M3</option>
           </select>
         </div>
         <div class="col-12 col-md-1 mb-3 mb-md-0">
-          <input type="number" class="form-control precio" name="precio" step="0.001" min="0" maxlength="15" placeholder="PRECIO U." required>
+          <input type="number" class="form-control precio" name="precio" step="0.0001" min="0" maxlength="15" placeholder="PRECIO U." required>
         </div>
         <div class="col-12 col-md-2 mb-3 mb-md-0">
           <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -495,7 +495,7 @@
         <input type="text" class="form-control" name="descripcionProducto" maxlength="60" placeholder="DESCRIPCIÓN PRODUCTO" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="tel" class="form-control cantidad" name="cantidad" maxlength="15" placeholder="CANT" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+        <input type="number" class="form-control cantidad" name="cantidad" min="0"  placeholder="CANT" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <select type="text" class="form-control" name="unidad" required>
@@ -508,10 +508,11 @@
           <option value="JUEGO">JUEGO</option>
           <option value="L">LT</option>
           <option value="LB">LB</option>
+          <option value="M3">M3</option>
         </select>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
-        <input type="number" class="form-control precio" name="precio" step="0.001" min="0" maxlength="15" placeholder="PRECIO U." required>
+        <input type="number" class="form-control precio" name="precio" step="0.0001" min="0" maxlength="15" placeholder="PRECIO U." required>
       </div>
       <div class="col-12 col-md-2 mb-3 mb-md-0">
         <input type="text" class="form-control importeTotal" name="importeTotal" placeholder="IMPORTE TOTAL" disabled>
@@ -572,7 +573,7 @@
   function renderizarClientes(datos){
 
     let contenedor = document.getElementById("contenedor-clientes");
-
+    contenedor.innerHTML = "";
     let nuevaLista = '';
     datos.forEach(registro =>{
       nuevaLista = `
@@ -606,6 +607,7 @@
     })
       .then(res => res.json())
       .then(datos => {
+        direccion.setAttribute("readonly", true);
         //console.log(datos)
         razon_social.value = datos.razonSocial;
         // actividadEconomica.value = datos.actividadEconomica;
@@ -671,7 +673,7 @@
     let totalFinal = totalConImpuesto - descuento;
 
 
-    document.getElementById('total').value = totalFinal.toFixed(2);
+    document.getElementById('total').value = totalFinal.toFixed(1);
   }
 
 //   function editar_cliente_existe(idcliente){

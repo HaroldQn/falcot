@@ -2,12 +2,19 @@
 // Datos
 $token = 'apis-token-9476.n1TEQmlyBZ3fZNy3RjmLY0HFYRcIL28l';
 
-$ruc = $_POST['numero'] ?? '';
+$ruc ='20607908355      ';
 
 if (empty($ruc)) {
     echo json_encode(['error' => 'RUC es requerido']);
     exit;
 }
+
+// Permitir acceso desde cualquier origen
+header('Access-Control-Allow-Origin: *');
+// Permitir los métodos GET, POST, OPTIONS
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+// Permitir los encabezados de solicitud indicados
+header('Access-Control-Allow-Headers: Authorization, Content-Type');
 
 // Iniciar llamada a API
 $curl = curl_init();

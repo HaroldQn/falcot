@@ -21,3 +21,35 @@ insert into detalle_usuarios (idusuario, idempresa) values(2,1);
 
 -- UPDATE
 update usuarios set fechaFin = Null where idusuario = 4;
+
+
+SELECT * from usuarios USU
+    inner join detalle_usuarios DT ON USU.idusuario = DT.idusuario  
+    where USU.usuario = 'admin' and USU.estado = 1;
+    
+SELECT 
+    d.iddistrito, d.distrito, 
+    p.idprovincia, p.provincia, 
+    dep.iddepartamento, dep.departamento
+FROM 
+    distritos d
+JOIN 
+    provincias p ON d.idprovincia = p.idprovincia
+JOIN 
+    departamentos dep ON p.iddepartamento = dep.iddepartamento
+WHERE 
+    d.distrito = 'MIRAFLORES' AND 
+    p.provincia = 'LIMA' AND 
+    dep.departamento = 'LIMA';
+    
+    
+SELECT * FROM distritos DIS
+    left JOIN provincias PRO ON DIS.idprovincia = PRO.idprovincia
+    left JOIN departamentos DEP ON PRO.iddepartamento = DEP.iddepartamento 
+    WHERE DIS.distrito = "chincha baja" AND PRO.provincia = "chincha" AND DEP.departamento = "ica";
+    
+SELECT DIS.iddistrito INTO @iddistrito FROM distritos DIS
+    left JOIN provincias PRO ON DIS.idprovincia = PRO.idprovincia
+    left JOIN departamentos DEP ON PRO.iddepartamento = DEP.iddepartamento 
+    WHERE DIS.distrito = "chincha baja" AND PRO.provincia = "chincha" AND DEP.departamento = "ica";
+    SELECT @iddistrito;

@@ -70,23 +70,42 @@ function BuscarClientePorApi(){
     })
     .then(data => {
         if(data.razonSocial){
-            // console.log(data)
+            console.log(data)
+            console.log(data.distrito)
             razonSocialBuscado = data.razonSocial;
             rucBuscado = data.numeroDocumento;
             direccionBuscada = data.direccion;
-
-            distrito_cli = data.distrito;
-            ubigeo_cli = data.ubigeo;
-            provincia_cli = data.provincia;
-            departamento_cli= data.departamento;
-      
+            
+            if(data.distrito == "-" || data.distrito == ""){
+                console.log('entro ---')
+                distrito_cli = 'No Asignado';
+                ubigeo_cli = data.ubigeo;
+                provincia_cli = 'No Asignado';
+                departamento_cli= 'No Asignado';
+            }else{
+                console.log('no ---')
+                distrito_cli = data.distrito;
+                ubigeo_cli = data.ubigeo;
+                provincia_cli = data.provincia;
+                departamento_cli= data.departamento;
+            }
+            
             razonSocial.value = razonSocialBuscado;
             ruc.value = rucBuscado;
-            direccion.value = direccionBuscada;
+            
+            if(direccionBuscada == '-'){
+                direccion.value = "";
+            }else{
+                direccion.value = direccionBuscada;
+            }
+            
             correo.value = '';
             contacto.value = '';
             telefono.value = '';
             celular.value = '';
+            
+            
+            
         }else{
             limpiarInputsCliente();
             notificar('error','No se encontro ningun registro','ingrese otro ruc',2);
@@ -100,6 +119,7 @@ function BuscarClientePorApi(){
 
 
 function verificarBusquedaCliente(){
+    let direccion = document.getElementById('direccion');
     const parametros = new FormData();
     parametros.append("operacion","verificar_cliente")
     parametros.append("ruc", ruc_buscado.value)
@@ -112,10 +132,12 @@ function verificarBusquedaCliente(){
       .then(datos => {
         console.log(datos)
         if(datos.exists == 1){
+            direccion.setAttribute("readonly", true);
             console.log("cliente existe")
             BuscarClienteEnSistema()
 
         }else if(datos.exists == 0){
+            direccion.removeAttribute("readonly");
             BuscarClientePorApi()
         }
       })
