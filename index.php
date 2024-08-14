@@ -73,7 +73,7 @@ if (isset($_SESSION['idusuario'])) {
                 if(data.acceso == true){
                   bienvenida(`¡Inicio de Sesión Exitoso!`);
                   setTimeout(function(){
-                    window.location.href = './Views/clientes'
+                    window.location.href = './Views/clientes.php'
                   },2000);               
                 }else{
                   //alert("Acceso denegado");
