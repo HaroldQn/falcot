@@ -44,3 +44,38 @@ function bienvenida(mensaje){
       footer: ''
     });
   }
+
+  function PreguntarEliminar(callback) {
+    return Swal.fire({
+      title: `¿Estás seguro de rechazar esta orden de compra?`,
+      text: "Este procedimiento no se podrá revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Rechazarlo"
+      }).then((result) => {
+          if (result.isConfirmed) {
+              callback()
+          }
+  });
+  }
+
+
+  function PreguntarEliminaClienteEmpresa(callback) {
+    return Swal.fire({
+      title: `¿Estás seguro de que quieres eliminar a este cliente del registro?`,
+      text: "Este procedimiento no se podrá revertir",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminarlo"
+      }).then((result) => {
+          if (result.isConfirmed) {
+              callback()
+          }
+  });
+  }

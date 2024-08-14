@@ -1,8 +1,8 @@
 <?php
 
-require_once '../Models/conexion.php';
+require_once 'Conexion.php';
 
-class Usuario extends Conexion
+class usuarioLogin extends Conexion
 {
   private $conexion;
 

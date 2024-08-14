@@ -1,57 +1,38 @@
 <?php
-// session_start();  //  Crea o hereda la sesión
 
-date_default_timezone_set("America/Lima");
-
-require_once '../Models/Login.php';
+require_once '../Models/Usuario.php';
 
 if (isset($_POST['operacion'])) {
-  $usuario = new Usuario;
+    $usuario = new Usuarios;
 
-  switch ($_POST['operacion']) {
-    case 'login':
-      $datosEnviar = ["usuario" => $_POST["usuario"]];
-      $registro = $usuario->login($datosEnviar);
+    switch ($_POST['operacion']) {
+        case 'listarUsuarios':
+            echo json_encode($usuario->listarUsuarios());
+            break;
+        
+        case 'eliminarUsuario':
+            $datosEnviar = ["idusuario" => $_POST["idusuario"]];
+            echo json_encode($usuario->eliminarUsuario($datosEnviar));
+            break;
 
-      $statusLogin =[
-      "acceso" => false,
-      "mensaje" => ""
-      ];
-
-    if($registro == false){
-      $_SESSION["status"] = false;
-      $statusLogin["mensaje"] = "El usuario no existe";
-    }else{
-
-      $claveEncriptada = $registro["clave"];
-      $_SESSION["idusuario"] = $registro["idusuario"];    
-      $_SESSION["usuario"] = $registro["usuario"];     
-      $_SESSION["nombres"] = $registro["nombres"];     
-      $_SESSION["apellidos"] = $registro["apellidos"];     
-      $_SESSION["idrol"] = $registro["idrol"];     
-      $_SESSION["estado"] = $registro["estado"];     
-      $_SESSION["fechaInicio"] = $registro["fechaInicio"];         
-
-      if(password_verify($_POST['clave'],$claveEncriptada)){
-        $_SESSION["status"]= TRUE;
-        $statusLogin["acceso"] = true;
-        $statusLogin["mensaje"] = "Acceso correcto";
-      }else{
-        $_SESSION["status"]= FALSE;
-        $statusLogin["mensaje"] = "Error en la contraseña";
-      }
+        case 'registrarUsuario':
+            $clave = password_hash($_POST["clave"], PASSWORD_BCRYPT);
+            $datosEnviar = [
+                "usuario" => $_POST["usuario"],
+                "clave" => $clave,
+                "nombres" => $_POST["nombres"],
+                "apellidos" => $_POST["apellidos"],
+                "rol" => $_POST["rol"]
+            ];
+            echo json_encode($usuario->registrarUsuario($datosEnviar));
+            break;
+        case 'actualizarClave':
+            $clave = password_hash($_POST["clave"], PASSWORD_BCRYPT);
+            $datosEnviar = [
+                "idusuario" => $_POST["idusuario"],
+                "clave" => $clave
+            ];
+            echo json_encode($usuario->actualizarClave($datosEnviar));
+            break;
     }
-    echo json_encode($statusLogin);
-      break;  
-  }
 }
-
-
-// if (isset($_GET['operacion'])) {
-//   if($_GET['operacion'] == 'destroy'){
-//     session_destroy();
-//     session_unset();
-
-//     header("Location: ../index.php");
-//   }
-// }

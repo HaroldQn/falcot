@@ -1,3 +1,16 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+
+// Verificar si ya ha iniciado sesión
+if (isset($_SESSION['idusuario'])) {
+  // Si ya está autenticado, redirigir a la página principal o a la vista deseada
+  header("Location: ./Views/clientes");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -50,7 +63,7 @@
             parametros.append("clave",$("#clave").value);
 
 
-            fetch(`./Controllers/usuario.controller.php`,{
+            fetch(`./Controllers/usuarioLogin.controller.php`,{
               method: "POST",
               body: parametros
             })
@@ -60,7 +73,7 @@
                 if(data.acceso == true){
                   bienvenida(`¡Inicio de Sesión Exitoso!`);
                   setTimeout(function(){
-                    window.location.href = './views/clientes.php'
+                    window.location.href = './Views/clientes'
                   },2000);               
                 }else{
                   //alert("Acceso denegado");

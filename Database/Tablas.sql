@@ -1,4 +1,4 @@
-CREATE DATABASE proyecto_falcot;
+CREATE DATABASE proyecto_falcotempresas_cliente;
 USE proyecto_falcot;
 
 CREATE TABLE departamentos(
@@ -34,6 +34,8 @@ estado 		CHAR(1) 		DEFAULT(1),
 CONSTRAINT 	uk_rol_roles UNIQUE(rol)
 )ENGINE = INNODB;
 
+select * from roles;
+
 
 
 CREATE TABLE usuarios(
@@ -49,6 +51,12 @@ fechaFin 		DATE 			NULL,
 CONSTRAINT uk_clave_usuarios UNIQUE(usuario),
 CONSTRAINT fk_idrol_usuarios FOREIGN KEY(idrol) REFERENCES roles(idrol)
 )ENGINE = INNODB;
+
+describe usuarios;
+select * from usuarios;
+ALTER TABLE usuarios
+ADD CONSTRAINT uk_usuario UNIQUE (usuario);
+
 
 
 
@@ -78,10 +86,15 @@ idempresacliente 	INT 			PRIMARY KEY 	AUTO_INCREMENT,
 razonSocial 		VARCHAR(70) 	NOT NULL,
 nroDocumento 		VARCHAR(12) 	NOT NULL,
 direccion 			VARCHAR(60) 	NOT NULL,
+correo             	VARCHAR(60)		NULL,
+celular				CHAR(10)		NULL,
+contacto         	VARCHAR(40)		NULL,
 iddistrito 			INT 			NOT NULL,
 ubigeo 				CHAR(12) 		NULL,
 actividadEconomica 	VARCHAR(70) 	NULL,
 telefono 			CHAR(12) 		NULL,
+celular				CHAR(9)			NULL,
+contacto			VARCHAR(40)		NULL,
 estado 				CHAR(1) 		DEFAULT(1),
 fechaInicio 		DATE 			DEFAULT(now()),
 fechaEdicion 		DATE 			NULL,
@@ -100,12 +113,20 @@ moneda 				VARCHAR(10) 	NOT NULL,
 fechaCreacion 		DATE 			DEFAULT(now()),
 descuento 			CHAR(6)			NULL,
 grupoCompra 		VARCHAR(15) 	NULL,
-destino 			VARCHAR(20) 	NULL,
+destino 			VARCHAR(60) 	NULL,
+observaciones 		VARCHAR(60)		NULL,
+condicionPago		VARCHAR(40)		NULL,
 original 			VARCHAR(50) 	NULL,
+telefono 			CHAR(12) 		NULL,
+celular				CHAR(9)			NULL,
+contacto			VARCHAR(40)		NULL,
+correo             	VARCHAR(60)		NULL,
 estado				CHAR(1) 		DEFAULT(1),
 CONSTRAINT fk_iddetalleusuario_orden_compra FOREIGN KEY(iddetalleusuario) REFERENCES detalle_usuarios(iddetalleusuario),
 CONSTRAINT fk_idcliente_orden_compra FOREIGN KEY(idcliente) REFERENCES empresas_cliente(idempresacliente)
 )ENGINE = INNODB; 
+
+select * from orden_compra;
 
 
 

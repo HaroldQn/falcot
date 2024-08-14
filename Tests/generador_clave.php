@@ -1,6 +1,6 @@
 <?php
 
-$clave = "admin";
+$clave = "cardenas2024";
 
 $claveEncriptada = password_hash($clave, PASSWORD_BCRYPT);
 
