@@ -180,17 +180,17 @@
 
       <div class="col-12 col-md-3">
         <div class="form-group row">
-          <label for="subtotal" class="col-sm-4 col-form-label">SUBTOTAL:</label>
+          <label for="subtotal" class="col-sm-4 col-form-label">TOTAL GENERAL:</label>
           <div class="col-sm-8">
-            <input type="text" class="form-control mt-1" id="subtotal" placeholder="SUBTOTAL" disabled>
+            <input type="text" class="form-control mt-1" id="total_general" placeholder="SUBTOTAL" disabled>
           </div>
         </div>
-        <div class="form-group row">
+        <!-- <div class="form-group row">
           <label for="impuesto" class="col-sm-4 col-form-label">IMPUESTO:</label>
           <div class="col-sm-8">
             <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO" readonly>
           </div>
-        </div>
+        </div> -->
         <div class="form-group row">
           <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
           <div class="col-sm-8">
@@ -198,7 +198,7 @@
           </div>
         </div>
         <div class="form-group row">
-          <label for="total" class="col-sm-4 col-form-label">TOTAL:</label>
+          <label for="total" class="col-sm-4 col-form-label">TOTAL FINAL:</label>
           <div class="col-sm-8">
             <input type="text" class="form-control mt-1" id="total" placeholder="TOTAL" disabled>
           </div>
@@ -654,48 +654,22 @@
   });
 
   function calcularTotales() {
-    let subtotal = 0;
+    // Calcular Items
+    let total_items = 0;
     document.querySelectorAll('.importeTotal').forEach(function(field) {
-      subtotal += parseFloat(field.value) || 0;
+      total_items += parseFloat(field.value) || 0;
     });
 
-    subtotal_p = document.getElementById('subtotal').value = subtotal.toFixed(2);
-    impuesto_f = subtotal * 0.18;
+    let total_antes = total_items.toFixed(2);
+    let total_general = document.getElementById('total_general').value = total_antes;
 
-    document.getElementById('impuesto').value = impuesto_f.toFixed(2);
     let descuento = parseFloat(document.getElementById('descuento').value) || 0;
-
     const max = document.getElementById('descuento');
+    max.setAttribute("max", total_antes);
 
-    let totalConImpuesto = subtotal + impuesto_f;
-    max.setAttribute("max", totalConImpuesto);
-
-    let totalFinal = totalConImpuesto - descuento;
-
-
-    document.getElementById('total').value = totalFinal.toFixed(1);
+    let totalFinal = total_antes - descuento;
+    document.getElementById('total').value = totalFinal.toFixed(2);
   }
-
-//   function editar_cliente_existe(idcliente){
-//     const parametros = new FormData();
-//     parametros.append("operacion","")
-//     parametros.append("celular", celular.value)
-//     parametros.append("correo", correo.value)
-//     parametros.append("contacto", contacto.value)
-//     parametros.append("telefono", telefono.value)
-
-//     fetch(`../Controllers/ordencompra.controller.php`, {
-//       method: "POST",
-//       body: parametros
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//       console.log("Actualizado")
-//     })
-//     .catch((error) => {
-//         console.log(error);
-//     });
-//   }
 
   document.addEventListener('input', calcularTotales);
   document.getElementById('descuento').addEventListener('input', calcularTotales);
