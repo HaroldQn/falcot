@@ -299,7 +299,7 @@
       method: "POST",
       body: parametros
     })
-      .then(res => res.json())
+      .then(res => res.text())
       .then(datos => {
         console.log(datos)
         if(datos.idcliente !== null && datos.idcliente !== "" && datos.idcliente !== 0){
