@@ -185,12 +185,6 @@
             <input type="text" class="form-control mt-1" id="total_general" placeholder="SUBTOTAL" disabled>
           </div>
         </div>
-        <!-- <div class="form-group row">
-          <label for="impuesto" class="col-sm-4 col-form-label">IMPUESTO:</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control mt-1" id="impuesto" placeholder="IMPUESTO" readonly>
-          </div>
-        </div> -->
         <div class="form-group row">
           <label for="descuento" class="col-sm-4 col-form-label">DESCUENTO:</label>
           <div class="col-sm-8">
