@@ -455,6 +455,82 @@ BEGIN
 END //
 DELIMITER ;
 
+-- v.2
+DELIMITER //
+create procedure obtener_detalle_orden_compra(
+IN p_idordencompra int
+)
+BEGIN
+ -- CAMBIAR POR 26
+ IF p_idordencompra <= 26 THEN
+	 SELECT 
+			doc.iddetalleordencompra,
+			doc.idordencompra, doc.item, doc.centro,
+			doc.descripcion, doc.cantidad, doc.utm,
+			doc.precioUnitario,
+			ROUND(doc.cantidad * doc.precioUnitario, 2) AS total
+		FROM 
+			detalle_orden_compra doc
+		WHERE 
+			doc.idordencompra =26
+		ORDER BY 
+			doc.item ASC;
+ ELSE
+	 SELECT 
+		doc.iddetalleordencompra,
+		doc.idordencompra, doc.item, doc.centro,
+		doc.descripcion, doc.cantidad, doc.utm,
+		ROUND(doc.precioUnitario/1.18, 2) as precioUnitario,
+		ROUND(((doc.cantidad * doc.precioUnitario)/1.18), 2) AS total
+	FROM 
+		detalle_orden_compra doc
+	WHERE 
+		doc.idordencompra = p_idordencompra
+	ORDER BY 
+		doc.item ASC;
+ END IF;
+END //
 
-
+DELIMITER //
+CREATE PROCEDURE spu_calcular_totales(
+IN _idordencompra INT
+)
+BEGIN
+	DECLARE subtotal DECIMAL(10,2);
+	DECLARE igv DECIMAL(10,2);
+	DECLARE descuento_final DECIMAL(10,2);
+	DECLARE total DECIMAL(10,2);
+	DECLARE suma_total_precios DECIMAL(10,2);
+	-- cambiar a 26
+	IF _idordencompra <= 26 THEN
+		 SELECT SUM(cantidad * precioUnitario) INTO subtotal FROM detalle_orden_compra WHERE idordencompra = _idordencompra;
+		SET igv = subtotal * 0.18;
+		
+		-- DESCUENTO
+		SELECT descuento INTO descuento_final FROM orden_compra WHERE idordencompra = _idordencompra;
+		
+		-- TOTAL
+		SET total = (subtotal + igv) - descuento_final;
+		
+		SELECT subtotal AS Subtotal, igv AS IGV, descuento_final AS Descuento, total AS Total;
+    ELSE
+		
+		-- SUMA DE PRECIO DE LOS PRODUCTOS CON IGV
+		SELECT SUM(cantidad * precioUnitario) INTO suma_total_precios FROM detalle_orden_compra WHERE idordencompra = _idordencompra;
+		
+		-- SUBTOTAL
+		SET total = (subtotal + igv) - descuento_final;
+		
+		-- IGV 
+		SET igv =  suma_total_precios - suma_total_precios/1.18;
+		
+		-- DESCUENTO
+		SELECT descuento INTO descuento_final FROM orden_compra WHERE idordencompra = _idordencompra;
+		
+		-- TOTAL
+		SET total = (subtotal + igv) - descuento_final;
+		
+		SELECT subtotal AS Subtotal, igv AS IGV, descuento_final AS Descuento, total AS Total;
+    END IF;
+END //
 
