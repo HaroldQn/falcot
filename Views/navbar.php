@@ -34,17 +34,17 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link text-light fw-bolder" href="./ordenes_compra"><strong>Lista de Ordenes</strong></a>
+                        <a class="nav-link text-light fw-bolder" href="./ordenes_compra.php"><strong>Lista de Ordenes</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bolder" href="./generar_orden_compra"><strong>Generar orden</strong></a>
+                        <a class="nav-link text-light fw-bolder" href="./generar_orden_compra.php"><strong>Generar orden</strong></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bolder" href="./clientes"><strong>Clientes</strong></a>
+                        <a class="nav-link text-light fw-bolder" href="./clientes.php"><strong>Clientes</strong></a>
                     </li>
                     <?php if ($_SESSION['idrol'] == 1): ?> 
                     <li class="nav-item">
-                        <a class="nav-link text-light fw-bolder" href="./usuarios"><strong>Usuarios</strong></a>
+                        <a class="nav-link text-light fw-bolder" href="./usuarios.php"><strong>Usuarios</strong></a>
                     </li>
                     <?php endif; ?>
                     <li class="nav-item">

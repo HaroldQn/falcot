@@ -5,6 +5,9 @@
         <?php if($resultado[0]['estado'] == 1){
                 echo '<div class="watermark">ESTE DOCUMENTO NO ES VÁLIDO</div>';
             }
+            if($resultado[0]['estado'] == 0){
+                echo '<div class="watermark">ESTE DOCUMENTO FUE RECHAZADO</div>';
+            }
         ?>
         <table>
             <tr>

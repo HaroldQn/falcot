@@ -104,7 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
             } else if (dato.estado == 0) {
                 verificar = `
-                    <button class="btn btn-danger rechazado" data-id="${dato.idordencompra}">Rechazado</button>
+                  <a href="../reports/pdf_orden_compra.php?idordencompra=${dato.idordencompra}" download='orden-compra-${dato.idordencompra}'
+                  type="button" class="btn btn-danger rechazado" data-id="${dato.idordencompra}">Rechazado</a>
                 `;
             }
         } else if (usuario == 2) {
@@ -165,9 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btnFechaFiltro.addEventListener("change",function(){
     obtenerOrdenesCompra()
   });
- 
 
-  asignarFechaHoy()
   obtenerOrdenesCompra();
 
 })
