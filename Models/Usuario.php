@@ -29,6 +29,7 @@ class Usuarios extends Conexion{
                     $datos['rol']
                 )
             );
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die($e->getMessage());
         }
@@ -42,6 +43,7 @@ class Usuarios extends Conexion{
                     $datos['idusuario']
                 )
             );
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die($e->getMessage());
         }
@@ -56,6 +58,7 @@ class Usuarios extends Conexion{
                     $datos['clave']
                 )
             );
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die($e->getMessage());
         }

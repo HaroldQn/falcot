@@ -30,11 +30,11 @@
   <table class="table table-sm table-bordered text-center" id="tabla-orden-compra">
     <thead class="table-dark" >
       <tr>
-        <th scope="col" width="10%">#</th>
-        <th scope="col" width="45%">Razon social</th>
-        <th scope="col" width="15%">ruc</th>
-        <th scope="col" width="15%">Fecha</th>
-        <th scope="col" width="15%">Estado</th>
+        <th scope="col" width="10%">N° OC</th>
+        <th scope="col" width="45%">RAZON SOCIAL</th>
+        <th scope="col" width="15%">RUC</th>
+        <th scope="col" width="15%">FECHA CREACION</th>
+        <th scope="col" width="15%">ACCIONES</th>
       </tr>
     </thead>
     <tbody>
