@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       const data = await res.json();
       const render = data
-        .map(({ idrequerimiento, usuario, fecha, motivo, observacion }) => {
+        .map(async ({ idrequerimiento, usuario, fecha, estado, motivo, observacion }) => {
+          const ButtonEstado = await renderButon(idrequerimiento, estado);
           return `
           <tr>
             <td>${idrequerimiento}</td>
@@ -27,48 +28,56 @@ document.addEventListener("DOMContentLoaded", () => {
             <td class="text-left">${motivo}</td>
             <td class="text-left" style="width: 10px;">${observacion}</td>
             <td>
-              <button class="btn btn-secondary toggle-options" data-id="${idrequerimiento}">
-                <i class="bi bi-chevron-down"></i>
-              </button>
+                <button class="btn btn-warning ver-detalle" data-bs-toggle="modal" data-bs-target="#modal-requerimiento-list" data-id="${idrequerimiento}">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
             </td>
-          </tr>
-          <tr class="options-row" id="options-${idrequerimiento}" style="display: none;">
-            <td colspan="6">
-              <div class="options-container">
-                <button class="btn btn-danger">
-                  <i class="bi bi-trash-fill"></i>
-                </button>
-                <button class="btn btn-primary">
-                  <i class="bi bi-pencil-fill"></i>
-                </button>
-                <button class="btn btn-success">
-                  <i class="bi bi-check2-circle"></i>
-                </button>
-              </div>
+            <td class="text-${estado === '0' ? 'success' : 'muted'} ">
+              <strong>
+                ${estado === '0' ? 'Aprobado' : 'Pendiente'}
+              </strong>
             </td>
+            ${ButtonEstado}
           </tr>
         `;
-        })
-        .join("");
-      tabla.innerHTML = render;
-
-      // Agregar eventos para los botones de despliegue
-      document.querySelectorAll(".toggle-options").forEach((button) => {
-        button.addEventListener("click", (e) => {
-          const id = e.target.closest("button").dataset.id;
-          const optionsRow = document.getElementById(`options-${id}`);
-          if (optionsRow.style.display === "none") {
-            optionsRow.style.display = "table-row";
-            e.target.innerHTML = `<i class="bi bi-chevron-up"></i>`;
-          } else {
-            optionsRow.style.display = "none";
-            e.target.innerHTML = `<i class="bi bi-chevron-down"></i>`;
-          }
         });
-      });
+      const renderedRows = await Promise.all(render);
+      tabla.innerHTML = renderedRows.join("");
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async function renderButon(id, estado) {
+    console.log(typeof estado);
+    let button;
+    if (estado === "1") {
+      button = `
+      <td>
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+          <button type="button" class="btn btn-danger">
+            <i class="bi bi-trash-fill"></i>
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+          <button type="button" class="btn btn-success">
+            <i class="bi bi-check2-circle"></i>
+          </button>
+        </div>
+      </td>
+      `;
+    } else {
+      button = `
+      <td>
+        <button class="btn btn-secondary toggle-options" data-id="${id}">
+          <i class="bi bi-chevron-down"></i>
+        </button>
+      </td>
+      `;
+    }
+
+    return button;
   }
 
   async function verRequerimiento(id) {
@@ -99,7 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
   function createRow() {
     const row = document.createElement("div");
     row.classList.add("input-group", "mt-2");
@@ -123,20 +131,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     const data = await res.json();
     const { idrequerimiento } = data;
-    console.log(idrequerimiento)
+    console.log(idrequerimiento);
 
     const filas = document.querySelectorAll(".input-group");
-    const detalles =  [...filas].map((fila)  => {
+    const detalles = [...filas].map((fila) => {
       const item = fila.querySelector("[name='requerimiento']").value;
       const cantidad = fila.querySelector("[name='cantidad']").value || 1;
       console.log(item, cantidad);
-     registrarDetRequerimiento(idrequerimiento, item, cantidad);
+      registrarDetRequerimiento(idrequerimiento, item, cantidad);
     });
 
     await Promise.all(detalles);
     listarRequerimientos();
     modal.hide();
-
   }
 
   async function registrarDetRequerimiento(idrequerimiento, item, cantidad) {
@@ -191,6 +198,41 @@ document.addEventListener("DOMContentLoaded", () => {
         <input type="number" class="form-control" placeholder="Cantidad" name="cantidad" min="1" value="1">
       </div>
     `;
+  });
+
+  //Eventos 
+  // Delegación de eventos para evitar duplicados
+  tabla.addEventListener("click", (e) => {
+    if (e.target.closest(".toggle-options")) {
+      const button = e.target.closest(".toggle-options");
+      const id = button.dataset.id;
+      let optionsContainer = document.getElementById(id);
+
+      if (!optionsContainer) {
+        // Crear el <div> dinámicamente si no existe
+        optionsContainer = document.createElement("div");
+        optionsContainer.id = id;
+        optionsContainer.classList.add("options-container");
+        optionsContainer.style.display = "block";
+        optionsContainer.innerHTML = `
+          <div class="options-content">
+            <button class="btn btn-danger">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+            <button class="btn btn-primary">
+              <i class="bi bi-pencil-fill"></i>
+            </button>
+            <button class="btn btn-success">
+              <i class="bi bi-check2-circle"></i>
+            </button>
+          </div>
+        `;
+        button.closest("tr").after(optionsContainer);
+      } else {
+        // Mostrar u ocultar el <div> si ya existe
+        optionsContainer.style.display = optionsContainer.style.display === "none" ? "block" : "none";
+      }
+    }
   });
 
   listarRequerimientos();
