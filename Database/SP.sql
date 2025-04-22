@@ -533,4 +533,3 @@ BEGIN
 		SELECT subtotal AS Subtotal, igv AS IGV, descuento_final AS Descuento, total AS Total;
     END IF;
 END //
-

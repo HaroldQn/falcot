@@ -10,33 +10,33 @@
 <?php require_once './navbar.php'; ?>
   <div class="container">
     <h3 class="text-center m-3">Gestión de Clientes </h3>
-  <div class="container row mb-3 mt-3">
-      <div class="col col-md-4">
-      </div>
-      <div class="col col-md-4"></div>
-      <div class="col col-md-4 d-flex justify-content-end">
-        <button type="button" class="btn btn-success mb-1" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
-      </div>
-  </div>
+    <div class="container row mb-3 mt-3">
+        <div class="col col-md-4">
+        </div>
+        <div class="col col-md-4"></div>
+        <div class="col col-md-4 d-flex justify-content-end">
+          <button type="button" class="btn btn-success mb-1" id="crear-usuario" data-bs-toggle="modal" data-bs-target="#modal-cliente">Agregar Cliente</button>
+        </div>
+    </div>
 
-  <div class="">
-    <div class="table-responsive">
-      <table class="table table-striped  table-sm table-bordered text-center" id="tabla-cliente">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Razon social</th>
-            <th scope="col">Ruc</th>
-            <th scope="col">Celular</th>
-            <th scope="col">Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+    <div class="">
+      <div class="table-responsive">
+        <table class="table table-striped  table-sm table-bordered text-center" id="tabla-cliente">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Razon social</th>
+              <th scope="col">Ruc</th>
+              <th scope="col">Celular</th>
+              <th scope="col">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 
 <!-- Modal -->
 <div class="modal fade" id="modal-cliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

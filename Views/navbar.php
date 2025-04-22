@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="background-color: #E5E8E8;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,10 @@
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Data Tables -->
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+
+
 </head>
 <body style="background-color:#E5E8E8" data-idusuario="<?php echo isset($_SESSION['idusuario']) ? $_SESSION['idusuario'] : ''; ?>">
     <div class="bg-dark">
@@ -34,6 +38,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
+                        <a class="nav-link text-light fw-bolder" href="./requerimientos.php"><strong>Requerimientos</strong></a>
+                    </li>
+                    <?php if ($_SESSION['idrol'] == 2 || $_SESSION['idrol'] == 1): ?>
+                    <li class="nav-item active">
                         <a class="nav-link text-light fw-bolder" href="./ordenes_compra.php"><strong>Lista de Ordenes</strong></a>
                     </li>
                     <li class="nav-item">
@@ -42,6 +50,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-light fw-bolder" href="./clientes.php"><strong>Clientes</strong></a>
                     </li>
+                    <?php endif; ?>
                     <?php if ($_SESSION['idrol'] == 1): ?> 
                     <li class="nav-item">
                         <a class="nav-link text-light fw-bolder" href="./usuarios.php"><strong>Usuarios</strong></a>

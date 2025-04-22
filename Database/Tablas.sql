@@ -1,5 +1,5 @@
 CREATE DATABASE proyecto_falcotempresas_cliente;
-USE proyecto_falcot;
+USE u952246627_falcot24;
 
 CREATE TABLE departamentos(
 iddepartamento 		INT 			PRIMARY KEY 	AUTO_INCREMENT,

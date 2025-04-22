@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         .then(respuesta => respuesta.json())
         .then(data =>{
             lista.innerHTML = '';
-            datos = data.filter( rol => rol.rol == 'asistente');
-            console.log(datos)
+            const datos = data;
             if (datos.length == 0) {
                 let fila = `
                     <tr>
@@ -59,7 +58,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         parametros.append("clave",$("#clave").value);
         parametros.append("nombres",$("#nombres").value);
         parametros.append("apellidos",$("#apellidos").value);
-        parametros.append("rol",2);
+        parametros.append("rol",$("#rol").value);
         fetch(`../Controllers/usuario.controller.php`,{
             method: "POST",
             body: parametros

@@ -7,7 +7,7 @@ class Conexion{
   private $puerto = "3306";
   private $baseDatos = "u952246627_falcot24";
   private $usuario = "root";
-  private $clave = "admin123";
+  private $clave = "";
 
     public function getConexion(){
 

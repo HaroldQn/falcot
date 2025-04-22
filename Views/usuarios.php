@@ -47,6 +47,13 @@
                     <form autocomplete="off" id="form-usuario">
                         <div class="modal-body">
                             <div class="row">
+                                <div class="col col-md-12 mb-2">
+                                    <label for="rol" class="form-label">Rol:</label>
+                                    <select name="rol" id="rol" class="form-control">
+                                        <option value="2">Administrador</option>
+                                        <option value="3">Mecanico</option>
+                                    </select>
+                                </div>
                                 <div class="col col-md-12">
                                     <label for="usuario" class="form-label">Nombre del usuario:</label>
                                     <input type="text" name="usuario" class="form-control" id="usuario">
