@@ -1,5 +1,3 @@
-import { dataTable } from "../Js/exports/dataTable.js";
-
 document.addEventListener("DOMContentLoaded", () => {
   const API = "../Controllers/requerimiento.controller.php";
   const tabla = document.getElementById("lista-requerimientos");
@@ -10,8 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnAbrirModal = document.getElementById("crear-requerimiento");
 
   async function listarRequerimientos() {
-    // dataTable(1);
-
     try {
       const formData = new FormData();
       formData.append("operacion", "lista_requerimientos");
@@ -21,50 +17,55 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData,
       });
       const data = await res.json();
-
-      // if ($.fn.dataTable.isDataTable(tabla)) {
-      //   $(tabla).DataTable().destroy();
-      // }
-
       const render = data
         .map(({ idrequerimiento, usuario, fecha, motivo, observacion }) => {
-
-          if (fecha === "2025-04-22"){
-            return `
-            <tr>
-              <td>${idrequerimiento}</td>
-              <td>${usuario}</td>
-              <td>${fecha }</td>
-              <td class="text-left">${motivo}</td>
-              <td class="text-left" style="width: 10px;">${observacion}</td>
-              <td>
-                <button class="btn btn-warning ver-detalle" data-bs-toggle="modal" data-bs-target="#modal-requerimiento-list" data-id="${idrequerimiento}">
-                  <i class="bi bi-eye-fill"></i>
+          return `
+          <tr>
+            <td>${idrequerimiento}</td>
+            <td>${usuario}</td>
+            <td>${fecha}</td>
+            <td class="text-left">${motivo}</td>
+            <td class="text-left" style="width: 10px;">${observacion}</td>
+            <td>
+              <button class="btn btn-secondary toggle-options" data-id="${idrequerimiento}">
+                <i class="bi bi-chevron-down"></i>
+              </button>
+            </td>
+          </tr>
+          <tr class="options-row" id="options-${idrequerimiento}" style="display: none;">
+            <td colspan="6">
+              <div class="options-container">
+                <button class="btn btn-danger">
+                  <i class="bi bi-trash-fill"></i>
                 </button>
-              </td>
-              <td>
-                POR CONFIRMAR
-              </td>
-              <td>
-                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                  <button type="button" class="btn btn-danger">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                  <button type="button" class="btn btn-primary">
-                    <i class="bi bi-pencil-fill"></i>
-                  </button>
-                  <button type="button" class="btn btn-success">
-                    <i class="bi bi-check2-circle"></i>
-                  </button>
-                </div>
-              </td>
-            <tr>
-          `;
-            
-          }
+                <button class="btn btn-primary">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-success">
+                  <i class="bi bi-check2-circle"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
         })
         .join("");
       tabla.innerHTML = render;
+
+      // Agregar eventos para los botones de despliegue
+      document.querySelectorAll(".toggle-options").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          const id = e.target.closest("button").dataset.id;
+          const optionsRow = document.getElementById(`options-${id}`);
+          if (optionsRow.style.display === "none") {
+            optionsRow.style.display = "table-row";
+            e.target.innerHTML = `<i class="bi bi-chevron-up"></i>`;
+          } else {
+            optionsRow.style.display = "none";
+            e.target.innerHTML = `<i class="bi bi-chevron-down"></i>`;
+          }
+        });
+      });
     } catch (error) {
       console.log(error);
     }
@@ -194,4 +195,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   listarRequerimientos();
 });
- 
