@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <td class="text-left">${motivo}</td>
             <td class="text-left" style="width: 10px;">${observacion}</td>
             <td>
-                <button class="btn btn-warning ver-detalle" data-bs-toggle="modal" data-bs-target="#modal-requerimiento-list" data-id="${idrequerimiento}">
+                <button class="btn btn-dark ver-detalle" data-bs-toggle="modal" data-bs-target="#modal-requerimiento-list" data-id="${idrequerimiento}">
                   <i class="bi bi-eye-fill"></i>
                 </button>
             </td>
@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function renderButon(id, estado) {
-    console.log(typeof estado);
     let button;
     if (estado === "1") {
       button = `
@@ -200,37 +199,91 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   });
 
+
+  async function renderDeteiles(id) {
+    try {
+
+      const formData = new FormData();
+      formData.append("operacion", "lista_cotizaciones_proveedores");
+      formData.append("idrequerimiento", id);
+      const res = await fetch(API, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.length > 0) {
+        const renderListDet = data
+          .map(({ idrequerimiento, precio_total, ruta_pdf, fecha , estado}) => {
+            return `
+            <tr>
+              <td>${precio_total}</td>
+              <td>${estado}</td>
+              <td>${ruta_pdf}</td>
+              <td>${fecha}</td>
+              <td>Botones</td>
+            </tr>
+          `;
+          })
+          .join("");
+        return renderListDet;
+      }else{
+        return `
+        <tr>
+          <td colspan="6" style="text-align: center;">No hay cotizaciones registradas</td>
+        </tr>
+        `;
+      }
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   //Eventos 
   // Delegación de eventos para evitar duplicados
-  tabla.addEventListener("click", (e) => {
+  tabla.addEventListener("click", async (e) => {
     if (e.target.closest(".toggle-options")) {
       const button = e.target.closest(".toggle-options");
       const id = button.dataset.id;
-      let optionsContainer = document.getElementById(id);
+      let optionsContainer = document.getElementById(`options-${id}`);
 
       if (!optionsContainer) {
-        // Crear el <div> dinámicamente si no existe
-        optionsContainer = document.createElement("div");
-        optionsContainer.id = id;
-        optionsContainer.classList.add("options-container");
-        optionsContainer.style.display = "block";
+        // Crear el <tr> dinámicamente si no existe
+        optionsContainer = document.createElement("tr");
+        optionsContainer.id = `options-${id}`;
+        optionsContainer.classList.add("options-row");
         optionsContainer.innerHTML = `
-          <div class="options-content">
-            <button class="btn btn-danger">
-              <i class="bi bi-trash-fill"></i>
-            </button>
-            <button class="btn btn-primary">
-              <i class="bi bi-pencil-fill"></i>
-            </button>
-            <button class="btn btn-success">
-              <i class="bi bi-check2-circle"></i>
-            </button>
-          </div>
+          <td colspan="1" style="background-color: #06202B;"></td>
+          <td colspan="7" style="background-color: #06202B;">
+            <div class="options-content" style="width: 100%; display: flex; justify-content: flex-end; align-items: center;">
+              <button class="btn btn-warning">
+                <i class="bi bi-box-arrow-in-up"></i> Subir PDF
+              </button>
+            </div>
+            <div class="text-center" style="width: 100%; display: flex; justify-content: center; align-items: center;">
+              <table class="table text-white table-bordered table-striped mt-2">
+                <thead>
+                  <tr>
+                    <th>Precio Total</th>
+                    <th>Estado</th>
+                    <th>PDF</th>
+                    <th>Fecha</th>
+                    <th>Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${await renderDeteiles(id)}
+                </tbody>
+              </table>
+            </div>
+          </td>
         `;
         button.closest("tr").after(optionsContainer);
       } else {
-        // Mostrar u ocultar el <div> si ya existe
-        optionsContainer.style.display = optionsContainer.style.display === "none" ? "block" : "none";
+        // Mostrar u ocultar el <tr> si ya existe
+        optionsContainer.style.display = optionsContainer.style.display === "none" ? "table-row" : "none";
       }
     }
   });

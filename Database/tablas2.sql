@@ -1,4 +1,6 @@
 -- PARTE DE 2 DE LAS MODIFICACIONES PARA SOLICITUDES
+USE u952246627_falcot24;
+
 CREATE TABLE requerimientos(
 idrequerimiento INT PRIMARY KEY AUTO_INCREMENT,
 idusuario 	INT,
@@ -22,3 +24,30 @@ CONSTRAINT fk_det_requerimiento FOREIGN KEY(idrequerimiento) REFERENCES requerim
 
 INSERT INTO det_requerimientos (idrequerimiento, item, cantidad) VALUES(1, 'POLVORA BLUE 1/3', 10);
 SELECT * FROM det_requerimientos;
+
+
+CREATE TABLE cotizaciones_proveedores(
+  idcotizacion_prov INT PRIMARY KEY AUTO_INCREMENT,
+  idrequerimiento INT,
+  precio_total DECIMAL(10,2) NOT NULL,
+  ruta_pdf VARCHAR(255) NOT NULL,
+  estado CHAR(1) DEFAULT(1),
+  fecha DATE DEFAULT(now()),
+  CONSTRAINT fk_cotizacion_prov FOREIGN KEY(idrequerimiento) REFERENCES requerimientos(idrequerimiento)
+)ENGINE = INNODB;
+
+INSERT INTO cotizaciones_proveedores (idrequerimiento, precio_total, ruta_pdf) VALUES(16, 1000, 'rutita21.pdf');
+
+CREATE TABLE det_cotizacion_data(
+iddet_cotizacion_data INT PRIMARY KEY AUTO_INCREMENT,
+idcotizacion_prov INT,
+idordencompra INT,
+ruta_guia VARCHAR(255) NOT NULL,
+ruta_factura VARCHAR(255) NOT NULL,
+ruta_pago VARCHAR(255) NOT NULL,
+estado CHAR(1) DEFAULT(1),
+CONSTRAINT fk_det_cotizacion_data FOREIGN KEY(idcotizacion_prov) REFERENCES cotizaciones_proveedores(idcotizacion_prov)
+)ENGINE = INNODB;
+
+INSERT INTO det_cotizacion_data (idcotizacion_prov, idordencompra, ruta_guia, ruta_factura, ruta_pago) VALUES(1, 1, 'guia.pdf', 'factura.pdf', 'pago.pdf');
+SELECT * FROM det_cotizacion_data

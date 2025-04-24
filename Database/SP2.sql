@@ -55,4 +55,65 @@ BEGIN
 END $$
 
 CALL sp_detalle_requerimiento(12)
+-- -------------------------------------------------
 
+DELIMITER $$
+CREATE PROCEDURE sp_listar_cotizaciones_proveedor(
+    IN _idrequerimiento INT
+)
+BEGIN
+    SELECT 
+        cp.idcotizacion_prov,
+        cp.idrequerimiento,
+        cp.precio_total,
+        cp.ruta_pdf,
+        cp.fecha,
+        cp.estado
+    FROM cotizaciones_proveedores cp
+    WHERE cp.idrequerimiento = _idrequerimiento;
+END $$
+CALL sp_listar_cotizaciones_proveedor(16)
+
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_cotizacion_proveedor(
+    IN _idrequierimiento INT,
+    IN _precio_total DECIMAL(10,2),
+    IN _ruta_pdf VARCHAR(255)
+)
+BEGIN
+    INSERT INTO cotizaciones_proveedores (idrequerimiento, precio_total, ruta_pdf)
+    VALUES (_idrequierimiento, _precio_total, _ruta_pdf);
+END $$
+CALL spu_registrar_cotizacion_proveedor(16, 1000, 'ruta123.pdf');
+
+DELIMITER $$
+CREATE PROCEDURE sp_listar_detalle_cotizacion_proveedor(
+    IN _idcotizacion_prov INT
+)
+BEGIN
+    SELECT 
+        dc.iddet_cotizacion_data,
+        dc.idcotizacion_prov,
+        dc.idordencompra,
+        dc.ruta_guia,
+        dc.ruta_factura,
+        dc.ruta_pago,
+        dc.estado
+    FROM det_cotizacion_data dc
+    WHERE dc.idcotizacion_prov = _idcotizacion_prov;
+END $$
+CALL sp_listar_detalle_cotizacion_proveedor(1)
+
+DELIMITER $$
+CREATE PROCEDURE spu_registrar_detalle_cotizacion_proveedor(
+    IN _idcotizacion_prov INT,
+    IN _idordencompra INT,
+    IN _ruta_guia VARCHAR(255),
+    IN _ruta_factura VARCHAR(255),
+    IN _ruta_pago VARCHAR(255)
+)
+BEGIN
+    INSERT INTO det_cotizacion_data (idcotizacion_prov, idordencompra, ruta_guia, ruta_factura, ruta_pago)
+    VALUES (_idcotizacion_prov, _idordencompra, _ruta_guia, _ruta_factura, _ruta_pago);
+END $$
+CALL spu_registrar_detalle_cotizacion_proveedor(1, 1, 'guia123.pdf', 'factura.pdf', 'pago.pdf');
