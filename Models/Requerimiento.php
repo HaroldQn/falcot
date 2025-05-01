@@ -78,6 +78,17 @@ class Requerimiento extends Conexion
     }
   }
 
+  public function actualizar_estado_requerimiento($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_actualizar_estado_requerimiento(?,?)");
+      $consulta->execute(array($datos['idrequerimiento'], $datos['estado']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
   // Detalle de la data de cotizacion pdf, constancia de pagom, factura
   public function listar_detalle_cotizacion_proveedor($datos = [])
   {

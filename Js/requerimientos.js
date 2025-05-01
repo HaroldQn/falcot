@@ -21,25 +21,26 @@ document.addEventListener("DOMContentLoaded", () => {
         .map(async ({ idrequerimiento, usuario, fecha, estado, motivo, observacion }) => {
           const ButtonEstado = await renderButon(idrequerimiento, estado);
           return `
-          <tr>
-            <td>${idrequerimiento}</td>
-            <td>${usuario}</td>
-            <td>${fecha}</td>
-            <td class="text-left">${motivo}</td>
-            <td class="text-left" style="width: 10px;">${observacion}</td>
-            <td>
+            <tr data-id="${idrequerimiento}">
+              <td>${idrequerimiento}</td>
+              <td>${usuario}</td>
+              <td>${fecha}</td>
+              <td class="text-left">${motivo}</td>
+              <td class="text-left" style="width: 10px;">${observacion}</td>
+              <td>
                 <button class="btn btn-dark ver-detalle" data-bs-toggle="modal" data-bs-target="#modal-requerimiento-list" data-id="${idrequerimiento}">
                   <i class="bi bi-eye-fill"></i>
                 </button>
-            </td>
-            <td class="text-${estado === '0' ? 'success' : 'muted'} ">
-              <strong>
-                ${estado === '0' ? 'Aprobado' : 'Pendiente'}
-              </strong>
-            </td>
-            ${ButtonEstado}
-          </tr>
-        `;
+              </td>
+              <td class="text-${estado === '0' ? 'primary' : estado === '1' ? 'muted' : 'danger'}">
+                <strong>
+                  ${estado === '0' ? 'En proceso' : estado === '1' ? 'En revision' : 'Anulado'}
+                  
+                </strong>
+              </td>
+              ${ButtonEstado}
+            </tr>
+          `;
         });
       const renderedRows = await Promise.all(render);
       tabla.innerHTML = renderedRows.join("");
@@ -54,23 +55,28 @@ document.addEventListener("DOMContentLoaded", () => {
       button = `
       <td>
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-          <button type="button" class="btn btn-danger">
+          <button type="button" class="btn btn-danger anular-requerimiento" data-id="${id}">
             <i class="bi bi-trash-fill"></i>
           </button>
-          <button type="button" class="btn btn-primary">
-            <i class="bi bi-pencil-fill"></i>
-          </button>
-          <button type="button" class="btn btn-success">
+          <button type="button" class="btn btn-success proceso-requerimiento" data-id="${id}">
             <i class="bi bi-check2-circle"></i>
           </button>
         </div>
       </td>
       `;
-    } else {
+    } else if (estado === "0") {
       button = `
       <td>
         <button class="btn btn-secondary toggle-options" data-id="${id}">
           <i class="bi bi-chevron-down"></i>
+        </button>
+      </td>
+      `;
+    } else {
+      button = `
+      <td>
+        <button class="btn btn-secondary" disabled>
+          <i class="bi bi-x-circle"></i>
         </button>
       </td>
       `;
@@ -160,12 +166,121 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(data);
   }
 
+  async function actualizarFilaRequerimiento(idRequerimiento) {
+    try {
+      const formData = new FormData();
+      formData.append("operacion", "lista_requerimientos");
+
+      const res = await fetch(API, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+
+      // Buscar el registro actualizado
+      const registroActualizado = data.find((req) => req.idrequerimiento === idRequerimiento);
+
+      if (registroActualizado) {
+        // Renderizar la fila actualizada
+        const ButtonEstado = await renderButon(registroActualizado.idrequerimiento, registroActualizado.estado);
+        const nuevaFila = `
+          <td>${registroActualizado.idrequerimiento}</td>
+          <td>${registroActualizado.usuario}</td>
+          <td>${registroActualizado.fecha}</td>
+          <td class="text-left">${registroActualizado.motivo}</td>
+          <td class="text-left" style="width: 10px;">${registroActualizado.observacion}</td>
+          <td>
+            <button class="btn btn-dark ver-detalle" data-bs-toggle="modal" data-bs-target="#modal-requerimiento-list" data-id="${registroActualizado.idrequerimiento}">
+              <i class="bi bi-eye-fill"></i>
+            </button>
+          </td>
+          <td class="text-${registroActualizado.estado === '0' ? 'success' : 'muted'}">
+            <strong>
+              ${registroActualizado.estado === '0' ? 'Aprobado' : 'Pendiente'}
+            </strong>
+          </td>
+          ${ButtonEstado}
+        `;
+
+        // Actualizar la fila en la tabla
+        const fila = document.querySelector(`tr[data-id="${idRequerimiento}"]`);
+        if (fila) {
+          fila.innerHTML = nuevaFila;
+        }
+      }
+    } catch (error) {
+      console.error("Error al actualizar la fila:", error);
+    }
+  }
+
+  async function renderizarCotizaciones(idRequerimiento) {
+    try {
+      const formData = new FormData();
+      formData.append("operacion", "lista_cotizaciones_proveedores");
+      formData.append("idrequerimiento", idRequerimiento);
+
+      const res = await fetch(API, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+
+      // Buscar el contenedor de las cotizaciones para este registro
+      const contenedorCotizaciones = document.querySelector(`#options-${idRequerimiento} tbody`);
+
+      if (data.length > 0) {
+        const renderListDet = data
+          .map(({ fecha, ruta_pdf, precio_total }) => {
+            const nombreArchivo = ruta_pdf.substring(0, ruta_pdf.lastIndexOf('.'));
+            return `
+              <tr>
+                <td>${fecha}</td>
+                <td><a href="../pdf_cot/${ruta_pdf}" target="_blank">${nombreArchivo}</a></td>
+                <td>${precio_total}</td>
+                <td>
+                  <button type="button" class="btn btn-danger eliminar-cotizacion" data-id="${idRequerimiento}">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+        contenedorCotizaciones.innerHTML = renderListDet;
+      } else {
+        contenedorCotizaciones.innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align: center;">No hay cotizaciones registradas</td>
+          </tr>
+        `;
+      }
+    } catch (error) {
+      console.error("Error al renderizar las cotizaciones:", error);
+    }
+  }
+
   // Eventos
 
+  tabla.addEventListener("click", (e) => {
+    if (e.target.closest(".anular-requerimiento")) {
+      const button = e.target.closest(".anular-requerimiento");
+      const id = button.dataset.id;
+      cambiarEstadoRequerimiento(id, "2"); // Cambiar el estado a "2" (anulado)
+    }
+  
+    // Verificar si se hizo clic en el botón "proceso-requerimiento"
+    if (e.target.closest(".proceso-requerimiento")) {
+      const button = e.target.closest(".proceso-requerimiento");
+      const id = button.dataset.id; // Obtener el data-id
+      cambiarEstadoRequerimiento(id, "0"); // Cambiar el estado a "0" (en proceso)
+    }
+  });
+
   addEventListener("click", async (e) => {
-    if (e.target.classList.contains("ver-detalle")) {
-      const id = e.target.dataset.id;
-      await verRequerimiento(id);
+    const button = e.target.closest(".ver-detalle"); // Asegurarse de seleccionar el botón padre
+    if (button) {
+      const id = button.dataset.id; // Obtener el ID del requerimiento
+      await verRequerimiento(id); // Llamar a la función para cargar el detalle
     }
   });
 
@@ -215,13 +330,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.length > 0) {
         const renderListDet = data
           .map(({ idrequerimiento, precio_total, ruta_pdf, fecha , estado}) => {
+            const nombreArchivo = ruta_pdf.substring(0, ruta_pdf.lastIndexOf('.')); // Obtiene el nombre sin la extensión
+            console.log(nombreArchivo);
             return `
             <tr>
-              <td>${precio_total}</td>
-              <td>${estado}</td>
-              <td>${ruta_pdf}</td>
               <td>${fecha}</td>
-              <td>Botones</td>
+              <td><a href="../pdf_cot/${ruta_pdf}" target="_blank">${nombreArchivo}</a></td>
+              <td>${precio_total}</td>
+              <td>
+                <button type="button" class="btn btn-danger">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+                <button type="button" class="btn btn-success">
+                  <i class="bi bi-check2-circle"></i>
+                </button>
+              </td>
             </tr>
           `;
           })
@@ -241,8 +364,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  //Cambiar estado requerimiento
+  async function cambiarEstadoRequerimiento(idRequerimiento, nuevoEstado) {
+    try {
+      const formData = new FormData();
+      formData.append("operacion", "actualizar_estado_requetimiento");
+      formData.append("idrequerimiento", idRequerimiento);
+      formData.append("estado", nuevoEstado);
+
+      const res = await fetch(API, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      alert("Estado actualizado correctamente.");
+      await listarRequerimientos();
+    } catch (error) {
+      console.error("Error al cambiar el estado:", error);
+    }
+  }
+
   //Eventos 
   // Delegación de eventos para evitar duplicados
+
+
+
   tabla.addEventListener("click", async (e) => {
     if (e.target.closest(".toggle-options")) {
       const button = e.target.closest(".toggle-options");
@@ -255,10 +401,10 @@ document.addEventListener("DOMContentLoaded", () => {
         optionsContainer.id = `options-${id}`;
         optionsContainer.classList.add("options-row");
         optionsContainer.innerHTML = `
-          <td colspan="1" style="background-color: #06202B;"></td>
+          <td colspan="1"></td>
           <td colspan="7" style="background-color: #06202B;">
             <div class="options-content" style="width: 100%; display: flex; justify-content: flex-end; align-items: center;">
-              <button class="btn btn-warning">
+              <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modal-subir-pdf" data-id="${id}">
                 <i class="bi bi-box-arrow-in-up"></i> Subir PDF
               </button>
             </div>
@@ -266,25 +412,92 @@ document.addEventListener("DOMContentLoaded", () => {
               <table class="table text-white table-bordered table-striped mt-2">
                 <thead>
                   <tr>
-                    <th>Precio Total</th>
-                    <th>Estado</th>
-                    <th>PDF</th>
                     <th>Fecha</th>
+                    <th>PDF</th>
+                    <th>Precio Total</th>
                     <th>Opciones</th>
                   </tr>
                 </thead>
-                <tbody>
-                  ${await renderDeteiles(id)}
-                </tbody>
+                <tbody></tbody>
               </table>
             </div>
           </td>
         `;
         button.closest("tr").after(optionsContainer);
+
+        // Cambiar el ícono a flecha hacia arriba
+        button.innerHTML = `<i class="bi bi-chevron-up"></i>`;
+        await renderizarCotizaciones(id);
       } else {
         // Mostrar u ocultar el <tr> si ya existe
-        optionsContainer.style.display = optionsContainer.style.display === "none" ? "table-row" : "none";
+        if (optionsContainer.style.display === "none" || optionsContainer.style.display === "") {
+          optionsContainer.style.display = "table-row";
+          button.innerHTML = `<i class="bi bi-chevron-up"></i>`; // Cambiar a flecha hacia arriba
+        } else {
+          optionsContainer.style.display = "none";
+          button.innerHTML = `<i class="bi bi-chevron-down"></i>`; // Cambiar a flecha hacia abajo
+        }
       }
+    }
+  });
+
+  // Limpiar el campo de archivo y establecer el idRequerimiento al abrir el modal
+  document.getElementById("modal-subir-pdf").addEventListener("show.bs.modal", (event) => {
+    // Limpiar el campo de archivo
+    document.getElementById("archivo-pdf").value = "";
+
+    // Obtener el botón que activó el modal
+    const button = event.relatedTarget;
+
+    // Obtener el idRequerimiento del botón
+    const idRequerimiento = button.dataset.id;
+
+    // Guardar el idRequerimiento en un atributo del modal para usarlo después
+    const modal = document.getElementById("modal-subir-pdf");
+    modal.dataset.idRequerimiento = idRequerimiento;
+  });
+
+  // Registrar el evento submit del formulario una sola vez
+  document.getElementById("form-subir-pdf").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    const archivoPdf = document.getElementById("archivo-pdf").files[0];
+    const monto = document.getElementById("monto").value;
+
+    // Obtener el idRequerimiento del modal
+    const idRequerimiento = document.getElementById("modal-subir-pdf").dataset.idRequerimiento;
+
+    if (!archivoPdf) {
+      alert("Por favor, selecciona un archivo PDF.");
+      return;
+    }
+
+    formData.append("operacion", "registrar_cotizacion_proveedor");
+    formData.append("idrequerimiento", idRequerimiento);
+    formData.append("precio_total", monto);
+    formData.append("ruta_pdf", archivoPdf);
+
+    try {
+      const res = await fetch(API, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Archivo subido correctamente.");
+        const modal = bootstrap.Modal.getInstance(document.getElementById("modal-subir-pdf"));
+        modal.hide(); // Cerrar el modal correctamente
+
+        // Actualizar dinámicamente el div de cotizaciones
+        await renderizarCotizaciones(idRequerimiento);
+      } else {
+        alert("Error al subir el archivo.");
+      }
+    } catch (error) {
+      console.error("Error al subir el archivo:", error);
+      alert("Ocurrió un error al subir el archivo.");
     }
   });
 

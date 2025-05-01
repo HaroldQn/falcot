@@ -84,8 +84,22 @@ BEGIN
     INSERT INTO cotizaciones_proveedores (idrequerimiento, precio_total, ruta_pdf)
     VALUES (_idrequierimiento, _precio_total, _ruta_pdf);
 END $$
-CALL spu_registrar_cotizacion_proveedor(16, 1000, 'ruta123.pdf');
+CALL spu_registrar_cotizacion_proveedor(14, 1000, 'ejemplo1021.pdf');
 
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_estado_requerimiento(
+	IN _idrequerimiento INT,
+    IN _estado CHAR(1)
+)
+BEGIN
+	UPDATE requerimientos SET estado = _estado WHERE idrequerimiento = _idrequerimiento;
+END $$
+
+call spu_actualizar_estado_requerimiento(17,0)
+
+Select * from requerimientos;
+
+-- ----------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE sp_listar_detalle_cotizacion_proveedor(
     IN _idcotizacion_prov INT

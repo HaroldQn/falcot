@@ -106,6 +106,33 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
   </div>
 </div>
 
+<!-- Modal para subir PDF -->
+<div class="modal fade" id="modal-subir-pdf" tabindex="-1" aria-labelledby="modalSubirPdfLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalSubirPdfLabel">Subir PDF</h5>
+      </div>
+      <form id="form-subir-pdf">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="archivo-pdf" class="form-label">Seleccionar archivo PDF</label>
+            <input type="file" class="form-control" id="archivo-pdf" name="archivo-pdf" accept=".pdf" required>
+          </div>
+          <div class="">
+            <label for="fecha" class="form-label">Monto:</label>
+            <input type="number" class="form-control" id="monto" name="monto" placeholder="Ingrese el monto de la cotización" min="0" step="0.01" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Subir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script type="module" src="../Js/requerimientos.js"></script>
 </body>
 

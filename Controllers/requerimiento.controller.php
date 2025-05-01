@@ -35,20 +35,42 @@ if (isset($_POST['operacion'])) {
       echo json_encode($requerimiento->registarDetRequerimiento($data));
       break;
 
+    case 'actualizar_estado_requetimiento':
+      $data = [
+        'idrequerimiento' => $_POST['idrequerimiento'],
+        'estado' => $_POST['estado']
+      ];
+      echo json_encode($requerimiento->actualizar_estado_requerimiento($data));
+      break;    
+
+    // Detalle de requerimiento cotizaciones proveedores
     case 'lista_cotizaciones_proveedores':
       $data = ['idrequerimiento' => $_POST['idrequerimiento']];
       echo json_encode($requerimiento->lista_cotizaciones_proveedores($data));
       break;
 
     case 'registrar_cotizacion_proveedor':
-      $data = [
-        'idrequerimiento' => $_POST['idrequerimiento'],
-        'precio_total' => $_POST['precio_total'],
-        'ruta_pdf' => $_POST['ruta_pdf']
-      ];
-      echo json_encode($requerimiento->registrar_cotizacion_proveedor($data));
+      // Guardar el archivo PDF en la carpeta 'pdf_cot'
+      $rutaDestino = '../pdf_cot/' . basename($_FILES['ruta_pdf']['name']);
+      $nameArchivo = $_FILES['ruta_pdf']['name'];
+      if (move_uploaded_file($_FILES['ruta_pdf']['tmp_name'], $rutaDestino)) {
+        $data = [
+          'idrequerimiento' => $_POST['idrequerimiento'],
+          'precio_total' => $_POST['precio_total'],
+          'ruta_pdf' => $nameArchivo
+        ];
+        $result = $requerimiento->registrar_cotizacion_proveedor($data);
+        echo json_encode([
+          'success' => true,
+          'message' => 'Archivo PDF guardado correctamente.',
+          'data' => $result
+        ]);
+      } else {
+        echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo PDF.']);
+      }
       break;
-
+      
+    // Detalle de cotizacion proveedor
     case 'lista_detalle_cotizacion_proveedor':
       $data = ['idcotizacion_prov' => $_POST['idcotizacion_prov']];
       echo json_encode($requerimiento->listar_detalle_cotizacion_proveedor($data));
