@@ -229,8 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const contenedorCotizaciones = document.querySelector(`#options-${idRequerimiento} tbody`);
 
       if (data.length > 0) {
+        console.log(data);
         const renderListDet = data
-          .map(({ fecha, ruta_pdf, precio_total }) => {
+          .sort((a,b)=> a.precio_total - b.precio_total)
+          .map(({ fecha, ruta_pdf, precio_total, idcotizacion_prov }) => {
             const nombreArchivo = ruta_pdf.substring(0, ruta_pdf.lastIndexOf('.'));
             return `
               <tr>
@@ -238,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td><a href="../pdf_cot/${ruta_pdf}" target="_blank">${nombreArchivo}</a></td>
                 <td>${precio_total}</td>
                 <td>
-                  <button type="button" class="btn btn-danger eliminar-cotizacion" data-id="${idRequerimiento}">
+                  <button type="button" class="btn btn-danger eliminar-cotizacion" data-id="${idcotizacion_prov}">
                     <i class="bi bi-trash-fill"></i>
                   </button>
                 </td>
@@ -274,6 +276,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const id = button.dataset.id; // Obtener el data-id
       cambiarEstadoRequerimiento(id, "0"); // Cambiar el estado a "0" (en proceso)
     }
+
+    if (e.target.closest(".eliminar-cotizacion")) {
+      const button = e.target.closest(".eliminar-cotizacion");
+      const id = button.dataset.id; // Obtener el ID del requerimiento
+      console.log(id);
+      
+    }
+
   });
 
   addEventListener("click", async (e) => {
@@ -445,6 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("modal-subir-pdf").addEventListener("show.bs.modal", (event) => {
     // Limpiar el campo de archivo
     document.getElementById("archivo-pdf").value = "";
+    document.getElementById("monto").value = ""; // Limpiar el campo de monto
 
     // Obtener el botón que activó el modal
     const button = event.relatedTarget;
