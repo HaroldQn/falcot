@@ -90,6 +90,17 @@ class Requerimiento extends Conexion
   }
 
   // Detalle de la data de cotizacion pdf, constancia de pagom, factura
+
+  public function cambiar_estado_cotizacion_prov($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_actualizar_estado_cotizacion(?,?)");
+      $consulta->execute(array($datos['idcotizacion_prov'], $datos['estado']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
   public function listar_detalle_cotizacion_proveedor($datos = [])
   {
     try {

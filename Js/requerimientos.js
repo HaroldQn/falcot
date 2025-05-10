@@ -85,6 +85,28 @@ document.addEventListener("DOMContentLoaded", () => {
     return button;
   }
 
+  async function renderButonCotizacion(idcotizacion_prov, estado) {
+    let button;
+    if (estado === "1") {
+      button = `
+      <button type="button" class="btn btn-success aprobar-cotizacion" data-id="${idcotizacion_prov}">
+        <i class="bi bi-check2-circle"></i>
+      </button>
+      <button type="button" class="btn btn-danger eliminar-cotizacion" data-id="${idcotizacion_prov}">
+        <i class="bi bi-trash-fill"></i>
+      </button>
+      `;
+    } else {
+      button = `
+        <button class="btn btn-success aprobar-cotizacion" data-id="${idcotizacion_prov}">
+          <i class="bi bi-check2-circle"></i>
+        </button>
+      `;
+    }
+
+    return button;
+  }
+
   async function verRequerimiento(id) {
     try {
       tabla_lista.innerHTML = "";
@@ -230,25 +252,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (data.length > 0) {
         console.log(data);
-        const renderListDet = data
-          .sort((a,b)=> a.precio_total - b.precio_total)
-          .map(({ fecha, ruta_pdf, precio_total, idcotizacion_prov }) => {
-            const nombreArchivo = ruta_pdf.substring(0, ruta_pdf.lastIndexOf('.'));
-            return `
-              <tr>
-                <td>${fecha}</td>
-                <td><a href="../pdf_cot/${ruta_pdf}" target="_blank">${nombreArchivo}</a></td>
-                <td>${precio_total}</td>
-                <td>
-                  <button type="button" class="btn btn-danger eliminar-cotizacion" data-id="${idcotizacion_prov}">
-                    <i class="bi bi-trash-fill"></i>
-                  </button>
-                </td>
-              </tr>
-            `;
-          })
-          .join("");
-        contenedorCotizaciones.innerHTML = renderListDet;
+
+        // Usar Promise.all para manejar las promesas generadas por el map
+        const renderListDet = await Promise.all(
+          data
+            .sort((a, b) => a.precio_total - b.precio_total)
+            .map(async ({ fecha, ruta_pdf, precio_total, idcotizacion_prov, estado, idrequerimiento }) => {
+              const BOTON = await renderButonCotizacion(idcotizacion_prov, estado);
+              const nombreArchivo = ruta_pdf.substring(0, ruta_pdf.lastIndexOf('.'));
+              return `
+                <tr data-id="${idrequerimiento}">
+                  <td>${fecha}</td>
+                  <td><a href="../pdf_cot/${ruta_pdf}" target="_blank">${nombreArchivo}</a></td>
+                  <td>${precio_total}</td>
+                  <td>
+                    ${estado}
+                    ${BOTON}
+                  </td>
+                </tr>
+              `;
+            })
+        );
+
+        // Unir las filas generadas y renderizarlas en el contenedor
+        contenedorCotizaciones.innerHTML = renderListDet.join("");
       } else {
         contenedorCotizaciones.innerHTML = `
           <tr>
@@ -277,11 +304,19 @@ document.addEventListener("DOMContentLoaded", () => {
       cambiarEstadoRequerimiento(id, "0"); // Cambiar el estado a "0" (en proceso)
     }
 
+    const IDTR = e.target.closest("tr").dataset.id; // Obtener el ID del requerimiento
+
     if (e.target.closest(".eliminar-cotizacion")) {
       const button = e.target.closest(".eliminar-cotizacion");
       const id = button.dataset.id; // Obtener el ID del requerimiento
-      console.log(id);
+      console.log(id, IDTR);
       
+    }
+
+    if (e.target.closest(".aprobar-cotizacion")) {
+      const button = e.target.closest(".aprobar-cotizacion");
+      const id = button.dataset.id;
+      console.log(id, IDTR);
     }
 
   });

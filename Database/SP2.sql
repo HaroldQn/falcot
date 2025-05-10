@@ -97,8 +97,17 @@ END $$
 
 call spu_actualizar_estado_requerimiento(17,0)
 
-Select * from requerimientos;
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_estado_cotizacion(
+	IN _idcotizacion_prov INT,
+    IN _estado CHAR(1)
+)
+BEGIN
+	UPDATE cotizaciones_proveedores SET estado = _estado WHERE idcotizacion_prov = _idcotizacion_prov;
+END $$
 
+call spu_actualizar_estado_cotizacion(24,0)
+select * from cotizaciones_proveedores
 -- ----------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE sp_listar_detalle_cotizacion_proveedor(

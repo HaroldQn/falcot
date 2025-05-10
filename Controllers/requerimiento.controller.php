@@ -76,6 +76,14 @@ if (isset($_POST['operacion'])) {
       echo json_encode($requerimiento->listar_detalle_cotizacion_proveedor($data));
       break;
 
+    case 'cambiar_estado_cotizacion_prov':
+      $data = [
+        'idcotizacion_prov' => $_POST['idcotizacion_prov'],
+        'estado' => $_POST['estado']
+      ];
+      echo json_encode($requerimiento->cambiar_estado_cotizacion_prov($data));
+      break;
+
     case 'registrar_detalle_cotizacion_proveedor':
       $data = [
         'idcotizacion_prov' => $_POST['idcotizacion_prov'],
