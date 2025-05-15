@@ -140,3 +140,37 @@ BEGIN
     VALUES (_idcotizacion_prov, _idordencompra, _ruta_guia, _ruta_factura, _ruta_pago);
 END $$
 CALL spu_registrar_detalle_cotizacion_proveedor(1, 1, 'guia123.pdf', 'factura.pdf', 'pago.pdf');
+-- ---------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_listar_data_cotizacion(
+	IN _idcotizacion INT
+)
+BEGIN 
+	Select * from det_cotizacion_data WHERE idcotizacion_prov = _idcotizacion AND estado = 1; 
+END $$
+call spu_listar_data_cotizacion(6);
+
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_det_cotizacion_data(
+  IN _idcotizacion_prov INT,
+  IN _tipo VARCHAR(20),         -- 'factura', 'guia', 'pago'
+  IN _ruta VARCHAR(255)
+)
+BEGIN
+  INSERT INTO det_cotizacion_data (idcotizacion_prov, tipo_doc, ruta) VALUES(_idcotizacion_prov, _tipo, _ruta);
+END$$
+call spu_actualizar_det_cotizacion_data(3,'factura', 'test_factura.pdf')
+
+DELIMITER $$
+CREATE PROCEDURE spu_eliminar_det_cotizacion_data(
+  IN _idcotizacion_prov INT,
+  IN _tipo_doc VARCHAR(20)
+)
+BEGIN
+  UPDATE det_cotizacion_data
+  SET estado = 0
+  WHERE idcotizacion_prov = _idcotizacion_prov AND tipo_doc = _tipo_doc;
+END$$
+
+
+

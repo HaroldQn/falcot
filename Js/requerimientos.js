@@ -1,3 +1,5 @@
+import { toast, Preguntar } from "./exports/alert.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   const API = "../Controllers/requerimiento.controller.php";
   const tabla = document.getElementById("lista-requerimientos");
@@ -98,9 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     } else if (estado === "0") {
       button = `
-        <button class="btn btn-warning data-cotizacion" data-id="${idcotizacion_prov}">
+        <a href="./data_cotizacion.php?id=${idcotizacion_prov}" class="btn btn-warning data-cotizacion" data-id="${idcotizacion_prov}">
           Ingresar Data
-        </button>
+        </a>
       `;
     }else if (estado === "2") {
       button = `
@@ -177,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
     await Promise.all(detalles);
     listarRequerimientos();
     modal.hide();
+    toast("success", "Requerimiento registrado correctamente.");
   }
 
   async function registrarDetRequerimiento(idrequerimiento, item, cantidad) {
@@ -272,7 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
                   <td><a href="../pdf_cot/${ruta_pdf}" target="_blank">${nombreArchivo}</a></td>
                   <td>${precio_total}</td>
                   <td>
-                    ${estado}
                     ${BOTON}
                   </td>
                 </tr>
@@ -430,7 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData,
       });
       const data = await res.json();
-      alert("Estado actualizado correctamente.");
+      toast( "success","Estado actualizado correctamente.");
       await listarRequerimientos();
     } catch (error) {
       console.error("Error al cambiar el estado:", error);
@@ -450,7 +452,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData,
       });
       const data = await res.json();
-      alert("Estado actualizado correctamente.");
+      toast( "success","Estado actualizado correctamente.");
       await renderizarCotizaciones(IDTR);
     } catch (error) {
       console.error("Error al cambiar el estado:", error); 
@@ -544,7 +546,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const idRequerimiento = document.getElementById("modal-subir-pdf").dataset.idRequerimiento;
 
     if (!archivoPdf) {
-      alert("Por favor, selecciona un archivo PDF.");
+      toast("error","Por favor, selecciona un archivo PDF.");
       return;
     }
 
@@ -561,18 +563,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (data.success) {
-        alert("Archivo subido correctamente.");
+        toast( "success","Archivo subido correctamente.");
         const modal = bootstrap.Modal.getInstance(document.getElementById("modal-subir-pdf"));
         modal.hide(); // Cerrar el modal correctamente
 
         // Actualizar dinámicamente el div de cotizaciones
         await renderizarCotizaciones(idRequerimiento);
       } else {
-        alert("Error al subir el archivo.");
+        toast ("error","Error al subir el archivo.");
       }
     } catch (error) {
       console.error("Error al subir el archivo:", error);
-      alert("Ocurrió un error al subir el archivo.");
+      toast( "error","Ocurrió un error al subir el archivo.");
     }
   });
 

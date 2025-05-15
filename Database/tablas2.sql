@@ -37,17 +37,16 @@ CREATE TABLE cotizaciones_proveedores(
 )ENGINE = INNODB;
 
 INSERT INTO cotizaciones_proveedores (idrequerimiento, precio_total, ruta_pdf) VALUES(16, 1000, 'rutita21.pdf');
+Select * from cotizaciones_proveedores;
 
 CREATE TABLE det_cotizacion_data(
 iddet_cotizacion_data INT PRIMARY KEY AUTO_INCREMENT,
 idcotizacion_prov INT,
-idordencompra INT,
-ruta_guia VARCHAR(255) NOT NULL,
-ruta_factura VARCHAR(255) NOT NULL,
-ruta_pago VARCHAR(255) NOT NULL,
+tipo_doc varchar(20),
+ruta VARCHAR(255) NOT NULL,
 estado CHAR(1) DEFAULT(1),
 CONSTRAINT fk_det_cotizacion_data FOREIGN KEY(idcotizacion_prov) REFERENCES cotizaciones_proveedores(idcotizacion_prov)
 )ENGINE = INNODB;
 
-INSERT INTO det_cotizacion_data (idcotizacion_prov, idordencompra, ruta_guia, ruta_factura, ruta_pago) VALUES(1, 1, 'guia.pdf', 'factura.pdf', 'pago.pdf');
+INSERT INTO det_cotizacion_data (idcotizacion_prov, tipo_doc, ruta) VALUES(6, 'pago', 'pago.pdf');
 SELECT * FROM det_cotizacion_data

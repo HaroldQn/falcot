@@ -94,6 +94,40 @@ if (isset($_POST['operacion'])) {
       ];
       echo json_encode($requerimiento->registrar_detalle_cotizacion_proveedor($data));
       break;
+      // -------------------------
+    case 'listar_data_cotizacion':
+      $data = ['idcotizacion_prov' => $_POST['idcotizacion_prov']];
+      echo json_encode($requerimiento->listar_detalle_cotizacion_aprobada($data));
+      break;
+    case 'registrar_doc_cotizacion':
+      $rutaDestino = '../pdf_data_cotizaciones/' . basename($_FILES['ruta']['name']);
+      $nameArchivo = $_FILES['ruta']['name'];
+      if (move_uploaded_file($_FILES['ruta']['tmp_name'], $rutaDestino)) {
+        $data = [
+          'idcotizacion_prov' => $_POST['idcotizacion_prov'],
+          'tipo' => $_POST['tipo'],
+          'ruta' => $nameArchivo
+        ];
+        $result = $requerimiento->registrar_doc_cotizacion($data);
+        echo json_encode([
+          'success' => true,
+          'message' => 'Archivo PDF guardado correctamente.',
+          'data' => $result
+        ]);
+      } else {
+        echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo PDF.']);
+      }
+      break;
+    
+    case 'eliminar_doc_cotizacion':
+      $data = [
+        'idcotizacion_prov' => $_POST['idcotizacion_prov'],
+        'tipo' => $_POST['tipo']
+      ];
+      echo json_encode($requerimiento->eliminar_doc_cotizacion($data));
+      break;
+      
+
   }
 
 }

@@ -128,4 +128,41 @@ class Requerimiento extends Conexion
       die($e->getMessage());
     }
   }
+
+  // ------------------------
+  // Data de la cotizacion aprobada
+
+  public function listar_detalle_cotizacion_aprobada($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_listar_data_cotizacion(?)");
+      $consulta->execute(array($datos['idcotizacion_prov']));
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function registrar_doc_cotizacion($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_actualizar_det_cotizacion_data(?,?,?)");
+      $consulta->execute(array(
+        $datos['idcotizacion_prov'], 
+        $datos['tipo'],
+        $datos['ruta']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function eliminar_doc_cotizacion($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_eliminar_det_cotizacion_data(?,?)");
+      $consulta->execute(array($datos['idcotizacion_prov'], $datos['tipo']));
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 }
