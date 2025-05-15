@@ -96,10 +96,16 @@ document.addEventListener("DOMContentLoaded", () => {
         <i class="bi bi-trash-fill"></i>
       </button>
       `;
-    } else {
+    } else if (estado === "0") {
       button = `
-        <button class="btn btn-success aprobar-cotizacion" data-id="${idcotizacion_prov}">
-          <i class="bi bi-check2-circle"></i>
+        <button class="btn btn-warning data-cotizacion" data-id="${idcotizacion_prov}">
+          Ingresar Data
+        </button>
+      `;
+    }else if (estado === "2") {
+      button = `
+        <button class="btn btn-secondary" disabled>
+          <i class="bi bi-x-circle"></i>
         </button>
       `;
     }
@@ -310,6 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const button = e.target.closest(".eliminar-cotizacion");
       const id = button.dataset.id; // Obtener el ID del requerimiento
       console.log(id, IDTR);
+      cambiarEstadoCotizacionProveedor(id, "2", IDTR); // Cambiar el estado a "2" (anulado)
       
     }
 
@@ -317,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const button = e.target.closest(".aprobar-cotizacion");
       const id = button.dataset.id;
       console.log(id, IDTR);
+      cambiarEstadoCotizacionProveedor(id, "0", IDTR); // Cambiar el estado a "1" (aprobado)
     }
 
   });
@@ -428,6 +436,27 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error al cambiar el estado:", error);
     }
   }
+
+  async function cambiarEstadoCotizacionProveedor(id, estado, IDTR) {
+    console.log(IDTR, estado, IDTR);
+    try {
+      const formData = new FormData();
+      formData.append("operacion", "cambiar_estado_cotizacion_prov");
+      formData.append("idcotizacion_prov", id);
+      formData.append("estado", estado);
+
+      const res = await fetch(API, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      alert("Estado actualizado correctamente.");
+      await renderizarCotizaciones(IDTR);
+    } catch (error) {
+      console.error("Error al cambiar el estado:", error); 
+    }
+  }
+
 
   //Eventos 
   // Delegación de eventos para evitar duplicados
