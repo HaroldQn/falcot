@@ -172,5 +172,7 @@ BEGIN
   WHERE idcotizacion_prov = _idcotizacion_prov AND tipo_doc = _tipo_doc;
 END$$
 
+call spu_eliminar_det_cotizacion_data(3, 'factura')
+
 
 
