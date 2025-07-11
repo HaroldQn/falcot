@@ -1,6 +1,6 @@
 // js/cotizaciones.js
 
-const colores = ["warning", "info", "success", "primary", "danger"];
+const colores = ["warning", "info", "danger","primary"];
 
 export async function obtenerCotizaciones(idrequerimiento, api) {
   try {
