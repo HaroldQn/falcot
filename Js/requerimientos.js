@@ -152,9 +152,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Cambia el estado de un requerimiento
   async function cambiarEstadoRequerimiento(idRequerimiento, nuevoEstado) {
+    console.log("Cambiando estado del requerimiento:", idRequerimiento, "a", nuevoEstado);
     try {
       const formData = new FormData();
-      formData.append("operacion", "actualizar_estado_requetimiento");
+      formData.append("operacion", "actualizar_estado_requerimiento");
       formData.append("idrequerimiento", idRequerimiento);
       formData.append("estado", nuevoEstado);
       await fetch(API, { method: "POST", body: formData });

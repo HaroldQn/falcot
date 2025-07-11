@@ -34,6 +34,15 @@ if (isset($_POST['operacion'])) {
       ];
       echo json_encode($requerimiento->registarDetRequerimiento($data));
       break;
+    
+    case 'actualizar_estado_requerimiento':
+      $data = [
+        'idrequerimiento' => $_POST['idrequerimiento'],
+        'estado' => $_POST['estado']
+      ];
+      echo json_encode($requerimiento->cambiarEstadoRequerimiento($data));
+      break;
+
     case 'crear_cotizacion_proveedor':
       $data = [
         'idrequerimiento' => $_POST['idrequerimiento'],
@@ -52,10 +61,11 @@ if (isset($_POST['operacion'])) {
       echo json_encode($requerimiento->agregar_detalle_cotizacion($data));
       break;
     
-      case 'listar_cotizaciones':
-        $data = ['idrequerimiento' => $_POST['idrequerimiento']];
-        echo json_encode($requerimiento->lista_cotizaciones($data));
-        break;
+    case 'listar_cotizaciones':
+      $data = ['idrequerimiento' => $_POST['idrequerimiento']];
+      echo json_encode($requerimiento->lista_cotizaciones($data));
+      break;
+
 
   }
 

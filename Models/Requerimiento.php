@@ -54,6 +54,18 @@ class Requerimiento extends Conexion
       die($e->getMessage());
     }
   }
+
+  public function cambiarEstadoRequerimiento($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_actualizar_estado_requerimiento(?,?)");
+      $consulta->execute(array($datos['idrequerimiento'], $datos['estado']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
   // Segunda parte de la refactorizacion de codigo
 
   public function crear_cotizacion_proveedor($datos = [])

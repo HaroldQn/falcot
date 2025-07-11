@@ -56,6 +56,16 @@ END $$
 
 CALL sp_detalle_requerimiento(12)
 
+DELIMITER $$
+CREATE PROCEDURE spu_actualizar_estado_requerimiento(
+	IN _idrequerimiento INT,
+    IN _estado CHAR(1)
+)
+BEGIN
+	UPDATE requerimientos SET estado = _estado WHERE idrequerimiento = _idrequerimiento;
+END $$
+CALL spu_actualizar_estado_requerimiento(18,0)
+
 -- -------------------------------------------------
 -- REGISTRAR UNA COTIZACION DE UN PROVEEDOR
 DELIMITER $$
@@ -103,6 +113,7 @@ BEGIN
            GROUP_CONCAT(
              CONCAT(
                '{"nombre":"', sub.empresa, '",',
+               '"moneda":"', sub.moneda, '",',
                '"cotizaciones":[', sub.detail_list, ']}'
              )
              ORDER BY sub.empresa
@@ -114,6 +125,7 @@ BEGIN
     SELECT 
       cp.idcotizacion_prov,
       cp.empresa,
+      cp.moneda,
       IFNULL(
         (
           SELECT GROUP_CONCAT(
