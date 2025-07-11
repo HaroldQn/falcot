@@ -34,30 +34,41 @@ export function crearTablaComparativa(items, empresas) {
 
   // Cuerpo
   items.forEach((item, i) => {
-    let fila = `<tr>
-      <td>${i + 1}</td>
-      <td>${item.item}</td>
-      <td>${item.cantidad}</td>`;
-    empresas.forEach(emp => {
-      const cot = emp.cotizaciones[i] ?? { marca: "-", precioU: 0, total: 0 };
-      fila += `
-        <td>${cot.marca}</td>
-        <td>${cot.precioU.toFixed(2)}</td>
-        <td>${cot.total.toFixed(2)}</td>
-      `;
-    });
-    fila += `</tr>`;
-    tbody.innerHTML += fila;
+  let fila = `<tr>
+    <td>${i + 1}</td>
+    <td>${item.item}</td>
+    <td>${item.cantidad}</td>`;
+  
+  // Obtener precios totales de este ítem
+  const totales = empresas.map(emp => emp.cotizaciones[i]?.total || 0);
+  const minTotal = Math.min(...totales);
+
+  empresas.forEach((emp, index) => {
+    const cot = emp.cotizaciones[i] ?? { marca: "-", precioU: 0, total: 0 };
+
+    const esMasBarato = cot.total === minTotal;
+
+    fila += `
+      <td>${cot.marca}</td>
+      <td>${cot.precioU.toFixed(2)}</td>
+      <td class="${esMasBarato ? "table-success fw-bold" : ""}">${cot.total.toFixed(2)}</td>
+    `;
   });
+
+  fila += `</tr>`;
+  tbody.innerHTML += fila;
+  });
+
 
   // Pie
   let filaTotales = `<tr class="fw-bold">
     <td colspan="3" class="text-end"></td>`;
   empresas.forEach(emp => {
     const suma = emp.cotizaciones.reduce((acc, cot) => acc + cot.total, 0).toFixed(2);
+    const simbolo = emp.moneda === "SOLES" ? "S/ " : "$ ";
     filaTotales += `
-      <td colspan="2" class="text-end">Total ${emp.nombre}:</td>
-      <td class="table-${emp.color}">${suma}</td>
+      <td colspan="2" class="text-end">Total ${emp.moneda}:</td>
+      <td class="table-${emp.color}">${simbolo}${suma}</td>
     `;
   });
   filaTotales += `</tr>`;

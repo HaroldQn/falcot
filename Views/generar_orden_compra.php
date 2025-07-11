@@ -667,6 +667,65 @@
 
   document.addEventListener('input', calcularTotales);
   document.getElementById('descuento').addEventListener('input', calcularTotales);
+
+  // parte 2
+  const datos = JSON.parse(localStorage.getItem("ordenCompraDatos") || "[]");
+  //if (!Array.isArray(datos) || datos.length === 0) return;
+
+  const contenedor = document.getElementById("nueva_fila");
+  contenedor.innerHTML = ""; // Limpiar la fila por defecto
+
+  datos.forEach((detalle, i) => {
+    const row = document.createElement("div");
+    row.classList.add("row", "mb-3");
+    row.id = `fila-${i}`;
+
+    row.innerHTML = `
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="number" class="form-control" name="item" value="${detalle.item}" readonly>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="text" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
+      </div>
+      <div class="col-12 col-md-4 mb-3 mb-md-0">
+        <input type="text" class="form-control text-uppercase" name="descripcionProducto" value="${detalle.descripcion} - ${detalle.marca}" placeholder="DESCRIPCIÓN PRODUCTO" required>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="number" class="form-control cantidad" name="cantidad" value="${detalle.cantidad}" required>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <select class="form-control" name="unidad" required>
+          <option value="UND" selected>UND</option>
+          <option value="METRO">METRO</option>
+          <option value="KG">KG</option>
+          <option value="GL">GL</option>
+          <option value="KIT">KIT</option>
+          <option value="JUEGO">JUEGO</option>
+          <option value="L">LT</option>
+          <option value="LB">LB</option>
+          <option value="M3">M3</option>
+        </select>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <input type="number" class="form-control precio" name="precio" value="${detalle.precioUnitario}" required>
+      </div>
+      <div class="col-12 col-md-2 mb-3 mb-md-0">
+        <input type="text" class="form-control importeTotal" name="importeTotal" value="${(detalle.cantidad * detalle.precioUnitario).toFixed(2)}" disabled>
+      </div>
+      <div class="col-12 col-md-1 mb-3 mb-md-0">
+        <button type="button" class="btn btn-close btn-danger" onclick="eliminarFila('fila-${i}')"><i class="bi bi-trash-fill"></i></button>
+      </div>
+    `;
+
+    contenedor.appendChild(row);
+  });
+
+  // Recalcular totales al terminar de renderizar
+  calcularTotales();
+
+  // Limpiar storage para evitar repetir
+  localStorage.removeItem("ordenCompraDatos");
+
 </script>
 
 </body>

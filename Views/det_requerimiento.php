@@ -51,8 +51,8 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
             <div class="col-md-4 mb-2">
               <select name="moneda" id="moneda" class="form-control" required>
                 <option value="">Seleccione una moneda</option>
-                <option value="1">Soles</option>
-                <option value="2">Dólares</option>
+                <option value="SOLES">Soles</option>
+                <option value="DOLARES">Dólares</option>
               </select>
             </div>
            
@@ -78,6 +78,20 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
     </div>
   </div>
 </div>
+
+<div class="row mb-3">
+  <div class="col-md-4">
+    <select id="select-empresa-cotizacion" class="form-select">
+      <option value="">Seleccione una empresa</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <button class="btn btn-primary" id="btn-generar-cotizacion">
+      Generar cotización para proveedor
+    </button>
+  </div>
+</div>
+
 
 
 
