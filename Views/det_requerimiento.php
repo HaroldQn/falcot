@@ -42,14 +42,15 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
       <div class="modal-header d-flex justify-content-center bg-dark">
         <h3 class="modal-title text-light" id="titulo-modal">Registrar cotizacion</h3>
       </div>
-      <form action="" id="form-modal" autocomplete="off">
+      <form action="" id="form-modal" autocomplete="off" method="post">
         <div class="table-responsive p-3">
           <div class="row">
             <div class="col-md-4">
-              <input type="text" class="form-control" placeholder="Empresa">
+              <input type="text" id="empresa" class="form-control" placeholder="Empresa" required>
             </div>
             <div class="col-md-4 mb-2">
-              <select name="moneda" class="form-control" id="moneda">
+              <select name="moneda" id="moneda" class="form-control" required>
+                <option value="">Seleccione una moneda</option>
                 <option value="1">Soles</option>
                 <option value="2">Dólares</option>
               </select>
@@ -71,7 +72,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
               <!-- Se renderiza de manera dinamica -->
             </tbody>
           </table>
-          <button type="submit" class="btn btn-primary">Guardar</button>
+          <button type="submit" id="btnGuardar" class="btn btn-primary">Guardar</button>
         </div>
       </form>
     </div>
@@ -80,7 +81,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
 
 
 
-<script type="module" src="../Js/det_requerimiento.js"></script>
+<script type="module" src="../Js/main.requerimiento.js"></script>
 </body>
 
 </html>
