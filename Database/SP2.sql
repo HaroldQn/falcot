@@ -55,124 +55,91 @@ BEGIN
 END $$
 
 CALL sp_detalle_requerimiento(12)
+
 -- -------------------------------------------------
-
+-- REGISTRAR UNA COTIZACION DE UN PROVEEDOR
 DELIMITER $$
-CREATE PROCEDURE sp_listar_cotizaciones_proveedor(
-    IN _idrequerimiento INT
+CREATE PROCEDURE crear_cotizacion_proveedor (
+    IN _idrequerimiento INT,
+    IN _empresa VARCHAR(60),
+    IN _moneda VARCHAR(20)
 )
 BEGIN
-    SELECT 
-        cp.idcotizacion_prov,
-        cp.idrequerimiento,
-        cp.precio_total,
-        cp.ruta_pdf,
-        cp.fecha,
-        cp.estado
-    FROM cotizaciones_proveedores cp
-    WHERE cp.idrequerimiento = _idrequerimiento;
+    INSERT INTO cotizaciones_proveedores (idrequerimiento, empresa, moneda)
+    VALUES (_idrequerimiento, _empresa, _moneda);
+    
+    -- Retorna el ID de la cotización recién creada
+    SELECT LAST_INSERT_ID() AS idcotizacion_prov_creada;
 END $$
-CALL sp_listar_cotizaciones_proveedor(16)
+call crear_cotizacion_proveedor(17, 'LOS TORIBIANITOS 2', 'DOLARES')
 
 DELIMITER $$
-CREATE PROCEDURE spu_registrar_cotizacion_proveedor(
-    IN _idrequierimiento INT,
-    IN _precio_total DECIMAL(10,2),
-    IN _ruta_pdf VARCHAR(255)
-)
-BEGIN
-    INSERT INTO cotizaciones_proveedores (idrequerimiento, precio_total, ruta_pdf)
-    VALUES (_idrequierimiento, _precio_total, _ruta_pdf);
-END $$
-CALL spu_registrar_cotizacion_proveedor(14, 1000, 'ejemplo1021.pdf');
-
-DELIMITER $$
-CREATE PROCEDURE spu_actualizar_estado_requerimiento(
-	IN _idrequerimiento INT,
-    IN _estado CHAR(1)
-)
-BEGIN
-	UPDATE requerimientos SET estado = _estado WHERE idrequerimiento = _idrequerimiento;
-END $$
-
-call spu_actualizar_estado_requerimiento(17,0)
-
-DELIMITER $$
-CREATE PROCEDURE spu_actualizar_estado_cotizacion(
-	IN _idcotizacion_prov INT,
-    IN _estado CHAR(1)
-)
-BEGIN
-	UPDATE cotizaciones_proveedores SET estado = _estado WHERE idcotizacion_prov = _idcotizacion_prov;
-END $$
-
-call spu_actualizar_estado_cotizacion(24,0)
-select * from cotizaciones_proveedores
--- ----------------------------------------------------------------
-DELIMITER $$
-CREATE PROCEDURE sp_listar_detalle_cotizacion_proveedor(
-    IN _idcotizacion_prov INT
-)
-BEGIN
-    SELECT 
-        dc.iddet_cotizacion_data,
-        dc.idcotizacion_prov,
-        dc.idordencompra,
-        dc.ruta_guia,
-        dc.ruta_factura,
-        dc.ruta_pago,
-        dc.estado
-    FROM det_cotizacion_data dc
-    WHERE dc.idcotizacion_prov = _idcotizacion_prov;
-END $$
-CALL sp_listar_detalle_cotizacion_proveedor(1)
-
-DELIMITER $$
-CREATE PROCEDURE spu_registrar_detalle_cotizacion_proveedor(
+CREATE PROCEDURE agregar_detalle_cotizacion (
     IN _idcotizacion_prov INT,
-    IN _idordencompra INT,
-    IN _ruta_guia VARCHAR(255),
-    IN _ruta_factura VARCHAR(255),
-    IN _ruta_pago VARCHAR(255)
+    IN _iddet_requerimiento INT,
+    IN _marca VARCHAR(30),
+    IN _precio_unitario FLOAT(7,2)
 )
 BEGIN
-    INSERT INTO det_cotizacion_data (idcotizacion_prov, idordencompra, ruta_guia, ruta_factura, ruta_pago)
-    VALUES (_idcotizacion_prov, _idordencompra, _ruta_guia, _ruta_factura, _ruta_pago);
+    INSERT INTO det_cotizacion_data (
+        idcotizacion_prov, iddet_requerimiento, marca, precio_unitario
+    )
+    VALUES (
+        _idcotizacion_prov, _iddet_requerimiento, _marca, _precio_unitario
+    );
 END $$
-CALL spu_registrar_detalle_cotizacion_proveedor(1, 1, 'guia123.pdf', 'factura.pdf', 'pago.pdf');
--- ---------------------------------------------------------
+call agregar_detalle_cotizacion(3, 26, 'MKM', 65.84 )
+-- -----------------------------------
 DELIMITER $$
-CREATE PROCEDURE spu_listar_data_cotizacion(
-	IN _idcotizacion INT
+CREATE PROCEDURE get_cotizaciones_json(
+  IN p_idrequerimiento INT
 )
-BEGIN 
-	Select * from det_cotizacion_data WHERE idcotizacion_prov = _idcotizacion AND estado = 1; 
+BEGIN
+  -- Asegurarnos de soportar un JSON grande
+  SET SESSION group_concat_max_len = 1000000;
+
+  SELECT CONCAT(
+           '[',
+           GROUP_CONCAT(
+             CONCAT(
+               '{"nombre":"', sub.empresa, '",',
+               '"cotizaciones":[', sub.detail_list, ']}'
+             )
+             ORDER BY sub.empresa
+             SEPARATOR ','
+           ),
+           ']'
+         ) AS resultado_json
+  FROM (
+    SELECT 
+      cp.idcotizacion_prov,
+      cp.empresa,
+      IFNULL(
+        (
+          SELECT GROUP_CONCAT(
+                   CONCAT(
+                     '{"marca":"', dcd.marca, '",',
+                     '"precioU":', dcd.precio_unitario, ',',
+                     '"total":', ROUND(dcd.precio_unitario * dr.cantidad, 2), 
+                     '}'
+                   )
+                   ORDER BY dcd.iddet_cotizacion_data
+                   SEPARATOR ','
+                 )
+          FROM det_cotizacion_data AS dcd
+          JOIN det_requerimientos    AS dr 
+            ON dcd.iddet_requerimiento = dr.iddet_requerimiento
+          WHERE dcd.idcotizacion_prov = cp.idcotizacion_prov
+        ),
+        ''
+      ) AS detail_list
+    FROM cotizaciones_proveedores AS cp
+    WHERE cp.idrequerimiento = p_idrequerimiento
+    AND estado = 1
+  ) AS sub;
 END $$
-call spu_listar_data_cotizacion(6);
+CALL get_cotizaciones_json(17)
 
-DELIMITER $$
-CREATE PROCEDURE spu_actualizar_det_cotizacion_data(
-  IN _idcotizacion_prov INT,
-  IN _tipo VARCHAR(20),         -- 'factura', 'guia', 'pago'
-  IN _ruta VARCHAR(255)
-)
-BEGIN
-  INSERT INTO det_cotizacion_data (idcotizacion_prov, tipo_doc, ruta) VALUES(_idcotizacion_prov, _tipo, _ruta);
-END$$
-call spu_actualizar_det_cotizacion_data(3,'factura', 'test_factura.pdf')
-
-DELIMITER $$
-CREATE PROCEDURE spu_eliminar_det_cotizacion_data(
-  IN _idcotizacion_prov INT,
-  IN _tipo_doc VARCHAR(20)
-)
-BEGIN
-  UPDATE det_cotizacion_data
-  SET estado = 0
-  WHERE idcotizacion_prov = _idcotizacion_prov AND tipo_doc = _tipo_doc;
-END$$
-
-call spu_eliminar_det_cotizacion_data(3, 'factura')
 
 
 

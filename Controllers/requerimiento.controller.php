@@ -34,99 +34,28 @@ if (isset($_POST['operacion'])) {
       ];
       echo json_encode($requerimiento->registarDetRequerimiento($data));
       break;
-
-    case 'actualizar_estado_requetimiento':
+    case 'crear_cotizacion_proveedor':
       $data = [
         'idrequerimiento' => $_POST['idrequerimiento'],
-        'estado' => $_POST['estado']
+        'empresa' => $_POST['empresa'],
+        'moneda' => $_POST['moneda']
       ];
-      echo json_encode($requerimiento->actualizar_estado_requerimiento($data));
-      break;    
-
-    // Detalle de requerimiento cotizaciones proveedores
-    case 'lista_cotizaciones_proveedores':
-      $data = ['idrequerimiento' => $_POST['idrequerimiento']];
-      echo json_encode($requerimiento->lista_cotizaciones_proveedores($data));
+      echo json_encode($requerimiento->crear_cotizacion_proveedor($data));
       break;
-
-    case 'registrar_cotizacion_proveedor':
-      // Guardar el archivo PDF en la carpeta 'pdf_cot'
-      $rutaDestino = '../pdf_cot/' . basename($_FILES['ruta_pdf']['name']);
-      $nameArchivo = $_FILES['ruta_pdf']['name'];
-      if (move_uploaded_file($_FILES['ruta_pdf']['tmp_name'], $rutaDestino)) {
-        $data = [
-          'idrequerimiento' => $_POST['idrequerimiento'],
-          'precio_total' => $_POST['precio_total'],
-          'ruta_pdf' => $nameArchivo
-        ];
-        $result = $requerimiento->registrar_cotizacion_proveedor($data);
-        echo json_encode([
-          'success' => true,
-          'message' => 'Archivo PDF guardado correctamente.',
-          'data' => $result
-        ]);
-      } else {
-        echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo PDF.']);
-      }
-      break;
-      
-    // Detalle de cotizacion proveedor
-    case 'lista_detalle_cotizacion_proveedor':
-      $data = ['idcotizacion_prov' => $_POST['idcotizacion_prov']];
-      echo json_encode($requerimiento->listar_detalle_cotizacion_proveedor($data));
-      break;
-
-    case 'cambiar_estado_cotizacion_prov':
+    case 'agregar_detalle_cotizacion':
       $data = [
         'idcotizacion_prov' => $_POST['idcotizacion_prov'],
-        'estado' => $_POST['estado']
+        'iddet_requerimiento' => $_POST['iddet_requerimiento'],
+        'marca' => $_POST['marca'],
+        'precio' => $_POST['precio']
       ];
-      echo json_encode($requerimiento->cambiar_estado_cotizacion_prov($data));
-      break;
-
-    case 'registrar_detalle_cotizacion_proveedor':
-      $data = [
-        'idcotizacion_prov' => $_POST['idcotizacion_prov'],
-        'item' => $_POST['item'],
-        'cantidad' => $_POST['cantidad'],
-        'precio_unitario' => $_POST['precio_unitario'],
-        'precio_total' => $_POST['precio_total']
-      ];
-      echo json_encode($requerimiento->registrar_detalle_cotizacion_proveedor($data));
-      break;
-      // -------------------------
-    case 'listar_data_cotizacion':
-      $data = ['idcotizacion_prov' => $_POST['idcotizacion_prov']];
-      echo json_encode($requerimiento->listar_detalle_cotizacion_aprobada($data));
-      break;
-    case 'registrar_doc_cotizacion':
-      $rutaDestino = '../pdf_data_cotizaciones/' . basename($_FILES['ruta']['name']);
-      $nameArchivo = $_FILES['ruta']['name'];
-      if (move_uploaded_file($_FILES['ruta']['tmp_name'], $rutaDestino)) {
-        $data = [
-          'idcotizacion_prov' => $_POST['idcotizacion_prov'],
-          'tipo' => $_POST['tipo'],
-          'ruta' => $nameArchivo
-        ];
-        $result = $requerimiento->registrar_doc_cotizacion($data);
-        echo json_encode([
-          'success' => true,
-          'message' => 'Archivo PDF guardado correctamente.',
-          'data' => $result
-        ]);
-      } else {
-        echo json_encode(['success' => false, 'message' => 'Error al guardar el archivo PDF.']);
-      }
+      echo json_encode($requerimiento->agregar_detalle_cotizacion($data));
       break;
     
-    case 'eliminar_doc_cotizacion':
-      $data = [
-        'idcotizacion_prov' => $_POST['idcotizacion_prov'],
-        'tipo' => $_POST['tipo']
-      ];
-      echo json_encode($requerimiento->eliminar_doc_cotizacion($data));
-      break;
-      
+      case 'listar_cotizaciones':
+        $data = ['idrequerimiento' => $_POST['idrequerimiento']];
+        echo json_encode($requerimiento->lista_cotizaciones($data));
+        break;
 
   }
 

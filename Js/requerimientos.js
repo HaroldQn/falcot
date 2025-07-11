@@ -179,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
       verRequerimiento(verDetalleBtn.dataset.id);
     } else if (btnWarning) {
       console.log("ID del botón warning:", btnWarning.dataset.id);
+      window.location.href = `../Views/det_requerimiento.php?id=${btnWarning.dataset.id}`;
     }
   });
 

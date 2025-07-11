@@ -25,28 +25,29 @@ CONSTRAINT fk_det_requerimiento FOREIGN KEY(idrequerimiento) REFERENCES requerim
 INSERT INTO det_requerimientos (idrequerimiento, item, cantidad) VALUES(1, 'POLVORA BLUE 1/3', 10);
 SELECT * FROM det_requerimientos;
 
-
+-- ------------------------------------------
 CREATE TABLE cotizaciones_proveedores(
   idcotizacion_prov INT PRIMARY KEY AUTO_INCREMENT,
   idrequerimiento INT,
-  precio_total DECIMAL(10,2) NOT NULL,
-  ruta_pdf VARCHAR(255) NOT NULL,
-  estado CHAR(1) DEFAULT(1),
-  fecha DATE DEFAULT(now()),
+  empresa varchar(60),
+  moneda varchar(20),
+  estado char(1) default 1,
   CONSTRAINT fk_cotizacion_prov FOREIGN KEY(idrequerimiento) REFERENCES requerimientos(idrequerimiento)
 )ENGINE = INNODB;
 
-INSERT INTO cotizaciones_proveedores (idrequerimiento, precio_total, ruta_pdf) VALUES(16, 1000, 'rutita21.pdf');
+INSERT INTO cotizaciones_proveedores (idrequerimiento, empresa, moneda) VALUES(17, 'INDUSTRIAS SAC', 'SOLES');
 Select * from cotizaciones_proveedores;
 
 CREATE TABLE det_cotizacion_data(
 iddet_cotizacion_data INT PRIMARY KEY AUTO_INCREMENT,
 idcotizacion_prov INT,
-tipo_doc varchar(20),
-ruta VARCHAR(255) NOT NULL,
-estado CHAR(1) DEFAULT(1),
-CONSTRAINT fk_det_cotizacion_data FOREIGN KEY(idcotizacion_prov) REFERENCES cotizaciones_proveedores(idcotizacion_prov)
+iddet_requerimiento INT,
+marca varchar(30),
+precio_unitario float(7,2) NOT NULL,
+estado CHAR(1) DEFAULT 1,
+CONSTRAINT fk_iddet_requerimiento FOREIGN KEY(iddet_requerimiento) REFERENCES det_requerimientos(iddet_requerimiento),
+CONSTRAINT fk_idcotizacion_proc FOREIGN KEY(idcotizacion_prov) REFERENCES cotizaciones_proveedores(idcotizacion_prov)
 )ENGINE = INNODB;
 
-INSERT INTO det_cotizacion_data (idcotizacion_prov, tipo_doc, ruta) VALUES(6, 'pago', 'pago.pdf');
-SELECT * FROM det_cotizacion_data
+INSERT INTO det_cotizacion_data (idcotizacion_prov,iddet_requerimiento, marca, precio_unitario) VALUES(1,26, 'ZTK', 100.50);
+SELECT * FROM det_cotizacion_data;
