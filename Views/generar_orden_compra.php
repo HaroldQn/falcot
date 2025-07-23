@@ -670,6 +670,7 @@
 
   // parte 2
   const datos = JSON.parse(localStorage.getItem("ordenCompraDatos") || "[]");
+  console.log(datos);
   //if (!Array.isArray(datos) || datos.length === 0) return;
 
   const contenedor = document.getElementById("nueva_fila");
@@ -688,7 +689,7 @@
         <input type="text" class="form-control" name="centro" maxlength="10" placeholder="CENTRO" required>
       </div>
       <div class="col-12 col-md-4 mb-3 mb-md-0">
-        <input type="text" class="form-control text-uppercase" name="descripcionProducto" value="${detalle.descripcion} - ${detalle.marca}" placeholder="DESCRIPCIÓN PRODUCTO" required>
+        <input type="text" class="form-control text-uppercase" name="descripcionProducto" value="${detalle.descripcion.replace(/"/g, '&quot;')} - ${detalle.marca}" placeholder="DESCRIPCIÓN PRODUCTO" required>
       </div>
       <div class="col-12 col-md-1 mb-3 mb-md-0">
         <input type="number" class="form-control cantidad" name="cantidad" value="${detalle.cantidad}" required>

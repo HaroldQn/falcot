@@ -46,7 +46,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
         <div class="table-responsive p-3">
           <div class="row">
             <div class="col-md-4">
-              <input type="text" id="empresa" class="form-control" placeholder="Empresa" required>
+              <input type="text" id="empresa" name="empresa" class="form-control" placeholder="Empresa" required>
             </div>
             <div class="col-md-4 mb-2">
               <select name="moneda" id="moneda" class="form-control" required>
