@@ -1,4 +1,4 @@
-import { toast, Preguntar } from "./exports/alert.js";
+import { toast } from "./exports/alert.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const API = "../Controllers/requerimiento.controller.php";

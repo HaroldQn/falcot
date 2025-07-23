@@ -20,7 +20,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
   </div>
 
   <div class="table-responsive">
-    <table class="table table-bordered table-hover text-center align-middle">
+    <table class="table table-bordered table-hover text-center align-middle" id="tabla-comparativa-cabezera">
       <thead class="">
       </thead>
       <tbody id="tabla-comparativa">

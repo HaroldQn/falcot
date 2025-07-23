@@ -15,7 +15,12 @@ export function crearTablaComparativa(items, empresas) {
     <th rowspan="2">Item</th>
     <th rowspan="2">Cantidad</th>`;
   empresas.forEach(e => {
-    filaEmpresas += `<th colspan="3" class="table-${e.color} text-dark">${e.nombre}</th>`;
+    filaEmpresas += `<th colspan="3" class="table-${e.color} text-dark">
+      ${e.nombre}
+      <button type="button" class="btn btn-sm btn-danger ms-2 ml-4" data-id="${e.idcotizacion_prov}" data-empresa="${e.nombre}" >
+        <i class="bi bi-trash3-fill"></i>
+      </button>
+    </th>`;
   });
   filaEmpresas += `</tr>`;
 
@@ -65,7 +70,7 @@ export function crearTablaComparativa(items, empresas) {
     <td colspan="3" class="text-end"></td>`;
   empresas.forEach(emp => {
     const suma = emp.cotizaciones.reduce((acc, cot) => acc + cot.total, 0).toFixed(2);
-    const simbolo = emp.moneda === "SOLES" ? "S/ " : "$ ";
+    const simbolo = emp.moneda === "SOLES" ? "S/ " : "$/ ";
     filaTotales += `
       <td colspan="2" class="text-end">Total ${emp.moneda}:</td>
       <td class="table-${emp.color}">${simbolo}${suma}</td>

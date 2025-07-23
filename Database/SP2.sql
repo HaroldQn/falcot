@@ -114,6 +114,7 @@ BEGIN
              CONCAT(
                '{"nombre":"', sub.empresa, '",',
                '"moneda":"', sub.moneda, '",',
+               '"idcotizacion_prov":"', sub.idcotizacion_prov, '",',
                '"cotizaciones":[', sub.detail_list, ']}'
              )
              ORDER BY sub.empresa
@@ -150,7 +151,18 @@ BEGIN
     AND estado = 1
   ) AS sub;
 END $$
-CALL get_cotizaciones_json(17)
+CALL get_cotizaciones_json(18)
+
+-- --------------------------------------------------------------
+DELIMITER $$
+CREATE PROCEDURE spu_eliminar_cotizacion_prov(
+ IN idcotizacion_prov_ INT
+)
+BEGIN
+	UPDATE cotizaciones_proveedores SET estado = 0 WHERE idcotizacion_prov = idcotizacion_prov_;
+END $$
+CALL spu_eliminar_cotizacion_prov(43)
+
 
 
 

@@ -66,6 +66,11 @@ if (isset($_POST['operacion'])) {
       echo json_encode($requerimiento->lista_cotizaciones($data));
       break;
 
+    case 'eliminar_cotizacion_proveedor':
+      $data = ['idcotizacion_prov' => $_POST['idcotizacion_prov']];
+      echo json_encode($requerimiento->eliminar_cotizacion_proveedor($data));
+      break;
+
 
   }
 

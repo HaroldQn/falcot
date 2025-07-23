@@ -2,6 +2,7 @@
 import { obtenerCotizaciones } from "./cotizaciones.requerimiento.js";
 import { crearTablaComparativa } from "./tabla.requerimiento.js";
 import { activarCalculos } from "./calculos.js";
+import { toast, Preguntar } from "./exports/alert.js";
 
 // Constantes globales
 const ID = new URLSearchParams(window.location.search).get("id");
@@ -21,7 +22,39 @@ form.addEventListener("submit", async (e) => {
   $("#modal-registrar-cotizacion").modal("hide");
 });
 
+
+
 document.getElementById("btn-generar-cotizacion").addEventListener("click", generarCotizacion);
+document.getElementById("tabla-comparativa-cabezera").addEventListener("click", function(e) {
+  if (e.target.closest(".btn-danger")) {
+    const btn = e.target.closest(".btn-danger");
+    const nombreEmpresa = btn.dataset.empresa;
+    const idEmpresa = btn.dataset.id;
+    Preguntar(
+      ()=> eliminarCotizacionProveedor(idEmpresa),
+      `¿Deseas eliminar la cotización de ${nombreEmpresa}?`,
+      "warning",
+    )
+  }
+});
+
+async function eliminarCotizacionProveedor(idEmpresa) {
+  try {
+    const formData = new FormData();
+    formData.append("operacion", "eliminar_cotizacion_proveedor");
+    formData.append("idcotizacion_prov", idEmpresa);
+
+    const res = await fetch(API, { method: "POST", body: formData });
+    const result = await res.json();
+    toast("success","Cotización eliminada");
+    await verRequerimiento(ID);
+
+  } catch (error) {
+    console.error("Error al eliminar cotización", error);
+  }
+
+}
+
 
 // Funciones principales
 async function verRequerimiento(id) {
@@ -78,8 +111,6 @@ async function renderModalData(data) {
 }
 
 async function registrarCotizacion() {
-  // const empresa = document.getElementById("").value;
-  // const moneda = document.getElementById("moneda").value;
 
   try {
     const formData = new FormData(form);

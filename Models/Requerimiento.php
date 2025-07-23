@@ -100,4 +100,15 @@ class Requerimiento extends Conexion
       die($e->getMessage());
     }
   }
+
+  public function eliminar_cotizacion_proveedor($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_eliminar_cotizacion_prov(?)");
+      $consulta->execute(array($datos['idcotizacion_prov']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 }
