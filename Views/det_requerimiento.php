@@ -29,6 +29,19 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
       </tfoot>
     </table>
   </div>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <select id="select-empresa-cotizacion" class="form-select">
+        <option value="">Seleccione una empresa</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" id="btn-generar-cotizacion">
+        Generar cotización para proveedor
+      </button>
+    </div>
+  </div>
 </div>
 
 
@@ -78,22 +91,6 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
     </div>
   </div>
 </div>
-
-<div class="row mb-3">
-  <div class="col-md-4">
-    <select id="select-empresa-cotizacion" class="form-select">
-      <option value="">Seleccione una empresa</option>
-    </select>
-  </div>
-  <div class="col-md-4">
-    <button class="btn btn-primary" id="btn-generar-cotizacion">
-      Generar cotización para proveedor
-    </button>
-  </div>
-</div>
-
-
-
 
 <script type="module" src="../Js/main.requerimiento.js"></script>
 </body>
