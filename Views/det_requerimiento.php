@@ -42,6 +42,30 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
       </button>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-group">
+        <label class="input-group-text bg-success text-light" for="inputGroupFile01">Orden de compra</label>
+        <input type="file" accept=".pdf" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+        <button class="btn btn-outline-success" type="button" id="inputGroupFileAddon04">Subir</button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item list-group-item-success">
+            <a href="">orden compra 123</a>
+            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
+          </li>
+          <li class="list-group-item list-group-item-success">
+            <a href="">orden compra 123</a>
+            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -93,6 +117,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
 </div>
 
 <script type="module" src="../Js/main.requerimiento.js"></script>
+<script type="module" src="../Js/archivos_requerimientos.js"></script>
 </body>
 
 </html>

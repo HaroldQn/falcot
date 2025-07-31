@@ -51,3 +51,26 @@ CONSTRAINT fk_idcotizacion_proc FOREIGN KEY(idcotizacion_prov) REFERENCES cotiza
 
 INSERT INTO det_cotizacion_data (idcotizacion_prov,iddet_requerimiento, marca, precio_unitario) VALUES(1,26, 'ZTK', 100.50);
 SELECT * FROM det_cotizacion_data;
+
+-- --------------------------------
+-- TERCERA PARTE
+CREATE TABLE tipo_documento(
+	idtipodoc INT PRIMARY KEY AUTO_INCREMENT,
+    tipo VARCHAR(15) NOT NULL,
+    create_at DATE DEFAULT(now())
+)ENGINE = INNODB;
+INSERT INTO tipo_documento(tipo)values('OR'),('FACT'),('GUIA'),('PAGO');
+SELECT * FROM tipo_documento;
+
+CREATE TABLE documentos_requerimiento(
+	iddocumento INT PRIMARY KEY AUTO_INCREMENT,
+    idrequerimiento INT,
+    idtipodoc INT,
+    nombre varchar(25) NOT NULL,
+    fecha DATE DEFAULT(now()),
+    estado char(1) default 1,
+    CONSTRAINT fk_idrequerimiento FOREIGN KEY (idrequerimiento) references requerimientos(idrequerimiento),
+    CONSTRAINT fk_idtipodoc FOREIGN KEY (idtipodoc) references tipo_documento (idtipodoc)
+)ENGINE = INNODB;
+
+SELECT * FROM documentos_requerimiento;
