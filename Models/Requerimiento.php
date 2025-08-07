@@ -111,4 +111,14 @@ class Requerimiento extends Conexion
       die($e->getMessage());
     }
   }
+
+  public function agregar_documento($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_agregar_documento_requerimiento(?,?,?)");
+      $consulta->execute(array($datos['idrequerimiento'], $datos['idtipodoc'], $datos['nombre']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 }

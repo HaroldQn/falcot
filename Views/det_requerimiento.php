@@ -47,10 +47,27 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
     <div class="col-md-6">
       <div class="input-group">
         <label class="input-group-text bg-success text-light" for="inputGroupFile01">Orden de compra</label>
-        <input type="file" accept=".pdf" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-        <button class="btn btn-outline-success" type="button" id="inputGroupFileAddon04">Subir</button>
+        <input type="file" accept=".pdf" class="form-control" id="inputOrdenCompra" data-tipo="1" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+        <button class="btn btn-outline-success" type="button" id="btnOrdenCompra" data-tipo="1">Subir</button>
+      </div>
+      <div class="input-group mt-3">
+        <label class="input-group-text bg-warning text-light" for="inputGroupFile01">Factura</label>
+        <input type="file" accept=".pdf" class="form-control" id="inputFactura" data-tipo="2" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+        <button class="btn btn-outline-success" type="button" id="btnFactura">Subir</button>
+      </div>
+      <div class="input-group mt-3">
+        <label class="input-group-text bg-primary text-light" for="inputGroupFile01">Guía de remisión</label>
+        <input type="file" accept=".pdf" class="form-control" id="inputGuia" data-tipo="3" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+        <button class="btn btn-outline-success" type="button" id="btnGuia">Subir</button>
       </div>
     </div>
+
+    <div class="progress mt-2" style="height: 20px; display: none;" id="barraProgreso">
+      <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" 
+          style="width: 0%;" id="progresoTexto">0%</div>
+    </div>
+
+
     <div class="col-md-6">
       <div>
         <ul class="list-group list-group-flush">
@@ -63,6 +80,19 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
             <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
           </li>
         </ul>
+      </div>
+      <div class="mt-3">
+        <h5>NO HAY ORDENEN DE COMPRA</h5>
+        <!-- <ul class="list-group list-group-flush">
+          <li class="list-group-item list-group-item-success">
+            <a href="">orden compra 123</a>
+            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
+          </li>
+          <li class="list-group-item list-group-item-success">
+            <a href="">orden compra 123</a>
+            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
+          </li>
+        </ul> -->
       </div>
     </div>
   </div>

@@ -71,6 +71,24 @@ if (isset($_POST['operacion'])) {
       echo json_encode($requerimiento->eliminar_cotizacion_proveedor($data));
       break;
 
+    case 'agregar_documento':
+      if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] == 0) {
+        $nombreArchivo = $_FILES['archivo']['name'];
+        $nombreSinExt = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+        $rutaTemporal = $_FILES['archivo']['tmp_name'];
+        $rutaDestino = '../pdfs/' . $nombreArchivo;
+
+        if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
+          $data = [
+            'idrequerimiento' => $_POST['idrequerimiento'],
+            'idtipodoc' => $_POST['idtipodoc'],
+            'nombre' => $nombreSinExt,
+          ];
+          echo json_encode($requerimiento->agregar_documento($data));
+        } else {
+          echo json_encode(['error' => 'Error al subir el archivo']);
+        }
+      }
 
   }
 

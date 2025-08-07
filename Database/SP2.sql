@@ -163,6 +163,31 @@ BEGIN
 END $$
 CALL spu_eliminar_cotizacion_prov(43)
 
+DELIMITER $$
+CREATE PROCEDURE spu_agregar_documento_requerimiento(
+	IN _idrequerimiento INT,
+    IN _idtipodoc INT,
+    IN _nombre VARCHAR(100)
+)
+BEGIN
+	INSERT INTO documentos_requerimiento(idrequerimiento, idtipodoc, nombre)VALUES(_idrequerimiento, _idtipodoc, _nombre);
+END $$
+CALL spu_agregar_documento_requerimiento(16,1,'ORDEN_COMPRA9921')
+
+DELIMITER $$
+CREATE PROCEDURE sp_ultimos_documentos_por_tipo(IN req_id INT)
+BEGIN
+    SELECT d.*
+    FROM documentos_requerimiento d
+    INNER JOIN (
+        SELECT idtipodoc, MAX(iddocumento) AS max_doc
+        FROM documentos_requerimiento
+        WHERE idrequerimiento = req_id AND estado = '1'
+        GROUP BY idtipodoc
+    ) AS ultimos
+    ON d.idtipodoc = ultimos.idtipodoc AND d.iddocumento = ultimos.max_doc;
+END $$
+CALL sp_ultimos_documentos_por_tipo(17)
 
 
 

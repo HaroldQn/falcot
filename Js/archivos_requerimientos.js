@@ -1,25 +1,39 @@
-// Selecciona el input de tipo file y el botón
-const fileInput = document.getElementById("inputGroupFile04");
-const uploadButton = document.getElementById("inputGroupFileAddon04");
+import { toast } from "./exports/alert.js"; 
 
-// Deshabilita el botón inicialmente
-uploadButton.disabled = true;
+const ID = new URLSearchParams(window.location.search).get("id");
+const RUTA = "../Controllers/requerimiento.controller.php";
 
-// Agrega un evento 'change' al input
-fileInput.addEventListener("change", () => {
-  if (fileInput.files.length > 0) {
-    // Habilita el botón si hay un archivo seleccionado
-    uploadButton.disabled = false;
-    console.log("Archivo seleccionado:", fileInput.files[0].name);
-  } else {
-    // Deshabilita el botón si no hay archivo seleccionado
-    uploadButton.disabled = true;
-  }
-});
+document.querySelectorAll('input[type="file"]').forEach(input => {
+  const group = input.closest(".input-group");
+  const button = group.querySelector("button");
 
+  button.disabled = true;
 
+  input.addEventListener("change", () => {
+    button.disabled = !input.files.length;
+  });
 
-uploadButton.addEventListener("click", () => {
-  // Realiza la carga del archivo aquí
-  console.log("Cargando archivo:", fileInput.files[0].name);
+  button.addEventListener("click", async () => {
+    const archivo = input.files[0];
+    if (!archivo) return;
+
+    const tipoDocumento = input.dataset.tipo;
+
+    const formData = new FormData();
+    formData.append("operacion", "agregar_documento");
+    formData.append("idrequerimiento", ID);
+    formData.append("idtipodoc", tipoDocumento);
+    formData.append("archivo", archivo);
+
+    try {
+      await fetch(RUTA, { method: "POST", body: formData });
+      toast('success',`Archivo ${archivo.name} subido correctamente`);
+    } catch (err) {
+      console.error(`Error al subir ${archivo.name}:`, err);
+      toast('error',`Error al subir ${archivo.name}`);
+    }
+
+    input.value = "";
+    button.disabled = true;
+  });
 });

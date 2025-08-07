@@ -66,11 +66,13 @@ CREATE TABLE documentos_requerimiento(
 	iddocumento INT PRIMARY KEY AUTO_INCREMENT,
     idrequerimiento INT,
     idtipodoc INT,
-    nombre varchar(25) NOT NULL,
+    nombre varchar(100) NOT NULL,
     fecha DATE DEFAULT(now()),
     estado char(1) default 1,
     CONSTRAINT fk_idrequerimiento FOREIGN KEY (idrequerimiento) references requerimientos(idrequerimiento),
     CONSTRAINT fk_idtipodoc FOREIGN KEY (idtipodoc) references tipo_documento (idtipodoc)
 )ENGINE = INNODB;
+INSERT INTO documentos_requerimiento(idrequerimiento, idtipodoc, nombre)VALUES(17,1, 'ORDEN_COMPRA1990');
+
 
 SELECT * FROM documentos_requerimiento;
