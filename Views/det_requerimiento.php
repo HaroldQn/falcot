@@ -9,9 +9,15 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
 ?>
 <?php require_once './navbar.php'; ?>
 <div class="m-4">
-  <h3 class="text-center m-3" id="titulo">Comparativo de cotizaciones</h3>
+  <div class="d-flex justify-content-between align-items-center m-3">
+    <button class="btn btn-secondary" onclick="window.location.href='./requerimientos.php'">← Regresar</button>
+    <h3 class="text-center flex-grow-1 mb-0" id="titulo">Comparativo de cotizaciones</h3>
+    <div style="width: 100px;"></div> <!-- Espaciador para balancear el diseño -->
+  </div>
 
-  <div class="row mb-3 mt-3">
+  <h4 class="text-center m-3 bg-success text-light d-none" id="cerrado">CERRADO</h4>
+
+  <div class="row mb-3 mt-3 contenedor-boton">
     <div class="col-md-12 d-flex justify-content-end">
       <button type="button" class="btn btn-success mb-1" id="registrar-cotizacion" data-bs-toggle="modal" data-bs-target="#modal-registrar-cotizacion">
         Registrar cotizacion
@@ -30,7 +36,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
     </table>
   </div>
 
-  <div class="row mb-3">
+  <div class="row mb-3 container-select-empresa">
     <div class="col-md-4">
       <select id="select-empresa-cotizacion" class="form-select">
         <option value="">Seleccione una empresa</option>
@@ -44,7 +50,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
   </div>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 contenedor-inputs">
       <div class="input-group">
         <label class="input-group-text bg-success text-light" for="inputGroupFile01">Orden de compra</label>
         <input type="file" accept=".pdf" class="form-control" id="inputOrdenCompra" data-tipo="1" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
@@ -60,41 +66,21 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
         <input type="file" accept=".pdf" class="form-control" id="inputGuia" data-tipo="3" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
         <button class="btn btn-outline-success" type="button" id="btnGuia">Subir</button>
       </div>
-    </div>
-
-    <div class="progress mt-2" style="height: 20px; display: none;" id="barraProgreso">
-      <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" 
-          style="width: 0%;" id="progresoTexto">0%</div>
-    </div>
-
-
-    <div class="col-md-6">
-      <div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item list-group-item-success">
-            <a href="">orden compra 123</a>
-            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
-          </li>
-          <li class="list-group-item list-group-item-success">
-            <a href="">orden compra 123</a>
-            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
-          </li>
-        </ul>
-      </div>
-      <div class="mt-3">
-        <h5>NO HAY ORDENEN DE COMPRA</h5>
-        <!-- <ul class="list-group list-group-flush">
-          <li class="list-group-item list-group-item-success">
-            <a href="">orden compra 123</a>
-            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
-          </li>
-          <li class="list-group-item list-group-item-success">
-            <a href="">orden compra 123</a>
-            <button class="btn btn-danger btn-sm float-end" id="btn-eliminar-orden-compra">Eliminar</button>
-          </li>
-        </ul> -->
+      <div class="input-group mt-3">
+        <label class="input-group-text bg-info text-light" for="inputGroupFile01">Constancia de Pago</label>
+        <input type="file" accept=".pdf" class="form-control" id="inputPago" data-tipo="4" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+        <button class="btn btn-outline-success" type="button" id="btnPago">Subir</button>
       </div>
     </div>
+
+    <div class="col-md-6" id="contenedor-documentos">
+      <!-- Aquí se cargará dinámicamente -->
+    </div>
+  </div>
+
+  
+  <div class="d-grid gap-2">
+    <button id="btnCerrarCotizacion" class="btn btn-primary" type="button" style="display: none;">Cerrar Cotizacion</button>
   </div>
 </div>
 
@@ -148,6 +134,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
 
 <script type="module" src="../Js/main.requerimiento.js"></script>
 <script type="module" src="../Js/archivos_requerimientos.js"></script>
+<script type="module" src="../Js/estado.js"></script>
 </body>
 
 </html>

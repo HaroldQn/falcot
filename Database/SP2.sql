@@ -175,20 +175,33 @@ END $$
 CALL spu_agregar_documento_requerimiento(16,1,'ORDEN_COMPRA9921')
 
 DELIMITER $$
-CREATE PROCEDURE sp_ultimos_documentos_por_tipo(IN req_id INT)
+CREATE PROCEDURE spu_lista_doc_requerimiento(IN _idrequerimiento INT)
 BEGIN
-    SELECT d.*
-    FROM documentos_requerimiento d
-    INNER JOIN (
-        SELECT idtipodoc, MAX(iddocumento) AS max_doc
-        FROM documentos_requerimiento
-        WHERE idrequerimiento = req_id AND estado = '1'
-        GROUP BY idtipodoc
-    ) AS ultimos
-    ON d.idtipodoc = ultimos.idtipodoc AND d.iddocumento = ultimos.max_doc;
+    SELECT * FROM documentos_requerimiento WHERE idrequerimiento = _idrequerimiento AND estado = 1 ORDER BY idtipodoc;
 END $$
-CALL sp_ultimos_documentos_por_tipo(17)
+CALL spu_lista_doc_requerimiento(15)
 
+DELIMITER $$
+CREATE PROCEDURE spu_eliminar_documento(IN _iddocumento INT)
+BEGIN
+	UPDATE documentos_requerimiento SET estado = 0 WHERE iddocumento = _iddocumento;
+END $$	
+CALL spu_eliminar_documento(3);
+
+DELIMITER $$
+CREATE PROCEDURE spu_ver_requerimiento(IN _idrequerimiento INT)
+BEGIN
+	SELECT * FROM requerimientos where idrequerimiento = _idrequerimiento;
+END $$
+
+CALL spu_ver_requerimiento(15)
+
+DELIMITER $$
+CREATE PROCEDURE spu_cerrar_requerimiento(IN _idrequerimiento INT)
+BEGIN
+	UPDATE requerimientos SET estado = 3 WHERE idrequerimiento = _idrequerimiento;
+END $$
+CALL spu_cerrar_requerimiento(17)
 
 
 

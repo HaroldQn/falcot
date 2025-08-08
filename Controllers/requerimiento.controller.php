@@ -89,7 +89,27 @@ if (isset($_POST['operacion'])) {
           echo json_encode(['error' => 'Error al subir el archivo']);
         }
       }
+      break;
+    
+    case 'listar_documentos':
+      $data = ['idrequerimiento' => $_POST['idrequerimiento']];
+      echo json_encode($requerimiento->listar_documentos($data));
+      break;
+    
+    case 'eliminar_documento':
+      $data = ['iddocumento' => $_POST['iddocumento']];
+      echo json_encode($requerimiento->eliminar_documento($data));
+      break;
 
+    case 'ver_requerimiento':
+      $data = ['idrequerimiento' => $_POST['idrequerimiento']];
+      echo json_encode($requerimiento->verRequerimiento($data));
+      break;
+    
+    case 'cerrar_requerimiento':
+      $data = ['idrequerimiento' => $_POST['idrequerimiento']];
+      echo json_encode($requerimiento->cerrarRequerimiento($data));
+      break;
   }
 
 }

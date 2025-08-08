@@ -38,9 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <i class="bi bi-eye-fill"></i>
           </button>
         </td>
-        <td class="text-${estado === '0' ? 'primary' : estado === '1' ? 'muted' : 'danger'}">
+        <td class="text-${estado === '0' ? 'primary' : estado === '1' ? 'muted' : estado === '3' ? 'warning' : ''}">
           <strong>
-            ${estado === '0' ? 'En proceso' : estado === '1' ? 'En revision' : 'Anulado'}
+            ${estado === '0' ? 'En proceso' : estado === '1' ? 'En revision' : estado === '3' ? 'Cerrado' : 'Anulado'}
           </strong>
         </td>
         ${buttonEstado}
@@ -64,6 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
         </td>
       `;
     } else if (estado === "0") {
+      return `
+        <td>
+          <button class="btn btn-primary" data-id="${id}">
+            <i class="bi bi-arrow-bar-right"></i>
+          </button>
+        </td>
+      `;
+    } else if (estado === "3") {
       return `
         <td>
           <button class="btn btn-warning" data-id="${id}">
@@ -171,16 +179,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const anularBtn = e.target.closest(".anular-requerimiento");
     const procesoBtn = e.target.closest(".proceso-requerimiento");
     const verDetalleBtn = e.target.closest(".ver-detalle");
-    const btnWarning = e.target.closest(".btn-warning");
+    const btnEntrarVerRequerimiento = e.target.closest(".btn-primary, .btn-warning");
     if (anularBtn) {
       cambiarEstadoRequerimiento(anularBtn.dataset.id, "2");
     } else if (procesoBtn) {
       cambiarEstadoRequerimiento(procesoBtn.dataset.id, "0");
     } else if (verDetalleBtn) {
       verRequerimiento(verDetalleBtn.dataset.id);
-    } else if (btnWarning) {
-      console.log("ID del botón warning:", btnWarning.dataset.id);
-      window.location.href = `../Views/det_requerimiento.php?id=${btnWarning.dataset.id}`;
+    } else if (btnEntrarVerRequerimiento) {
+      console.log("ID del botón warning:", btnEntrarVerRequerimiento.dataset.id);
+      window.location.href = `../Views/det_requerimiento.php?id=${btnEntrarVerRequerimiento.dataset.id}`;
     }
   });
 

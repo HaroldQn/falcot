@@ -121,4 +121,57 @@ class Requerimiento extends Conexion
       die($e->getMessage());
     }
   }
+
+  public function listar_documentos($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_lista_doc_requerimiento(?)");
+      $consulta->execute(array($datos['idrequerimiento']));
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function eliminar_documento($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_eliminar_documento(?)");
+      $consulta->execute(array($datos['iddocumento']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function verRequerimiento($datos = [])
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_ver_requerimiento(?)");
+      $consulta->execute(array($datos['idrequerimiento']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function obtenerEstadoRequerimiento($datos = []){
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_ver_requerimiento(?)");
+      $consulta->execute(array($datos['idrequerimiento']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    }
+    catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
+
+  public function cerrarRequerimiento($datos = []) 
+  {
+    try {
+      $consulta = $this->conexion->prepare("CALL spu_cerrar_requerimiento(?)");
+      $consulta->execute(array($datos['idrequerimiento']));
+      return $consulta->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      die($e->getMessage());
+    }
+  }
 }

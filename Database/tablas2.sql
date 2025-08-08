@@ -75,4 +75,5 @@ CREATE TABLE documentos_requerimiento(
 INSERT INTO documentos_requerimiento(idrequerimiento, idtipodoc, nombre)VALUES(17,1, 'ORDEN_COMPRA1990');
 
 
-SELECT * FROM documentos_requerimiento;
+SELECT * FROM documentos_requerimiento where idrequerimiento = 15;
+SELECT * FROM requerimientos where idrequerimiento = 15

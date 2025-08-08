@@ -1,3 +1,8 @@
+import { obtenerEstadoRequerimiento } from "./estado.js";
+
+
+const ID = new URLSearchParams(window.location.search).get("id");
+const estado = await obtenerEstadoRequerimiento(ID);
 // js/tablaComparativa.js
 
 export function crearTablaComparativa(items, empresas) {
@@ -17,9 +22,12 @@ export function crearTablaComparativa(items, empresas) {
   empresas.forEach(e => {
     filaEmpresas += `<th colspan="3" class="table-${e.color} text-dark">
       ${e.nombre}
-      <button type="button" class="btn btn-sm btn-danger ms-2 ml-4" data-id="${e.idcotizacion_prov}" data-empresa="${e.nombre}" >
+      ${
+        estado == 1 ? `<button type="button" class="btn btn-sm btn-danger ms-2 ml-4" data-id="${e.idcotizacion_prov}" data-empresa="${e.nombre}" >
         <i class="bi bi-trash3-fill"></i>
-      </button>
+      </button>` : ""
+      }
+      
     </th>`;
   });
   filaEmpresas += `</tr>`;

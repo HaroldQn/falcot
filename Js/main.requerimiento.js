@@ -3,12 +3,20 @@ import { obtenerCotizaciones } from "./cotizaciones.requerimiento.js";
 import { crearTablaComparativa } from "./tabla.requerimiento.js";
 import { activarCalculos } from "./calculos.js";
 import { toast, Preguntar } from "./exports/alert.js";
+import { obtenerEstadoRequerimiento } from "./estado.js";
+
 
 // Constantes globales
 const ID = new URLSearchParams(window.location.search).get("id");
 const API = "../Controllers/requerimiento.controller.php";
 const form = document.getElementById("form-modal");
 const list_data_modal = document.getElementById("lista-det-requerimientos-modal");
+const estado = await obtenerEstadoRequerimiento(ID);
+
+const contenerdorSelectEmpresa = document.querySelector(".container-select-empresa");
+estado === 3
+  ? contenerdorSelectEmpresa.classList.remove("d-none")
+  : contenerdorSelectEmpresa.classList.add("d-none");
 
 // Inicialización
 verRequerimiento(ID);
@@ -164,10 +172,10 @@ function poblarSelectEmpresas(empresas) {
 
 function generarCotizacion() {
   const empresaNombre = document.getElementById("select-empresa-cotizacion").value;
-  if (!empresaNombre) return alert("Seleccione una empresa primero.");
+  if (!empresaNombre) return toast('error',"Seleccione una empresa primero.");
 
   const empresa = window.empresasGlobal?.find(e => e.nombre === empresaNombre);
-  if (!empresa) return alert("Empresa no encontrada.");
+  if (!empresa) return toast('error',"Empresa no encontrada.");
 
   const cotizacionGenerada = empresa.cotizaciones.map((detalle, i) => {
     const req = window.requerimientosGlobal?.[i];
