@@ -97,10 +97,7 @@ async function renderModalData(data) {
       <td>${item}</td>
       <td class="cantidad">${cantidad}</td>
       <td>
-        <select name="marca" class="form-control" required>
-          <option value="">-------------</option>
-          ${opcionesMarca}
-        </select>
+        <input type="text" name="marca" class="form-control" required>
       </td>
       <td><input type="number" name="precio_unitario" class="form-control precio-unitario" min="0.01" step="0.01" value="0.00"></td>
       <td><input type="number" class="form-control precio-total" min="0.01" step="0.01" value="0.00" disabled></td>
@@ -140,7 +137,7 @@ async function registrarDetalleCotizaciones(idcotizacion) {
 
   for (const fila of filas) {
     const id = fila.id;
-    const marca = fila.querySelector("select[name='marca']").value;
+    const marca = fila.querySelector("input[name='marca']").value;
     const precio = fila.querySelector("input[name='precio_unitario']").value;
 
     try {
