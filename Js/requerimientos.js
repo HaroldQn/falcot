@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData();
     formData.append("operacion", "registrar_det_requerimiento");
     formData.append("idrequerimiento", idrequerimiento);
-    formData.append("item", item);
+    formData.append("item", item.toUpperCase());
     formData.append("cantidad", cantidad);
     await fetch(API, { method: "POST", body: formData });
   }

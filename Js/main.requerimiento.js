@@ -14,7 +14,7 @@ const list_data_modal = document.getElementById("lista-det-requerimientos-modal"
 const estado = await obtenerEstadoRequerimiento(ID);
 
 const contenerdorSelectEmpresa = document.querySelector(".container-select-empresa");
-estado === 3
+estado === '0'
   ? contenerdorSelectEmpresa.classList.remove("d-none")
   : contenerdorSelectEmpresa.classList.add("d-none");
 
@@ -145,7 +145,7 @@ async function registrarDetalleCotizaciones(idcotizacion) {
       formData.append("operacion", "agregar_detalle_cotizacion");
       formData.append("idcotizacion_prov", idcotizacion);
       formData.append("iddet_requerimiento", id);
-      formData.append("marca", marca);
+      formData.append("marca", marca.toUpperCase());
       formData.append("precio", precio);
 
       await fetch(API, { method: "POST", body: formData });
