@@ -72,16 +72,17 @@ DELIMITER $$
 CREATE PROCEDURE crear_cotizacion_proveedor (
     IN _idrequerimiento INT,
     IN _empresa VARCHAR(60),
-    IN _moneda VARCHAR(20)
+    IN _moneda VARCHAR(20),
+    IN _archivo VARCHAR(150)
 )
 BEGIN
-    INSERT INTO cotizaciones_proveedores (idrequerimiento, empresa, moneda)
-    VALUES (_idrequerimiento, _empresa, _moneda);
+    INSERT INTO cotizaciones_proveedores (idrequerimiento, empresa, moneda, archivo)
+    VALUES (_idrequerimiento, _empresa, _moneda, _archivo);
     
     -- Retorna el ID de la cotización recién creada
     SELECT LAST_INSERT_ID() AS idcotizacion_prov_creada;
 END $$
-call crear_cotizacion_proveedor(17, 'LOS TORIBIANITOS 2', 'DOLARES')
+call crear_cotizacion_proveedor(25, 'LOS TORIBIANITOS 3', 'SOLES', 'arhivo2')
 
 DELIMITER $$
 CREATE PROCEDURE agregar_detalle_cotizacion (
@@ -114,6 +115,7 @@ BEGIN
              CONCAT(
                '{"nombre":"', sub.empresa, '",',
                '"moneda":"', sub.moneda, '",',
+               '"archivo":"', sub.archivo, '",',
                '"idcotizacion_prov":"', sub.idcotizacion_prov, '",',
                '"cotizaciones":[', sub.detail_list, ']}'
              )
@@ -127,6 +129,7 @@ BEGIN
       cp.idcotizacion_prov,
       cp.empresa,
       cp.moneda,
+      cp.archivo,
       IFNULL(
         (
           SELECT GROUP_CONCAT(
@@ -151,7 +154,7 @@ BEGIN
     AND estado = 1
   ) AS sub;
 END $$
-CALL get_cotizaciones_json(18)
+CALL get_cotizaciones_json(25)
 
 -- --------------------------------------------------------------
 DELIMITER $$

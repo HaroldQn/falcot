@@ -13,6 +13,9 @@ const form = document.getElementById("form-modal");
 const list_data_modal = document.getElementById("lista-det-requerimientos-modal");
 const estado = await obtenerEstadoRequerimiento(ID);
 
+const titulo = document.getElementById("titulo");
+titulo.textContent = `Comparativo de cotizaciones - REQ #${ID}`;
+
 const contenerdorSelectEmpresa = document.querySelector(".container-select-empresa");
 estado === '0'
   ? contenerdorSelectEmpresa.classList.remove("d-none")

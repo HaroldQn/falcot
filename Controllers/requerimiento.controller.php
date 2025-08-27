@@ -44,12 +44,24 @@ if (isset($_POST['operacion'])) {
       break;
 
     case 'crear_cotizacion_proveedor':
-      $data = [
-        'idrequerimiento' => $_POST['idrequerimiento'],
-        'empresa' => $_POST['empresa'],
-        'moneda' => $_POST['moneda']
-      ];
-      echo json_encode($requerimiento->crear_cotizacion_proveedor($data));
+      if (isset($_FILES['archivo_proveedor']) && $_FILES['archivo_proveedor']['error'] == 0) {
+        $nombreArchivo = $_FILES['archivo_proveedor']['name'];
+        $nombreSinExt = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+        $rutaTemporal = $_FILES['archivo_proveedor']['tmp_name'];
+        $rutaDestino = '../pdfs_proveedores/' . $nombreArchivo;
+
+        if (move_uploaded_file($rutaTemporal, $rutaDestino)) {
+          $data = [
+            'idrequerimiento' => $_POST['idrequerimiento'],
+            'empresa' => $_POST['empresa'],
+            'moneda' => $_POST['moneda'],
+            'archivo' => $nombreSinExt
+          ];
+          echo json_encode($requerimiento->crear_cotizacion_proveedor($data));
+        } else {
+          echo json_encode(['error' => 'Error al subir el archivo']);
+        }
+      }
       break;
     case 'agregar_detalle_cotizacion':
       $data = [

@@ -7,7 +7,7 @@ const RUTA = "../Controllers/requerimiento.controller.php";
 // ESTADO DEL REQUERIMIENTO
 const estado = await obtenerEstadoRequerimiento(ID);
 console.log("Estado del requerimiento:", estado);
-if (estado == 3) {
+if (estado === '3') {
   console.log("El requerimiento está en estado 3, se pueden subir y eliminar documentos.");
   ocultarSubidaDocumentos();
 }
@@ -16,7 +16,9 @@ console.log(estado);
 
 document.querySelectorAll('input[type="file"]').forEach(input => {
   const group = input.closest(".input-group");
+  if (!group) return;
   const button = group.querySelector("button");
+  if (!button) return;
 
   button.disabled = true;
 
@@ -51,6 +53,7 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
 });
 
 async function cargarDocumentos() {
+  console.log("Cargando documentos...");
   try {
     const formData = new FormData();
     formData.append("operacion", "listar_documentos");
@@ -193,4 +196,4 @@ async function cerrarCotizacion() {
 }
 
 
-cargarDocumentos();
+await cargarDocumentos();

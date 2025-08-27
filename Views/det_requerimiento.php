@@ -108,6 +108,9 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] == false) {
                 <option value="DOLARES">Dólares</option>
               </select>
             </div>
+            <div class="col-md-4">
+              <input type="file" accept=".pdf" name="archivo_proveedor" class="form-control" id="archivo_proveedor" aria-describedby="inputGroupFileAddon04" aria-label="Upload" required>
+            </div>
            
           </div>
           <table class="table table-bordered table-hover align-middle text-center">

@@ -71,8 +71,8 @@ class Requerimiento extends Conexion
   public function crear_cotizacion_proveedor($datos = [])
   {
     try {
-      $consulta = $this->conexion->prepare("CALL crear_cotizacion_proveedor(?,?,?)");
-      $consulta->execute(array($datos['idrequerimiento'], $datos['empresa'], $datos['moneda']));
+      $consulta = $this->conexion->prepare("CALL crear_cotizacion_proveedor(?,?,?,?)");
+      $consulta->execute(array($datos['idrequerimiento'], $datos['empresa'], $datos['moneda'], $datos['archivo']));
       return $consulta->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
       die($e->getMessage());

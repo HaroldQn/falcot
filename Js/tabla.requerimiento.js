@@ -28,9 +28,9 @@ export function crearTablaComparativa(items, empresas) {
       </button>` : ""
       }
 
-      <button type="button" class="btn btn-sm btn-success ms-2 ml-4" data-id="${e.idcotizacion_prov}" data-empresa="${e.nombre}" >
+      <a href="../pdfs_proveedores/${e.archivo}.pdf" target="_blank" type="button" class="btn btn-sm btn-success ms-2 ml-4" data-id="${e.idcotizacion_prov}" data-empresa="${e.nombre}" >
         <i class="bi bi-cloud-arrow-down-fill"></i>
-      </button>
+      </a>
       
     </th>`;
   });

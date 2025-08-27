@@ -31,9 +31,12 @@ CREATE TABLE cotizaciones_proveedores(
   idrequerimiento INT,
   empresa varchar(60),
   moneda varchar(20),
+  archivo varchar(150),
   estado char(1) default 1,
   CONSTRAINT fk_cotizacion_prov FOREIGN KEY(idrequerimiento) REFERENCES requerimientos(idrequerimiento)
 )ENGINE = INNODB;
+ALTER TABLE cotizaciones_proveedores ADD COLUMN archivo varchar(150) AFTER moneda;
+
 
 INSERT INTO cotizaciones_proveedores (idrequerimiento, empresa, moneda) VALUES(17, 'INDUSTRIAS SAC', 'SOLES');
 Select * from cotizaciones_proveedores;
