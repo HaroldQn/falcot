@@ -162,6 +162,8 @@ function poblarSelectEmpresas(empresas) {
   const select = document.getElementById("select-empresa-cotizacion");
   if (!select) return;
 
+  select.innerHTML = "";
+
   empresas.forEach(({ nombre }) => {
     const option = document.createElement("option");
     option.value = nombre;

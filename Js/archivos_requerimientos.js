@@ -61,6 +61,7 @@ async function cargarDocumentos() {
 
     const response = await fetch(RUTA, { method: "POST", body: formData });
     const documentos = await response.json();
+    console.log("Documentos:", documentos);
 
     const tipos = {
       1: "Orden de Compra",
@@ -81,6 +82,7 @@ async function cargarDocumentos() {
 
     Object.keys(tipos).forEach((tipoId) => {
       const docs = documentos.filter(doc => doc.idtipodoc == tipoId);
+      console.log(docs);
       const titulo = tipos[tipoId];
       const color = colores[tipoId];
 
@@ -96,15 +98,16 @@ async function cargarDocumentos() {
         mensaje.textContent = `No hay ${titulo.toLowerCase()} cargada`;
         mensaje.classList.add("text-muted");
         bloque.appendChild(mensaje);
-        if (tipoId == 4) {
-          const btnCerrar = document.getElementById("btnCerrarCotizacion");
-          btnCerrar.style.display = "none";
-        }else{
+        const btnCerrar = document.getElementById("btnCerrarCotizacion");
+        btnCerrar.style.display = "none";
+      } else {
+        if (tipoId == '4') {
           const btnCerrar = document.getElementById("btnCerrarCotizacion");
           btnCerrar.style.display = "block";
+        }else{
+          const btnCerrar = document.getElementById("btnCerrarCotizacion");
+          btnCerrar.style.display = "none";
         }
-
-      } else {
         const ul = document.createElement("ul");
         ul.classList.add("list-group", "list-group-flush");
 

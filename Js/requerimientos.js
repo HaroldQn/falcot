@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   });
   
-
+  
   // Inicialización
   listarRequerimientos();
 });

@@ -82,8 +82,6 @@ BEGIN
     -- Retorna el ID de la cotización recién creada
     SELECT LAST_INSERT_ID() AS idcotizacion_prov_creada;
 END $$
-call crear_cotizacion_proveedor(25, 'LOS TORIBIANITOS 3', 'SOLES', 'arhivo2')
-
 DELIMITER $$
 CREATE PROCEDURE agregar_detalle_cotizacion (
     IN _idcotizacion_prov INT,
@@ -154,8 +152,6 @@ BEGIN
     AND estado = 1
   ) AS sub;
 END $$
-CALL get_cotizaciones_json(25)
-
 -- --------------------------------------------------------------
 DELIMITER $$
 CREATE PROCEDURE spu_eliminar_cotizacion_prov(
@@ -164,7 +160,6 @@ CREATE PROCEDURE spu_eliminar_cotizacion_prov(
 BEGIN
 	UPDATE cotizaciones_proveedores SET estado = 0 WHERE idcotizacion_prov = idcotizacion_prov_;
 END $$
-CALL spu_eliminar_cotizacion_prov(43)
 
 DELIMITER $$
 CREATE PROCEDURE spu_agregar_documento_requerimiento(
@@ -175,21 +170,18 @@ CREATE PROCEDURE spu_agregar_documento_requerimiento(
 BEGIN
 	INSERT INTO documentos_requerimiento(idrequerimiento, idtipodoc, nombre)VALUES(_idrequerimiento, _idtipodoc, _nombre);
 END $$
-CALL spu_agregar_documento_requerimiento(16,1,'ORDEN_COMPRA9921')
 
 DELIMITER $$
 CREATE PROCEDURE spu_lista_doc_requerimiento(IN _idrequerimiento INT)
 BEGIN
     SELECT * FROM documentos_requerimiento WHERE idrequerimiento = _idrequerimiento AND estado = 1 ORDER BY idtipodoc;
 END $$
-CALL spu_lista_doc_requerimiento(15)
 
 DELIMITER $$
 CREATE PROCEDURE spu_eliminar_documento(IN _iddocumento INT)
 BEGIN
 	UPDATE documentos_requerimiento SET estado = 0 WHERE iddocumento = _iddocumento;
 END $$	
-CALL spu_eliminar_documento(3);
 
 DELIMITER $$
 CREATE PROCEDURE spu_ver_requerimiento(IN _idrequerimiento INT)
@@ -197,14 +189,11 @@ BEGIN
 	SELECT * FROM requerimientos where idrequerimiento = _idrequerimiento;
 END $$
 
-CALL spu_ver_requerimiento(15)
-
 DELIMITER $$
 CREATE PROCEDURE spu_cerrar_requerimiento(IN _idrequerimiento INT)
 BEGIN
 	UPDATE requerimientos SET estado = 3 WHERE idrequerimiento = _idrequerimiento;
 END $$
-CALL spu_cerrar_requerimiento(17)
 
 
 
